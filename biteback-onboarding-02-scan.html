@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BiteBack — Onboarding Step 2: Scan or Skip</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Outfit:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    gap: 20px;
+  }
+  .row { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+  .option { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #999; text-align: center; }
+
+  .phone {
+    width: 320px; height: 693px; border-radius: 28px; overflow: hidden;
+    border: 1px solid #222; background: #0A0A0A; position: relative;
+    display: flex; flex-direction: column;
+  }
+  .phone::before {
+    content: ''; position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 1;
+  }
+
+  .back-row { display: flex; align-items: center; padding: 14px 20px 0; position: relative; z-index: 5; }
+  .back-arrow { font-family: 'DM Mono', monospace; font-size: 11px; color: #555; letter-spacing: 1px; }
+  .step-dots {
+    display: flex; justify-content: center; gap: 5px;
+    padding: 16px 0 0;
+    position: relative; z-index: 5;
+  }
+  .step-dot { width: 22px; height: 3px; border-radius: 2px; background: #1A1A1A; }
+  .step-dot.done { background: #BFFF00; }
+  .step-dot.active { background: #BFFF00; }
+
+  /* Shared content area */
+  .screen-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 32px;
+    position: relative;
+    z-index: 3;
+  }
+
+  .screen-title {
+    font-family: 'Rajdhani'; font-weight: 700; font-size: 26px;
+    letter-spacing: 2px; color: #fff; text-align: center;
+    margin-bottom: 6px;
+  }
+  .screen-sub {
+    font-family: 'Outfit'; font-size: 14px; color: #888;
+    text-align: center; line-height: 1.5;
+    margin-bottom: 32px;
+  }
+
+  /* ═══ OPTION A: QR VIEWFINDER ═══ */
+  .qr-frame {
+    width: 180px; height: 180px;
+    position: relative;
+    margin-bottom: 32px;
+  }
+  /* Corner brackets */
+  .qr-frame::before, .qr-frame::after,
+  .qr-inner::before, .qr-inner::after {
+    content: ''; position: absolute; width: 28px; height: 28px;
+  }
+  .qr-frame::before { top: 0; left: 0; border-top: 3px solid #BFFF00; border-left: 3px solid #BFFF00; border-radius: 4px 0 0 0; }
+  .qr-frame::after { top: 0; right: 0; border-top: 3px solid #BFFF00; border-right: 3px solid #BFFF00; border-radius: 0 4px 0 0; }
+  .qr-inner { position: absolute; inset: 0; }
+  .qr-inner::before { bottom: 0; left: 0; border-bottom: 3px solid #BFFF00; border-left: 3px solid #BFFF00; border-radius: 0 0 0 4px; }
+  .qr-inner::after { bottom: 0; right: 0; border-bottom: 3px solid #BFFF00; border-right: 3px solid #BFFF00; border-radius: 0 0 4px 0; }
+  /* Scan line animation */
+  .scan-line {
+    position: absolute; left: 10px; right: 10px; height: 2px;
+    background: linear-gradient(90deg, transparent, #BFFF00, transparent);
+    animation: scan 2s ease-in-out infinite;
+    box-shadow: 0 0 8px rgba(191,255,0,0.4);
+  }
+  @keyframes scan {
+    0%, 100% { top: 10px; opacity: 0.6; }
+    50% { top: calc(100% - 12px); opacity: 1; }
+  }
+  .qr-icon {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    font-size: 40px; opacity: 0.15;
+  }
+
+  .scan-btn {
+    width: 100%; padding: 16px; border-radius: 14px;
+    background: #BFFF00; text-align: center;
+    font-family: 'Rajdhani'; font-weight: 700; font-size: 16px;
+    letter-spacing: 2px; color: #0A0A0A;
+    margin-bottom: 12px;
+  }
+  .code-btn {
+    width: 100%; padding: 14px; border-radius: 14px;
+    background: transparent; text-align: center;
+    font-family: 'DM Mono'; font-size: 11px;
+    letter-spacing: 1px; color: #888;
+    border: 1px solid #2A2A2A;
+    margin-bottom: 16px;
+  }
+  .skip-link {
+    font-family: 'DM Mono'; font-size: 10px;
+    letter-spacing: 1px; color: #555;
+  }
+
+  /* ═══ OPTION B: BIG BUTTON FOCUSED ═══ */
+  .b-emoji {
+    font-size: 48px; margin-bottom: 20px;
+    animation: b-float 3s ease-in-out infinite;
+  }
+  @keyframes b-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  .b-scan-btn {
+    width: 100%; padding: 18px; border-radius: 16px;
+    background: #BFFF00; text-align: center;
+    font-family: 'Rajdhani'; font-weight: 700; font-size: 16px;
+    letter-spacing: 2px; color: #0A0A0A;
+    margin-bottom: 12px;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+  }
+  .b-scan-icon {
+    width: 24px; height: 24px;
+    border: 2px solid #0A0A0A; border-radius: 4px;
+    position: relative;
+  }
+  .b-scan-icon::before {
+    content: ''; position: absolute;
+    top: 3px; left: 3px; right: 3px; bottom: 3px;
+    border: 1.5px solid #0A0A0A; border-radius: 2px;
+  }
+  .b-type-btn {
+    width: 100%; padding: 16px; border-radius: 16px;
+    background: rgba(255,255,255,0.04); text-align: center;
+    font-family: 'DM Mono'; font-size: 12px;
+    letter-spacing: 1px; color: #aaa;
+    border: 1px solid #2A2A2A;
+    margin-bottom: 20px;
+  }
+  .b-skip {
+    font-family: 'DM Mono'; font-size: 10px;
+    letter-spacing: 1px; color: #555;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* ═══ OPTION C: CARD STYLE ═══ */
+  .c-card {
+    width: 100%; background: #111; border: 1px solid #1A1A1A;
+    border-radius: 20px; padding: 28px 24px;
+    text-align: center; margin-bottom: 16px;
+  }
+  .c-card-icon { font-size: 36px; margin-bottom: 14px; }
+  .c-card-title {
+    font-family: 'Rajdhani'; font-weight: 700; font-size: 18px;
+    letter-spacing: 2px; color: #fff; margin-bottom: 6px;
+  }
+  .c-card-sub {
+    font-family: 'Outfit'; font-size: 13px; color: #777; line-height: 1.4;
+    margin-bottom: 18px;
+  }
+  .c-card-btn {
+    padding: 14px; border-radius: 12px;
+    background: #BFFF00; text-align: center;
+    font-family: 'Rajdhani'; font-weight: 700; font-size: 14px;
+    letter-spacing: 2px; color: #0A0A0A;
+  }
+
+  .c-or {
+    font-family: 'DM Mono'; font-size: 10px; color: #444;
+    letter-spacing: 2px; margin-bottom: 16px;
+  }
+
+  .c-card-alt {
+    width: 100%; background: #111; border: 1px solid #1A1A1A;
+    border-radius: 20px; padding: 20px 24px;
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 20px;
+  }
+  .c-card-alt-icon { font-size: 24px; flex-shrink: 0; }
+  .c-card-alt-text {
+    font-family: 'Outfit'; font-size: 14px; color: #aaa;
+    flex: 1;
+  }
+  .c-card-alt-arrow { color: #555; font-size: 18px; }
+
+  .c-skip {
+    font-family: 'DM Mono'; font-size: 10px;
+    letter-spacing: 1px; color: #555;
+  }
+</style>
+</head>
+<body>
+<div class="label">STEP 2 OF 10 — SCAN OR SKIP ✓ LOCKED</div>
+<div class="row"><div class="option">
+
+<div class="phone">
+<div class="back-row"><span class="back-arrow">&larr; BACK</span></div>
+<div class="step-dots">
+<div class="step-dot done"></div><div class="step-dot active"></div><div class="step-dot"></div><div class="step-dot"></div><div class="step-dot"></div><div class="step-dot"></div><div class="step-dot"></div><div class="step-dot"></div><div class="step-dot"></div><div class="step-dot"></div>
+</div>
+<div class="screen-content">
+<div class="screen-title">GOT A CODE?</div>
+<div class="screen-sub">Your orthodontist gave you one.<br/>If not, no worries — skip for now.</div>
+<div class="qr-frame">
+<div class="qr-inner"></div>
+<div class="scan-line"></div>
+<div class="qr-icon">📷</div>
+</div>
+<div class="scan-btn">SCAN QR CODE</div>
+<div class="code-btn">TYPE CODE MANUALLY</div>
+<div class="skip-link">skip for now</div>
+</div>
+</div>
+</div></div>
+</body>
+</html>

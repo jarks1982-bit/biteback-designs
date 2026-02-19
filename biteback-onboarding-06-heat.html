@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BiteBack — Onboarding Step 6: Set Your Heat</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Outfit:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    gap: 20px;
+  }
+  .row { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+  .option { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #999; text-align: center; }
+
+  .phone {
+    width: 320px; height: 693px; border-radius: 28px; overflow: hidden;
+    border: 1px solid #222; background: #0A0A0A; position: relative;
+    display: flex; flex-direction: column;
+  }
+  .phone::before {
+    content: ''; position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 1;
+  }
+
+  .back-row { display: flex; align-items: center; padding: 14px 20px 0; position: relative; z-index: 5; }
+  .back-arrow { font-family: 'DM Mono', monospace; font-size: 11px; color: #555; letter-spacing: 1px; }
+  .step-dots {
+    display: flex; justify-content: center; gap: 5px;
+    padding: 16px 0 0; position: relative; z-index: 5;
+  }
+  .step-dot { width: 22px; height: 3px; border-radius: 2px; background: #1A1A1A; }
+  .step-dot.done { background: #BFFF00; }
+  .step-dot.active { background: #BFFF00; }
+
+  .screen-content {
+    flex: 1; display: flex; flex-direction: column;
+    padding: 0 20px; position: relative; z-index: 3;
+  }
+
+  .screen-title {
+    font-family: 'Rajdhani'; font-weight: 700; font-size: 26px;
+    letter-spacing: 2px; color: #fff; text-align: center;
+    margin-top: 30px; margin-bottom: 4px;
+  }
+  .screen-sub {
+    font-family: 'Outfit'; font-size: 14px; color: #aaa;
+    text-align: center; line-height: 1.5;
+    margin-bottom: 24px;
+  }
+
+  /* ═══ OPTION A: LEVEL CARDS ═══ */
+  .heat-card {
+    display: flex; align-items: center; gap: 12px;
+    background: #111; border: 1px solid #1A1A1A; border-radius: 14px;
+    padding: 12px 14px; margin-bottom: 8px;
+    position: relative;
+  }
+  .heat-card.selected {
+    border-color: #BFFF00;
+    background: rgba(191,255,0,0.04);
+  }
+  .heat-card.locked {
+    opacity: 0.45;
+  }
+  .heat-dots-col {
+    display: flex; gap: 3px; flex-shrink: 0; width: 44px;
+  }
+  .hd {
+    width: 7px; height: 7px; border-radius: 2px;
+  }
+  .hd.off { background: #2A2A2A; }
+
+  .heat-info { flex: 1; }
+  .heat-name {
+    font-family: 'Rajdhani'; font-weight: 700; font-size: 15px;
+    letter-spacing: 1px; color: #fff;
+  }
+  .heat-card.locked .heat-name { color: #777; }
+  .heat-preview {
+    font-family: 'Outfit'; font-size: 11px; color: #aaa;
+    font-style: italic; margin-top: 2px; line-height: 1.4;
+  }
+  .heat-card.locked .heat-preview { color: #555; }
+
+  .pro-badge {
+    font-family: 'DM Mono'; font-size: 7px; letter-spacing: 1px;
+    padding: 2px 6px; border-radius: 4px;
+    background: rgba(255,215,0,0.12); border: 1px solid rgba(255,215,0,0.2);
+    color: #FFD700; flex-shrink: 0;
+  }
+
+  .lock-icon { font-size: 14px; flex-shrink: 0; }
+
+  /* ═══ OPTION B: SLIDER STYLE ═══ */
+  .heat-slider-area {
+    text-align: center; margin-bottom: 20px;
+  }
+  .big-fire { font-size: 48px; margin-bottom: 8px; }
+  .heat-level-label {
+    font-family: 'Rajdhani'; font-weight: 700; font-size: 28px;
+    letter-spacing: 3px; color: #FF6D00;
+  }
+  .heat-level-sub {
+    font-family: 'DM Mono'; font-size: 10px; letter-spacing: 1px;
+    color: #aaa; margin-top: 2px;
+  }
+  .heat-preview-bubble {
+    background: rgba(255,109,0,0.06); border: 1px solid rgba(255,109,0,0.15);
+    border-radius: 14px; padding: 14px 18px;
+    margin: 16px 0;
+    font-family: 'Outfit'; font-size: 13px; color: #aaa;
+    font-style: italic; text-align: center; line-height: 1.5;
+  }
+
+  .heat-dots-row {
+    display: flex; justify-content: center; gap: 12px;
+    margin-bottom: 20px;
+  }
+  .heat-dot-btn {
+    width: 48px; height: 48px; border-radius: 14px;
+    background: #111; border: 1px solid #2A2A2A;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 2px;
+  }
+  .heat-dot-btn.active {
+    border-color: #FF6D00;
+    background: rgba(255,109,0,0.08);
+  }
+  .heat-dot-btn.locked {
+    opacity: 0.35;
+  }
+  .hdb-num {
+    font-family: 'Rajdhani'; font-weight: 700; font-size: 16px; color: #fff;
+  }
+  .heat-dot-btn.active .hdb-num { color: #FF6D00; }
+  .heat-dot-btn.locked .hdb-num { color: #555; }
+  .hdb-dots { display: flex; gap: 2px; }
+  .hdb-d { width: 5px; height: 5px; border-radius: 50%; }
+
+  /* ═══ OPTION C: HORIZONTAL HEAT BAR ═══ */
+  .heat-bar-area {
+    text-align: center; margin-bottom: 16px;
+  }
+  .heat-bar-fire { font-size: 40px; margin-bottom: 6px; }
+  .heat-bar-label {
+    font-family: 'Rajdhani'; font-weight: 700; font-size: 22px;
+    letter-spacing: 2px; color: #FF6D00;
+  }
+  .heat-bar-desc {
+    font-family: 'DM Mono'; font-size: 10px; color: #aaa;
+    letter-spacing: 1px; margin-top: 2px;
+  }
+
+  .heat-bar {
+    display: flex; gap: 4px; margin: 20px 0;
+    padding: 0 10px;
+  }
+  .heat-bar-seg {
+    flex: 1; height: 40px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Rajdhani'; font-weight: 700; font-size: 14px;
+    letter-spacing: 1px; border: 1px solid transparent;
+  }
+  .heat-bar-seg.s1 { background: rgba(255,214,0,0.1); color: #FFD600; }
+  .heat-bar-seg.s2 { background: rgba(255,171,0,0.1); color: #FFAB00; }
+  .heat-bar-seg.s3 { background: rgba(255,109,0,0.15); color: #FF6D00; border-color: #FF6D00; }
+  .heat-bar-seg.s4 { background: rgba(239,68,68,0.08); color: #555; }
+  .heat-bar-seg.s5 { background: rgba(239,68,68,0.05); color: #444; }
+  .heat-bar-seg.locked { opacity: 0.4; }
+
+  .heat-bar-labels {
+    display: flex; justify-content: space-between; padding: 0 10px;
+    margin-bottom: 16px;
+  }
+  .hbl {
+    font-family: 'DM Mono'; font-size: 8px; letter-spacing: 1px; color: #777;
+  }
+
+  .heat-preview-box {
+    background: #111; border: 1px solid #1A1A1A; border-radius: 14px;
+    padding: 14px 18px; margin-bottom: 16px;
+  }
+  .hpb-label {
+    font-family: 'DM Mono'; font-size: 9px; letter-spacing: 2px;
+    color: #777; margin-bottom: 8px;
+  }
+  .hpb-text {
+    font-family: 'Outfit'; font-size: 13px; color: #aaa;
+    font-style: italic; line-height: 1.5;
+  }
+
+  .heat-note {
+    font-family: 'DM Mono'; font-size: 10px; color: #777;
+    text-align: center; letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  .continue-btn {
+    width: 100%; padding: 16px; border-radius: 14px;
+    background: #BFFF00; text-align: center;
+    font-family: 'Rajdhani'; font-weight: 700; font-size: 16px;
+    letter-spacing: 2px; color: #0A0A0A;
+    margin-top: auto; margin-bottom: 32px;
+  }
+</style>
+</head>
+<body>
+<div class="label">STEP 6 OF 10 — SET YOUR HEAT ✓ LOCKED</div>
+<div class="row"><div class="option">
+
+<div class="phone">
+<div class="back-row"><span class="back-arrow">&larr; BACK</span></div>
+<div class="step-dots">
+<div class="step-dot done"></div><div class="step-dot done"></div><div class="step-dot done"></div><div class="step-dot done"></div><div class="step-dot done"></div><div class="step-dot active"></div><div class="step-dot"></div><div class="step-dot"></div><div class="step-dot"></div><div class="step-dot"></div>
+</div>
+<div class="screen-content">
+<div class="screen-title">HOW HARD SHOULD<br/>BRI GO?</div>
+<div class="screen-sub">Set your roast level</div>
+<div class="heat-slider-area">
+<div class="big-fire">🔥</div>
+<div class="heat-level-label">LVL 3 — REAL TALK</div>
+<div class="heat-level-sub">The sweet spot</div>
+</div>
+<div class="heat-dots-row">
+<div class="heat-dot-btn">
+<div class="hdb-num">1</div>
+<div class="hdb-dots"><div class="hdb-d" style="background:#FFD600"></div></div>
+</div>
+<div class="heat-dot-btn">
+<div class="hdb-num">2</div>
+<div class="hdb-dots"><div class="hdb-d" style="background:#FFD600"></div><div class="hdb-d" style="background:#FFAB00"></div></div>
+</div>
+<div class="heat-dot-btn active">
+<div class="hdb-num">3</div>
+<div class="hdb-dots"><div class="hdb-d" style="background:#FFD600"></div><div class="hdb-d" style="background:#FFAB00"></div><div class="hdb-d" style="background:#FF6D00"></div></div>
+</div>
+<div class="heat-dot-btn locked">
+<div class="hdb-num">4</div>
+<div class="hdb-dots"><div class="hdb-d" style="background:#555"></div><div class="hdb-d" style="background:#555"></div><div class="hdb-d" style="background:#555"></div><div class="hdb-d" style="background:#555"></div></div>
+</div>
+<div class="heat-dot-btn locked">
+<div class="hdb-num">5</div>
+<div class="hdb-dots"><div class="hdb-d" style="background:#555"></div><div class="hdb-d" style="background:#555"></div><div class="hdb-d" style="background:#555"></div><div class="hdb-d" style="background:#555"></div><div class="hdb-d" style="background:#555"></div></div>
+</div>
+</div>
+<div class="heat-preview-bubble">"bestie that's +1 day. your ortho will notice. but go off I guess" 💅</div>
+<div class="heat-note">Lvl 4-5 unlock with Pro · Change anytime</div>
+<div class="continue-btn">NEXT</div>
+</div>
+</div>
+</div></div>
+</body>
+</html>
