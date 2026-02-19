@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BiteBack — Challenge Management</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Outfit:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #F5F5F0; color: #1A1A1A; font-family: 'Outfit', sans-serif; display: flex; min-height: 100vh; }
+
+  /* ══════ SIDEBAR ══════ */
+  .sidebar {
+    width: 240px; background: #fff; border-right: 1px solid #E5E5E0;
+    display: flex; flex-direction: column; padding: 20px 0;
+    flex-shrink: 0; position: fixed; top: 0; bottom: 0;
+    box-shadow: 1px 0 8px rgba(0,0,0,0.03);
+  }
+  .sb-logo { font-family: 'Rajdhani'; font-size: 24px; font-weight: 700; letter-spacing: 3px; padding: 0 20px 20px; }
+  .sb-logo .bite { color: #1A1A1A; }
+  .sb-logo .back { color: #4A8500; }
+  .sb-badge {
+    font-family: 'DM Mono'; font-size: 14px; letter-spacing: 1px;
+    background: rgba(74,133,0,0.08); color: #4A8500; border: 1px solid rgba(74,133,0,0.12);
+    padding: 2px 6px; border-radius: 4px; margin-left: 6px; vertical-align: middle;
+  }
+  .sb-section { font-family: 'DM Mono'; font-size: 14px; letter-spacing: 2px; color: #bbb; padding: 16px 20px 8px; }
+  .sb-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 20px; cursor: pointer; font-family: 'Outfit'; font-size: 16px; color: #888; font-weight: 500;
+  }
+  .sb-item:hover { background: rgba(0,0,0,0.02); }
+  .sb-item.active { background: rgba(74,133,0,0.05); color: #4A8500; border-right: 2px solid #4A8500; }
+  .sb-icon { font-size: 18px; width: 22px; text-align: center; }
+  .sb-footer { margin-top: auto; padding: 16px 20px; border-top: 1px solid #E5E5E0; }
+  .sb-practice { font-family: 'Outfit'; font-size: 16px; font-weight: 600; color: #333; }
+  .sb-plan { font-family: 'DM Mono'; font-size: 14px; color: #999; letter-spacing: 1px; margin-top: 2px; }
+
+  /* ══════ MAIN ══════ */
+  .main { margin-left: 240px; flex: 1; padding: 24px 32px; }
+
+  .page-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 28px;
+  }
+  .page-title { font-family: 'Rajdhani'; font-size: 28px; font-weight: 700; letter-spacing: 2px; color: #1A1A1A; }
+  .page-subtitle { font-family: 'DM Mono'; font-size: 14px; color: #999; letter-spacing: 1px; font-weight: 500; margin-top: 2px; }
+
+  .btn {
+    font-family: 'DM Mono'; font-size: 14px; letter-spacing: 1px; font-weight: 600;
+    padding: 10px 18px; border-radius: 8px; cursor: pointer; border: none;
+  }
+  .btn:hover { opacity: 0.85; }
+  .btn-primary { background: #4A8500; color: #fff; }
+  .btn-outline { background: #fff; color: #888; border: 1px solid #E5E5E0; }
+
+  /* ── Section ── */
+  .section { margin-bottom: 32px; }
+  .section-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 16px;
+  }
+  .section-title { font-family: 'Rajdhani'; font-size: 20px; font-weight: 700; letter-spacing: 2px; color: #444; }
+  .section-badge {
+    font-family: 'DM Mono'; font-size: 13px; font-weight: 600; letter-spacing: 1px;
+    padding: 4px 12px; border-radius: 6px;
+  }
+  .section-badge.green { background: rgba(74,133,0,0.06); color: #4A8500; }
+
+  /* ── Track cards ── */
+  .track-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .track-card {
+    background: #fff; border: 1px solid #E5E5E0; border-radius: 14px;
+    padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  }
+  .track-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+  .track-name { font-family: 'Rajdhani'; font-size: 22px; font-weight: 700; letter-spacing: 2px; color: #1A1A1A; }
+  .track-count { font-family: 'DM Mono'; font-size: 14px; color: #888; font-weight: 500; }
+
+  /* ── Challenge rows ── */
+  .ch-list { display: flex; flex-direction: column; gap: 10px; }
+  .ch-row {
+    display: flex; align-items: center; gap: 14px;
+    padding: 16px; border-radius: 10px; background: #FAFAF7; border: 1px solid #EEEEE8;
+  }
+  .ch-icon { font-size: 28px; flex-shrink: 0; }
+  .ch-info { flex: 1; }
+  .ch-name { font-family: 'Outfit'; font-size: 16px; font-weight: 700; color: #1A1A1A; }
+  .ch-question { font-family: 'Outfit'; font-size: 14px; color: #888; margin-top: 2px; }
+  .ch-meta { display: flex; gap: 12px; margin-top: 6px; flex-wrap: wrap; }
+  .ch-tag {
+    font-family: 'DM Mono'; font-size: 12px; font-weight: 600; letter-spacing: 1px;
+    padding: 3px 8px; border-radius: 4px;
+  }
+  .ch-tag.weight { background: rgba(74,133,0,0.06); color: #4A8500; border: 1px solid rgba(74,133,0,0.1); }
+  .ch-tag.penalty { background: rgba(220,30,60,0.06); color: #DC1E3C; border: 1px solid rgba(220,30,60,0.1); }
+  .ch-tag.patients { background: rgba(0,0,0,0.03); color: #888; border: 1px solid #E5E5E0; }
+
+  .ch-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+  .ch-active {
+    font-family: 'DM Mono'; font-size: 13px; font-weight: 600;
+    padding: 4px 10px; border-radius: 6px;
+  }
+  .ch-active.on { background: rgba(74,133,0,0.08); color: #4A8500; }
+  .ch-edit {
+    font-family: 'DM Mono'; font-size: 12px; font-weight: 600; color: #4A8500;
+    cursor: pointer; letter-spacing: 1px;
+  }
+  .ch-edit:hover { text-decoration: underline; }
+
+  .track-add {
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    padding: 12px; margin-top: 10px; border-radius: 10px; cursor: pointer;
+    border: 2px dashed #E5E5E0; background: transparent;
+    font-family: 'DM Mono'; font-size: 13px; font-weight: 600; letter-spacing: 1px;
+    color: #999; transition: all 0.15s;
+  }
+  .track-add:hover { border-color: rgba(74,133,0,0.3); color: #4A8500; background: rgba(74,133,0,0.02); }
+
+  /* ── Penalty config table ── */
+  .config-card {
+    background: #fff; border: 1px solid #E5E5E0; border-radius: 14px;
+    overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  }
+  .config-header {
+    padding: 18px 20px; border-bottom: 1px solid #F0F0EB;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .config-title { font-family: 'Rajdhani'; font-size: 18px; font-weight: 700; letter-spacing: 2px; color: #444; }
+
+  table { width: 100%; border-collapse: collapse; }
+  thead th {
+    font-family: 'DM Mono'; font-size: 13px; letter-spacing: 2px; color: #999; font-weight: 600;
+    text-align: left; padding: 12px 18px; border-bottom: 1px solid #F0F0EB;
+  }
+  tbody td {
+    padding: 14px 18px; border-bottom: 1px solid #FAFAF7;
+    font-family: 'Outfit'; font-size: 15px; color: #444; font-weight: 500;
+  }
+  tbody tr:hover { background: #FAFAF7; }
+  .td-mono { font-family: 'DM Mono'; font-size: 14px; font-weight: 600; }
+  .td-input {
+    font-family: 'DM Mono'; font-size: 14px; font-weight: 600;
+    padding: 6px 10px; border-radius: 6px; width: 80px; text-align: center;
+    border: 1px solid #E5E5E0; background: #FAFAF7; color: #1A1A1A;
+  }
+  .td-range { font-family: 'DM Mono'; font-size: 13px; color: #bbb; font-weight: 500; }
+
+  /* ── Patient assignment summary ── */
+  .assign-card {
+    background: #fff; border: 1px solid #E5E5E0; border-radius: 14px;
+    padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  }
+  .assign-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 14px; }
+  .assign-stat {
+    padding: 16px; border-radius: 10px; background: #FAFAF7; border: 1px solid #EEEEE8;
+    text-align: center;
+  }
+  .assign-num { font-family: 'Rajdhani'; font-size: 36px; font-weight: 700; line-height: 1; }
+  .assign-num.green { color: #4A8500; }
+  .assign-num.amber { color: #D4A017; }
+  .assign-num.dark { color: #1A1A1A; }
+  .assign-label { font-family: 'DM Mono'; font-size: 13px; color: #888; font-weight: 500; letter-spacing: 1px; margin-top: 4px; }
+
+  /* ── Recent changes log ── */
+  .log-card {
+    background: #fff; border: 1px solid #E5E5E0; border-radius: 14px;
+    padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  }
+  .log-item {
+    display: flex; gap: 12px; align-items: baseline;
+    padding: 10px 0; border-bottom: 1px solid #F5F5F0;
+  }
+  .log-item:last-child { border-bottom: none; }
+  .log-date { font-family: 'DM Mono'; font-size: 13px; color: #bbb; font-weight: 500; min-width: 90px; }
+  .log-action { font-family: 'Outfit'; font-size: 15px; color: #444; font-weight: 500; flex: 1; }
+  .log-patient { font-family: 'DM Mono'; font-size: 13px; color: #4A8500; font-weight: 600; }
+  .log-staff { font-family: 'DM Mono'; font-size: 13px; color: #aaa; font-weight: 500; }
+
+  .disclaimer {
+    font-family: 'DM Mono'; font-size: 12px; color: #ccc; letter-spacing: 1px; font-weight: 500;
+    text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #E5E5E0;
+  }
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sb-logo"><span class="bite">BITE</span><span class="back">BACK</span><span class="sb-badge">PRACTICE</span></div>
+  <div class="sb-section">OVERVIEW</div>
+  <div class="sb-item"><span class="sb-icon">📊</span> Dashboard</div>
+  <div class="sb-item"><span class="sb-icon">👥</span> Patients</div>
+  <div class="sb-section">MANAGE</div>
+  <div class="sb-item active"><span class="sb-icon">🎯</span> Challenges</div>
+  <div class="sb-item"><span class="sb-icon">🎁</span> Treats</div>
+  <div class="sb-item"><span class="sb-icon">📱</span> QR Codes</div>
+  <div class="sb-section">SETTINGS</div>
+  <div class="sb-item"><span class="sb-icon">🏢</span> Branding</div>
+  <div class="sb-item"><span class="sb-icon">👤</span> Staff</div>
+  <div class="sb-item"><span class="sb-icon">💳</span> Billing</div>
+  <div class="sb-footer">
+    <div class="sb-practice">Bright Smiles Orthodontics</div>
+    <div class="sb-plan">PRO · $99/MO · 24 PATIENTS</div>
+  </div>
+</nav>
+
+<div class="main">
+
+  <div class="page-header">
+    <div>
+      <div class="page-title">CHALLENGES</div>
+      <div class="page-subtitle">MANAGE TREATMENT TRACKS, CHALLENGES & FUMBLE PENALTIES</div>
+    </div>
+    <button class="btn btn-primary">+ CREATE CUSTOM CHALLENGE</button>
+  </div>
+
+  <!-- ══════ TRACK OVERVIEW ══════ -->
+  <div class="track-grid">
+
+    <!-- ALIGNERS TRACK -->
+    <div class="track-card">
+      <div class="track-header">
+        <div class="track-name">😁 ALIGNERS TRACK</div>
+        <div class="track-count">16 patients</div>
+      </div>
+      <div class="ch-list">
+        <div class="ch-row">
+          <div class="ch-icon">😁</div>
+          <div class="ch-info">
+            <div class="ch-name">Wear Aligners</div>
+            <div class="ch-question">Did you wear your aligners today? (22+ hrs)</div>
+            <div class="ch-meta">
+              <div class="ch-tag weight">PFDE 0.5</div>
+              <div class="ch-tag penalty">+1 DAY</div>
+              <div class="ch-tag patients">16 active</div>
+            </div>
+          </div>
+          <div class="ch-right">
+            <div class="ch-active on">ACTIVE</div>
+            <div class="ch-edit">EDIT →</div>
+          </div>
+        </div>
+        <div class="ch-row">
+          <div class="ch-icon">🔧</div>
+          <div class="ch-info">
+            <div class="ch-name">Use Chewies</div>
+            <div class="ch-question">Did you use your chewies today?</div>
+            <div class="ch-meta">
+              <div class="ch-tag weight">PFDE 0.2</div>
+              <div class="ch-tag penalty">+0.5 DAY</div>
+              <div class="ch-tag patients">14 active</div>
+            </div>
+          </div>
+          <div class="ch-right">
+            <div class="ch-active on">ACTIVE</div>
+            <div class="ch-edit">EDIT →</div>
+          </div>
+        </div>
+        <div class="ch-row">
+          <div class="ch-icon">🦷</div>
+          <div class="ch-info">
+            <div class="ch-name">Wear Rubber Bands</div>
+            <div class="ch-question">Did you wear your rubber bands today?</div>
+            <div class="ch-meta">
+              <div class="ch-tag weight">PFDE 0.3</div>
+              <div class="ch-tag penalty">+1 DAY</div>
+              <div class="ch-tag patients">9 active</div>
+            </div>
+          </div>
+          <div class="ch-right">
+            <div class="ch-active on">ACTIVE</div>
+            <div class="ch-edit">EDIT →</div>
+          </div>
+        </div>
+      </div>
+      <button class="track-add">＋ ADD CHALLENGE TO ALIGNERS</button>
+    </div>
+
+    <!-- BRACES TRACK -->
+    <div class="track-card">
+      <div class="track-header">
+        <div class="track-name">🦷 BRACES TRACK</div>
+        <div class="track-count">8 patients</div>
+      </div>
+      <div class="ch-list">
+        <div class="ch-row">
+          <div class="ch-icon">🪥</div>
+          <div class="ch-info">
+            <div class="ch-name">Brush & Floss</div>
+            <div class="ch-question">Did you brush and floss after meals today?</div>
+            <div class="ch-meta">
+              <div class="ch-tag weight">PFDE 0.3</div>
+              <div class="ch-tag penalty">+0.5 DAY</div>
+              <div class="ch-tag patients">8 active</div>
+            </div>
+          </div>
+          <div class="ch-right">
+            <div class="ch-active on">ACTIVE</div>
+            <div class="ch-edit">EDIT →</div>
+          </div>
+        </div>
+        <div class="ch-row">
+          <div class="ch-icon">⚠️</div>
+          <div class="ch-info">
+            <div class="ch-name">No Broken Brackets</div>
+            <div class="ch-question">All brackets intact today?</div>
+            <div class="ch-meta">
+              <div class="ch-tag weight">PFDE 0.5</div>
+              <div class="ch-tag penalty">+3 DAYS</div>
+              <div class="ch-tag patients">8 active</div>
+            </div>
+          </div>
+          <div class="ch-right">
+            <div class="ch-active on">ACTIVE</div>
+            <div class="ch-edit">EDIT →</div>
+          </div>
+        </div>
+        <div class="ch-row">
+          <div class="ch-icon">🦷</div>
+          <div class="ch-info">
+            <div class="ch-name">Wear Rubber Bands</div>
+            <div class="ch-question">Did you wear your rubber bands today?</div>
+            <div class="ch-meta">
+              <div class="ch-tag weight">PFDE 0.2</div>
+              <div class="ch-tag penalty">+1 DAY</div>
+              <div class="ch-tag patients">5 active</div>
+            </div>
+          </div>
+          <div class="ch-right">
+            <div class="ch-active on">ACTIVE</div>
+            <div class="ch-edit">EDIT →</div>
+          </div>
+        </div>
+      </div>
+      <button class="track-add">＋ ADD CHALLENGE TO BRACES</button>
+    </div>
+  </div>
+
+  <!-- ══════ FUMBLE PENALTY CONFIG ══════ -->
+  <div class="section">
+    <div class="config-card">
+      <div class="config-header">
+        <div class="config-title">FUMBLE PENALTY CONFIGURATION</div>
+        <button class="btn btn-outline" style="font-size:13px; padding:8px 14px;">RESET TO DEFAULTS</button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>CHALLENGE</th>
+            <th>DEFAULT PENALTY</th>
+            <th>YOUR PENALTY</th>
+            <th>RANGE</th>
+            <th>PFDE WEIGHT</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>😁 Wear Aligners (22+ hrs)</td>
+            <td class="td-mono">+1 day</td>
+            <td><input class="td-input" value="+1 day"></td>
+            <td class="td-range">0–3 days</td>
+            <td class="td-mono" style="color:#4A8500;">0.5</td>
+          </tr>
+          <tr>
+            <td>🔧 Use Chewies</td>
+            <td class="td-mono">+0.5 day</td>
+            <td><input class="td-input" value="+0.5 day"></td>
+            <td class="td-range">0–1 day</td>
+            <td class="td-mono" style="color:#4A8500;">0.2</td>
+          </tr>
+          <tr>
+            <td>🦷 Wear Rubber Bands</td>
+            <td class="td-mono">+1 day</td>
+            <td><input class="td-input" value="+1 day"></td>
+            <td class="td-range">0–3 days</td>
+            <td class="td-mono" style="color:#4A8500;">0.3</td>
+          </tr>
+          <tr>
+            <td>🪥 Brush & Floss</td>
+            <td class="td-mono">+0.5 day</td>
+            <td><input class="td-input" value="+0.5 day"></td>
+            <td class="td-range">0–2 days</td>
+            <td class="td-mono" style="color:#4A8500;">0.3</td>
+          </tr>
+          <tr>
+            <td>⚠️ No Broken Brackets</td>
+            <td class="td-mono">+3 days</td>
+            <td><input class="td-input" value="+3 days"></td>
+            <td class="td-range">1–7 days</td>
+            <td class="td-mono" style="color:#4A8500;">0.5</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══════ PATIENT ASSIGNMENT SUMMARY ══════ -->
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;">
+    <div class="assign-card">
+      <div class="config-title" style="margin-bottom: 4px;">PATIENT ASSIGNMENTS</div>
+      <div style="font-family:'DM Mono'; font-size:13px; color:#999; font-weight:500; margin-bottom: 8px;">HOW PATIENTS ARE DISTRIBUTED ACROSS TRACKS</div>
+      <div class="assign-grid">
+        <div class="assign-stat">
+          <div class="assign-num green">16</div>
+          <div class="assign-label">ALIGNERS</div>
+        </div>
+        <div class="assign-stat">
+          <div class="assign-num amber">8</div>
+          <div class="assign-label">BRACES</div>
+        </div>
+        <div class="assign-stat">
+          <div class="assign-num dark">24</div>
+          <div class="assign-label">TOTAL</div>
+        </div>
+      </div>
+      <div style="margin-top:14px;">
+        <div style="display:flex; gap:8px; align-items:center;">
+          <div style="flex:2; height:10px; background:#4A8500; border-radius:4px 0 0 4px;"></div>
+          <div style="flex:1; height:10px; background:#D4A017; border-radius:0 4px 4px 0;"></div>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-top:4px;">
+          <div style="font-family:'DM Mono'; font-size:13px; color:#4A8500; font-weight:600;">67% ALIGNERS</div>
+          <div style="font-family:'DM Mono'; font-size:13px; color:#D4A017; font-weight:600;">33% BRACES</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RECENT CHANGES -->
+    <div class="log-card">
+      <div class="config-title" style="margin-bottom: 14px;">RECENT CHALLENGE CHANGES</div>
+      <div class="log-item">
+        <div class="log-date">Feb 18</div>
+        <div class="log-action">Added <strong>Rubber Bands</strong> to</div>
+        <div class="log-patient">SmileQueen · BB-5512-TL</div>
+        <div class="log-staff">Dr. Smith</div>
+      </div>
+      <div class="log-item">
+        <div class="log-date">Feb 15</div>
+        <div class="log-action">Removed <strong>Chewies</strong> from</div>
+        <div class="log-patient">RetainerKing · BB-6679-PL</div>
+        <div class="log-staff">Sarah K.</div>
+      </div>
+      <div class="log-item">
+        <div class="log-date">Feb 10</div>
+        <div class="log-action">Added <strong>Wear Aligners</strong> to</div>
+        <div class="log-patient">OrthoPrincess · BB-3321-WD</div>
+        <div class="log-staff">Dr. Smith</div>
+      </div>
+      <div class="log-item">
+        <div class="log-date">Feb 2</div>
+        <div class="log-action">Penalty adjusted: Rubber Bands <strong>+1d → +2d</strong> for</div>
+        <div class="log-patient">BraceGod · BB-2847-XK</div>
+        <div class="log-staff">Dr. Smith</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="disclaimer">BITEBACK PRACTICE DASHBOARD · PFDE WEIGHTS REBALANCE AUTOMATICALLY WHEN CHALLENGES CHANGE · NO PHI STORED</div>
+
+</div>
+</body>
+</html>

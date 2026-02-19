@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BiteBack — Patients</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Outfit:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #F5F5F0; color: #1A1A1A; font-family: 'Outfit', sans-serif; display: flex; min-height: 100vh; }
+
+  /* ══════ SIDEBAR ══════ */
+  .sidebar {
+    width: 240px; background: #fff; border-right: 1px solid #E5E5E0;
+    display: flex; flex-direction: column; padding: 20px 0;
+    flex-shrink: 0; position: fixed; top: 0; bottom: 0;
+    box-shadow: 1px 0 8px rgba(0,0,0,0.03);
+  }
+  .sb-logo { font-family: 'Rajdhani'; font-size: 24px; font-weight: 700; letter-spacing: 3px; padding: 0 20px 20px; }
+  .sb-logo .bite { color: #1A1A1A; }
+  .sb-logo .back { color: #4A8500; }
+  .sb-badge {
+    font-family: 'DM Mono'; font-size: 14px; letter-spacing: 1px;
+    background: rgba(74,133,0,0.08); color: #4A8500; border: 1px solid rgba(74,133,0,0.12);
+    padding: 2px 6px; border-radius: 4px; margin-left: 6px; vertical-align: middle;
+  }
+  .sb-section { font-family: 'DM Mono'; font-size: 14px; letter-spacing: 2px; color: #bbb; padding: 16px 20px 8px; }
+  .sb-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 20px; cursor: pointer; font-family: 'Outfit'; font-size: 16px; color: #888; font-weight: 500;
+  }
+  .sb-item:hover { background: rgba(0,0,0,0.02); }
+  .sb-item.active { background: rgba(74,133,0,0.05); color: #4A8500; border-right: 2px solid #4A8500; }
+  .sb-icon { font-size: 18px; width: 22px; text-align: center; }
+  .sb-count {
+    margin-left: auto; font-family: 'DM Mono'; font-size: 14px;
+    background: rgba(220,30,60,0.08); color: #DC1E3C; padding: 2px 6px; border-radius: 4px;
+  }
+  .sb-footer { margin-top: auto; padding: 16px 20px; border-top: 1px solid #E5E5E0; }
+  .sb-practice { font-family: 'Outfit'; font-size: 16px; font-weight: 600; color: #333; }
+  .sb-plan { font-family: 'DM Mono'; font-size: 14px; color: #999; letter-spacing: 1px; margin-top: 2px; }
+
+  /* ══════ MAIN ══════ */
+  .main { margin-left: 240px; flex: 1; padding: 24px 32px; }
+
+  .page-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 24px;
+  }
+  .page-title { font-family: 'Rajdhani'; font-size: 28px; font-weight: 700; letter-spacing: 2px; color: #1A1A1A; }
+  .page-subtitle { font-family: 'DM Mono'; font-size: 14px; color: #999; letter-spacing: 1px; font-weight: 500; margin-top: 2px; }
+  .header-actions { display: flex; gap: 8px; }
+  .btn {
+    font-family: 'DM Mono'; font-size: 14px; letter-spacing: 1px; font-weight: 600;
+    padding: 10px 18px; border-radius: 8px; cursor: pointer; border: none;
+    transition: opacity 0.15s;
+  }
+  .btn:hover { opacity: 0.85; }
+  .btn-primary { background: #4A8500; color: #fff; }
+  .btn-outline { background: #fff; color: #888; border: 1px solid #E5E5E0; }
+
+  /* ══════ STAT CARDS ══════ */
+  .stats-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 24px; }
+  .stat-card {
+    background: #fff; border: 1px solid #E5E5E0; border-radius: 12px;
+    padding: 14px 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  }
+  .stat-label { font-family: 'DM Mono'; font-size: 12px; letter-spacing: 2px; color: #888; font-weight: 600; margin-bottom: 6px; }
+  .stat-value { font-family: 'Rajdhani'; font-size: 36px; font-weight: 700; line-height: 1; }
+  .stat-value.green { color: #4A8500; }
+  .stat-value.amber { color: #D4A017; }
+  .stat-value.red { color: #DC1E3C; }
+  .stat-value.dark { color: #1A1A1A; }
+  .stat-delta { font-family: 'DM Mono'; font-size: 12px; font-weight: 500; margin-top: 4px; color: #999; }
+
+  /* ══════ PATIENT TABLE ══════ */
+  .table-wrap {
+    background: #fff; border: 1px solid #E5E5E0; border-radius: 12px;
+    overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  }
+  .table-toolbar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 18px; border-bottom: 1px solid #F0F0EB;
+  }
+  .toolbar-left { display: flex; gap: 10px; align-items: center; }
+  .search-box {
+    display: flex; align-items: center; gap: 8px;
+    background: #F5F5F0; border: 1px solid #E5E5E0; border-radius: 8px;
+    padding: 7px 12px; width: 280px;
+  }
+  .search-box input {
+    background: none; border: none; outline: none; color: #333;
+    font-family: 'Outfit'; font-size: 15px; font-weight: 500; width: 100%;
+  }
+  .search-box input::placeholder { color: #bbb; }
+  .search-icon { color: #bbb; font-size: 16px; }
+  .filter-chips { display: flex; gap: 6px; }
+  .chip {
+    font-family: 'DM Mono'; font-size: 13px; letter-spacing: 1px; font-weight: 500;
+    padding: 6px 12px; border-radius: 6px; cursor: pointer;
+    background: #F5F5F0; border: 1px solid #E5E5E0; color: #999;
+    transition: all 0.15s;
+  }
+  .chip:hover { border-color: #ccc; }
+  .chip.active { border-color: rgba(74,133,0,0.25); color: #4A8500; background: rgba(74,133,0,0.04); }
+
+  .toolbar-right { display: flex; gap: 6px; }
+  .tool-btn {
+    font-family: 'DM Mono'; font-size: 12px; letter-spacing: 1px; font-weight: 600;
+    padding: 6px 12px; border-radius: 6px; cursor: pointer;
+    background: #F5F5F0; border: 1px solid #E5E5E0; color: #888;
+    transition: all 0.15s;
+  }
+  .tool-btn:hover { background: #eee; }
+
+  table { width: 100%; border-collapse: collapse; }
+  thead th {
+    font-family: 'DM Mono'; font-size: 12px; letter-spacing: 2px; color: #999; font-weight: 600;
+    text-align: left; padding: 10px 14px;
+    border-bottom: 1px solid #F0F0EB; text-transform: uppercase;
+    cursor: pointer; user-select: none; white-space: nowrap;
+  }
+  thead th:hover { color: #666; }
+  .sort-arrow { font-size: 10px; margin-left: 3px; opacity: 0.4; }
+  thead th.sorted .sort-arrow { opacity: 1; color: #4A8500; }
+  tbody td {
+    padding: 12px 14px; border-bottom: 1px solid #FAFAF7;
+    font-family: 'Outfit'; font-size: 15px; color: #444; font-weight: 500;
+  }
+  tbody tr { transition: background 0.1s; }
+  tbody tr:hover { background: #FAFAF7; cursor: pointer; }
+  .td-label { font-weight: 700; color: #1A1A1A; font-size: 15px; }
+  .td-nick { font-size: 14px; color: #666; font-weight: 500; }
+  .td-mono { font-family: 'DM Mono'; font-size: 14px; font-weight: 500; }
+  .td-code { font-family: 'DM Mono'; font-size: 13px; color: #999; font-weight: 500; }
+
+  .track-badge {
+    font-family: 'DM Mono'; font-size: 12px; letter-spacing: 1px; font-weight: 600;
+    padding: 3px 8px; border-radius: 4px; display: inline-block;
+  }
+  .track-badge.aligners { background: rgba(74,133,0,0.06); color: #4A8500; border: 1px solid rgba(74,133,0,0.1); }
+  .track-badge.braces { background: rgba(212,160,23,0.08); color: #D4A017; border: 1px solid rgba(212,160,23,0.12); }
+
+  .risk-badge {
+    font-family: 'DM Mono'; font-size: 12px; letter-spacing: 1px; font-weight: 600;
+    padding: 3px 8px; border-radius: 4px; display: inline-block;
+  }
+  .risk-badge.on-track { background: rgba(74,133,0,0.08); color: #4A8500; }
+  .risk-badge.at-risk { background: rgba(212,160,23,0.1); color: #D4A017; }
+  .risk-badge.high-risk { background: rgba(220,30,60,0.08); color: #DC1E3C; }
+  .risk-badge.inactive { background: rgba(0,0,0,0.04); color: #bbb; }
+
+  .streak-cell { display: flex; align-items: center; gap: 4px; }
+  .streak-fire { font-size: 14px; }
+
+  .compliance-bar { width: 60px; height: 5px; background: #EEEEE8; border-radius: 2px; overflow: hidden; margin-top: 3px; }
+  .compliance-fill { height: 100%; border-radius: 2px; }
+
+  .last-checkin { font-family: 'DM Mono'; font-size: 13px; color: #999; font-weight: 500; }
+  .last-checkin.stale { color: #DC1E3C; }
+
+  .td-actions { display: flex; gap: 4px; }
+  .td-btn {
+    font-family: 'DM Mono'; font-size: 12px; letter-spacing: 0.5px; font-weight: 600;
+    padding: 5px 10px; border-radius: 4px; cursor: pointer;
+    background: rgba(74,133,0,0.04); border: 1px solid rgba(74,133,0,0.12);
+    color: #4A8500; transition: background 0.15s;
+  }
+  .td-btn:hover { background: rgba(74,133,0,0.08); }
+  .td-btn.danger {
+    background: rgba(220,30,60,0.04); border-color: rgba(220,30,60,0.12);
+    color: #DC1E3C;
+  }
+  .td-btn.danger:hover { background: rgba(220,30,60,0.08); }
+
+  .table-footer {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 18px; border-top: 1px solid #F0F0EB;
+  }
+  .table-count { font-family: 'DM Mono'; font-size: 13px; color: #999; font-weight: 500; }
+  .pagination { display: flex; gap: 4px; }
+  .page-btn {
+    font-family: 'DM Mono'; font-size: 13px; font-weight: 500;
+    padding: 5px 12px; border-radius: 4px; cursor: pointer;
+    background: #F5F5F0; border: 1px solid #E5E5E0; color: #999;
+  }
+  .page-btn.active { border-color: rgba(74,133,0,0.25); color: #4A8500; }
+
+  .disclaimer {
+    font-family: 'DM Mono'; font-size: 12px; color: #ccc; letter-spacing: 1px; font-weight: 500;
+    text-align: center; margin-top: 30px; padding-top: 20px;
+    border-top: 1px solid #E5E5E0;
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════ SIDEBAR ══════ -->
+<nav class="sidebar">
+  <div class="sb-logo"><span class="bite">BITE</span><span class="back">BACK</span><span class="sb-badge">PRACTICE</span></div>
+  <div class="sb-section">OVERVIEW</div>
+  <div class="sb-item"><span class="sb-icon">📊</span> Dashboard</div>
+  <div class="sb-item active"><span class="sb-icon">👥</span> Patients <span class="sb-count">3</span></div>
+  <div class="sb-section">MANAGE</div>
+  <div class="sb-item"><span class="sb-icon">🎯</span> Challenges</div>
+  <div class="sb-item"><span class="sb-icon">🎁</span> Treats</div>
+  <div class="sb-item"><span class="sb-icon">📱</span> QR Codes</div>
+  <div class="sb-section">SETTINGS</div>
+  <div class="sb-item"><span class="sb-icon">🏢</span> Branding</div>
+  <div class="sb-item"><span class="sb-icon">👤</span> Staff</div>
+  <div class="sb-item"><span class="sb-icon">💳</span> Billing</div>
+  <div class="sb-footer">
+    <div class="sb-practice">Bright Smiles Orthodontics</div>
+    <div class="sb-plan">PRO · $99/MO · 24 PATIENTS</div>
+  </div>
+</nav>
+
+<!-- ══════ MAIN ══════ -->
+<div class="main">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div>
+      <div class="page-title">PATIENTS</div>
+      <div class="page-subtitle">ALL ACTIVE PATIENTS · BRIGHT SMILES ORTHODONTICS</div>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-outline">EXPORT CSV</button>
+      <button class="btn btn-outline">GENERATE REPORT</button>
+      <button class="btn btn-primary">+ NEW PATIENT</button>
+    </div>
+  </div>
+
+  <!-- STAT CARDS -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-label">TOTAL ACTIVE</div>
+      <div class="stat-value dark">24</div>
+      <div class="stat-delta">+3 this month</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">ON TRACK</div>
+      <div class="stat-value green">15</div>
+      <div class="stat-delta">63% of roster</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">AT RISK</div>
+      <div class="stat-value amber">5</div>
+      <div class="stat-delta">RCS 60–70%</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">HIGH RISK</div>
+      <div class="stat-value red">3</div>
+      <div class="stat-delta">RCS &lt; 60%</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">INACTIVE 7D+</div>
+      <div class="stat-value red">1</div>
+      <div class="stat-delta">no check-in</div>
+    </div>
+  </div>
+
+  <!-- PATIENT TABLE -->
+  <div class="table-wrap">
+    <div class="table-toolbar">
+      <div class="toolbar-left">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" placeholder="Search by label, nickname, or code...">
+        </div>
+        <div class="filter-chips">
+          <div class="chip active">ALL (24)</div>
+          <div class="chip">ON TRACK</div>
+          <div class="chip">AT RISK</div>
+          <div class="chip">HIGH RISK</div>
+          <div class="chip">INACTIVE</div>
+        </div>
+      </div>
+      <div class="toolbar-right">
+        <div class="tool-btn">ALIGNERS</div>
+        <div class="tool-btn">BRACES</div>
+      </div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th class="sorted">LABEL <span class="sort-arrow">▼</span></th>
+          <th>NICKNAME <span class="sort-arrow">▼</span></th>
+          <th>CODE <span class="sort-arrow">▼</span></th>
+          <th>TRACK <span class="sort-arrow">▼</span></th>
+          <th>STREAK <span class="sort-arrow">▼</span></th>
+          <th>RCS <span class="sort-arrow">▼</span></th>
+          <th>PROJECTED <span class="sort-arrow">▼</span></th>
+          <th>DELAY <span class="sort-arrow">▼</span></th>
+          <th>LAST CHECK-IN <span class="sort-arrow">▼</span></th>
+          <th>STATUS <span class="sort-arrow">▼</span></th>
+          <th>ACTIONS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- ON TRACK patients -->
+        <tr>
+          <td class="td-label">Star patient - chair 2</td>
+          <td class="td-nick">🌟 OrthoPrincess</td>
+          <td class="td-code">BB-3321-WD</td>
+          <td><span class="track-badge aligners">ALIGNERS</span></td>
+          <td><div class="streak-cell"><span class="streak-fire">🔥</span><span class="td-mono" style="color:#4A8500">61d</span></div></td>
+          <td>
+            <span class="td-mono" style="color:#4A8500">98%</span>
+            <div class="compliance-bar"><div class="compliance-fill" style="width:98%; background:#4A8500;"></div></div>
+          </td>
+          <td class="td-mono">Jun 18</td>
+          <td class="td-mono" style="color:#4A8500">-4d</td>
+          <td class="last-checkin">Today</td>
+          <td><span class="risk-badge on-track">ON TRACK</span></td>
+          <td class="td-actions"><div class="td-btn">VIEW</div></td>
+        </tr>
+        <tr>
+          <td class="td-label">Dr P - retainer kid</td>
+          <td class="td-nick">✨ GlowUp</td>
+          <td class="td-code">BB-8834-MN</td>
+          <td><span class="track-badge aligners">ALIGNERS</span></td>
+          <td><div class="streak-cell"><span class="streak-fire">🔥</span><span class="td-mono" style="color:#4A8500">45d</span></div></td>
+          <td>
+            <span class="td-mono" style="color:#4A8500">97%</span>
+            <div class="compliance-bar"><div class="compliance-fill" style="width:97%; background:#4A8500;"></div></div>
+          </td>
+          <td class="td-mono">Jul 2</td>
+          <td class="td-mono" style="color:#4A8500">-2d</td>
+          <td class="last-checkin">Today</td>
+          <td><span class="risk-badge on-track">ON TRACK</span></td>
+          <td class="td-actions"><div class="td-btn">VIEW</div></td>
+        </tr>
+        <tr>
+          <td class="td-label">Mon 10am aligner</td>
+          <td class="td-nick">😎 Jaylen</td>
+          <td class="td-code">BB-4421-RJ</td>
+          <td><span class="track-badge aligners">ALIGNERS</span></td>
+          <td><div class="streak-cell"><span class="streak-fire">🔥</span><span class="td-mono" style="color:#4A8500">30d</span></div></td>
+          <td>
+            <span class="td-mono" style="color:#4A8500">94%</span>
+            <div class="compliance-bar"><div class="compliance-fill" style="width:94%; background:#4A8500;"></div></div>
+          </td>
+          <td class="td-mono">Aug 16</td>
+          <td class="td-mono" style="color:#DC1E3C">+3d</td>
+          <td class="last-checkin">Today</td>
+          <td><span class="risk-badge on-track">ON TRACK</span></td>
+          <td class="td-actions"><div class="td-btn">VIEW</div></td>
+        </tr>
+        <tr>
+          <td class="td-label">Fri aligner + bands</td>
+          <td class="td-nick">🎯 RetainerKing</td>
+          <td class="td-code">BB-6679-PL</td>
+          <td><span class="track-badge aligners">ALIGNERS</span></td>
+          <td><div class="streak-cell"><span class="streak-fire">🔥</span><span class="td-mono" style="color:#4A8500">22d</span></div></td>
+          <td>
+            <span class="td-mono" style="color:#4A8500">89%</span>
+            <div class="compliance-bar"><div class="compliance-fill" style="width:89%; background:#4A8500;"></div></div>
+          </td>
+          <td class="td-mono">Aug 30</td>
+          <td class="td-mono" style="color:#D4A017">+6d</td>
+          <td class="last-checkin">Yesterday</td>
+          <td><span class="risk-badge on-track">ON TRACK</span></td>
+          <td class="td-actions"><div class="td-btn">VIEW</div></td>
+        </tr>
+        <tr>
+          <td class="td-label">New patient - Jan</td>
+          <td class="td-nick">💎 DiamondTeeth</td>
+          <td class="td-code">BB-7710-DT</td>
+          <td><span class="track-badge braces">BRACES</span></td>
+          <td><div class="streak-cell"><span class="streak-fire">🔥</span><span class="td-mono" style="color:#4A8500">18d</span></div></td>
+          <td>
+            <span class="td-mono" style="color:#4A8500">91%</span>
+            <div class="compliance-bar"><div class="compliance-fill" style="width:91%; background:#4A8500;"></div></div>
+          </td>
+          <td class="td-mono">Oct 5</td>
+          <td class="td-mono" style="color:#4A8500">-1d</td>
+          <td class="last-checkin">Today</td>
+          <td><span class="risk-badge on-track">ON TRACK</span></td>
+          <td class="td-actions"><div class="td-btn">VIEW</div></td>
+        </tr>
+        <tr>
+          <td class="td-label">Sibling pair #1</td>
+          <td class="td-nick">⚡ VoltBrace</td>
+          <td class="td-code">BB-4490-VB</td>
+          <td><span class="track-badge braces">BRACES</span></td>
+          <td><div class="streak-cell"><span class="streak-fire">🔥</span><span class="td-mono" style="color:#4A8500">14d</span></div></td>
+          <td>
+            <span class="td-mono" style="color:#4A8500">86%</span>
+            <div class="compliance-bar"><div class="compliance-fill" style="width:86%; background:#4A8500;"></div></div>
+          </td>
+          <td class="td-mono">Sep 12</td>
+          <td class="td-mono" style="color:#D4A017">+5d</td>
+          <td class="last-checkin">Today</td>
+          <td><span class="risk-badge on-track">ON TRACK</span></td>
+          <td class="td-actions"><div class="td-btn">VIEW</div></td>
+        </tr>
+
+        <!-- AT RISK patients -->
+        <tr>
+          <td class="td-label">Tues 3pm aligner</td>
+          <td class="td-nick">🦷 SmileQueen</td>
+          <td class="td-code">BB-5512-TL</td>
+          <td><span class="track-badge aligners">ALIGNERS</span></td>
+          <td><div class="streak-cell"><span class="streak-fire">🔥</span><span class="td-mono" style="color:#D4A017">12d</span></div></td>
+          <td>
+            <span class="td-mono" style="color:#D4A017">68%</span>
+            <div class="compliance-bar"><div class="compliance-fill" style="width:68%; background:#D4A017;"></div></div>
+          </td>
+          <td class="td-mono">Sep 3</td>
+          <td class="td-mono" style="color:#DC1E3C">+11d</td>
+          <td class="last-checkin">Yesterday</td>
+          <td><span class="risk-badge at-risk">AT RISK</span></td>
+          <td class="td-actions"><div class="td-btn">VIEW</div><div class="td-btn danger">FLAG</div></td>
+        </tr>
+        <tr>
+          <td class="td-label">Sibling pair #2</td>
+          <td class="td-nick">🎮 PixelGrin</td>
+          <td class="td-code">BB-4491-PG</td>
+          <td><span class="track-badge braces">BRACES</span></td>
+          <td><div class="streak-cell"><span class="streak-fire">🔥</span><span class="td-mono" style="color:#D4A017">5d</span></div></td>
+          <td>
+            <span class="td-mono" style="color:#D4A017">66%</span>
+            <div class="compliance-bar"><div class="compliance-fill" style="width:66%; background:#D4A017;"></div></div>
+          </td>
+          <td class="td-mono">Nov 20</td>
+          <td class="td-mono" style="color:#DC1E3C">+14d</td>
+          <td class="last-checkin">2 days ago</td>
+          <td><span class="risk-badge at-risk">AT RISK</span></td>
+          <td class="td-actions"><div class="td-btn">VIEW</div><div class="td-btn danger">FLAG</div></td>
+        </tr>
+        <tr>
+          <td class="td-label">Dr S - late start</td>
+          <td class="td-nick">🐢 SlowBurn</td>
+          <td class="td-code">BB-6003-SB</td>
+          <td><span class="track-badge aligners">ALIGNERS</span></td>
+          <td><div class="streak-cell"><span class="streak-fire">🔥</span><span class="td-mono" style="color:#D4A017">3d</span></div></td>
+          <td>
+            <span class="td-mono" style="color:#D4A017">63%</span>
+            <div class="compliance-bar"><div class="compliance-fill" style="width:63%; background:#D4A017;"></div></div>
+          </td>
+          <td class="td-mono">Oct 14</td>
+          <td class="td-mono" style="color:#DC1E3C">+16d</td>
+          <td class="last-checkin">Today</td>
+          <td><span class="risk-badge at-risk">AT RISK</span></td>
+          <td class="td-actions"><div class="td-btn">VIEW</div><div class="td-btn danger">FLAG</div></td>
+        </tr>
+
+        <!-- HIGH RISK patients -->
+        <tr>
+          <td class="td-label">Thurs 4pm braces</td>
+          <td class="td-nick">😈 TeethChamp</td>
+          <td class="td-code">BB-1293-QM</td>
+          <td><span class="track-badge braces">BRACES</span></td>
+          <td><div class="streak-cell"><span class="td-mono" style="color:#DC1E3C">0d</span></div></td>
+          <td>
+            <span class="td-mono" style="color:#DC1E3C">54%</span>
+            <div class="compliance-bar"><div class="compliance-fill" style="width:54%; background:#DC1E3C;"></div></div>
+          </td>
+          <td class="td-mono">Nov 14</td>
+          <td class="td-mono" style="color:#DC1E3C">+19d</td>
+          <td class="last-checkin">3 days ago</td>
+          <td><span class="risk-badge high-risk">HIGH RISK</span></td>
+          <td class="td-actions"><div class="td-btn">VIEW</div><div class="td-btn danger">FLAG</div></td>
+        </tr>
+        <tr>
+          <td class="td-label">Wed braces chair 4</td>
+          <td class="td-nick">💪 BraceGod</td>
+          <td class="td-code">BB-2847-XK</td>
+          <td><span class="track-badge braces">BRACES</span></td>
+          <td><div class="streak-cell"><span class="td-mono" style="color:#DC1E3C">0d</span></div></td>
+          <td>
+            <span class="td-mono" style="color:#DC1E3C">42%</span>
+            <div class="compliance-bar"><div class="compliance-fill" style="width:42%; background:#DC1E3C;"></div></div>
+          </td>
+          <td class="td-mono">Oct 28</td>
+          <td class="td-mono" style="color:#DC1E3C">+24d</td>
+          <td class="last-checkin stale">9 days ago</td>
+          <td><span class="risk-badge high-risk">HIGH RISK</span></td>
+          <td class="td-actions"><div class="td-btn">VIEW</div><div class="td-btn danger">FLAG</div></td>
+        </tr>
+        <tr>
+          <td class="td-label">Phase 2 retainer</td>
+          <td class="td-nick">😴 SnoozeTooth</td>
+          <td class="td-code">BB-8102-ST</td>
+          <td><span class="track-badge aligners">ALIGNERS</span></td>
+          <td><div class="streak-cell"><span class="td-mono" style="color:#DC1E3C">0d</span></div></td>
+          <td>
+            <span class="td-mono" style="color:#DC1E3C">38%</span>
+            <div class="compliance-bar"><div class="compliance-fill" style="width:38%; background:#DC1E3C;"></div></div>
+          </td>
+          <td class="td-mono">Dec 1</td>
+          <td class="td-mono" style="color:#DC1E3C">+31d</td>
+          <td class="last-checkin stale">12 days ago</td>
+          <td><span class="risk-badge high-risk">HIGH RISK</span></td>
+          <td class="td-actions"><div class="td-btn">VIEW</div><div class="td-btn danger">FLAG</div></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="table-footer">
+      <div class="table-count">SHOWING 12 OF 24 PATIENTS</div>
+      <div class="pagination">
+        <div class="page-btn active">1</div>
+        <div class="page-btn">2</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="disclaimer">BITEBACK PRACTICE DASHBOARD · LABELS ARE STAFF-ASSIGNED SHORTHAND · NO PHI STORED · TIMING DETERMINED BY ORTHODONTIST</div>
+
+</div>
+
+</body>
+</html>

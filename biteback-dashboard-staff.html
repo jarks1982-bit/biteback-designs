@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BiteBack — Staff</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Outfit:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #F5F5F0; color: #1A1A1A; font-family: 'Outfit', sans-serif; display: flex; min-height: 100vh; }
+
+  /* ══════ SIDEBAR ══════ */
+  .sidebar {
+    width: 240px; background: #fff; border-right: 1px solid #E5E5E0;
+    display: flex; flex-direction: column; padding: 20px 0;
+    flex-shrink: 0; position: fixed; top: 0; bottom: 0;
+    box-shadow: 1px 0 8px rgba(0,0,0,0.03);
+  }
+  .sb-logo { font-family: 'Rajdhani'; font-size: 24px; font-weight: 700; letter-spacing: 3px; padding: 0 20px 20px; }
+  .sb-logo .bite { color: #1A1A1A; }
+  .sb-logo .back { color: #4A8500; }
+  .sb-badge {
+    font-family: 'DM Mono'; font-size: 14px; letter-spacing: 1px;
+    background: rgba(74,133,0,0.08); color: #4A8500; border: 1px solid rgba(74,133,0,0.12);
+    padding: 2px 6px; border-radius: 4px; margin-left: 6px; vertical-align: middle;
+  }
+  .sb-section { font-family: 'DM Mono'; font-size: 14px; letter-spacing: 2px; color: #bbb; padding: 16px 20px 8px; }
+  .sb-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 20px; cursor: pointer; font-family: 'Outfit'; font-size: 16px; color: #888; font-weight: 500;
+  }
+  .sb-item:hover { background: rgba(0,0,0,0.02); }
+  .sb-item.active { background: rgba(74,133,0,0.05); color: #4A8500; border-right: 2px solid #4A8500; }
+  .sb-icon { font-size: 18px; width: 22px; text-align: center; }
+  .sb-footer { margin-top: auto; padding: 16px 20px; border-top: 1px solid #E5E5E0; }
+  .sb-practice { font-family: 'Outfit'; font-size: 16px; font-weight: 600; color: #333; }
+  .sb-plan { font-family: 'DM Mono'; font-size: 14px; color: #999; letter-spacing: 1px; margin-top: 2px; }
+
+  /* ══════ MAIN ══════ */
+  .main { margin-left: 240px; flex: 1; padding: 24px 32px; }
+
+  .page-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 28px;
+  }
+  .page-title { font-family: 'Rajdhani'; font-size: 28px; font-weight: 700; letter-spacing: 2px; color: #1A1A1A; }
+  .page-subtitle { font-family: 'DM Mono'; font-size: 14px; color: #999; letter-spacing: 1px; font-weight: 500; margin-top: 2px; }
+
+  .btn {
+    font-family: 'DM Mono'; font-size: 14px; letter-spacing: 1px; font-weight: 600;
+    padding: 10px 18px; border-radius: 8px; cursor: pointer; border: none;
+    transition: opacity 0.15s;
+  }
+  .btn:hover { opacity: 0.85; }
+  .btn-primary { background: #4A8500; color: #fff; }
+  .btn-outline { background: #fff; color: #888; border: 1px solid #E5E5E0; }
+
+  /* ══════ SECTIONS ══════ */
+  .section { margin-bottom: 28px; }
+  .section-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 14px;
+  }
+  .section-title { font-family: 'Rajdhani'; font-size: 20px; font-weight: 700; letter-spacing: 2px; color: #444; }
+  .section-badge {
+    font-family: 'DM Mono'; font-size: 13px; font-weight: 600; letter-spacing: 1px;
+    padding: 4px 12px; border-radius: 6px;
+  }
+  .section-badge.green { background: rgba(74,133,0,0.06); color: #4A8500; }
+
+  /* ══════ STAFF CARDS ══════ */
+  .staff-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .staff-card {
+    background: #fff; border: 1px solid #E5E5E0; border-radius: 14px;
+    padding: 22px; box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  }
+  .staff-card.you { border-color: rgba(74,133,0,0.2); }
+  .staff-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+  .staff-avatar {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Rajdhani'; font-size: 20px; font-weight: 700; color: #fff;
+  }
+  .staff-avatar.owner { background: linear-gradient(135deg, #4A8500, #7BC62D); }
+  .staff-avatar.admin { background: linear-gradient(135deg, #1A1A1A, #444); }
+  .staff-avatar.viewer { background: linear-gradient(135deg, #999, #bbb); }
+
+  .staff-role {
+    font-family: 'DM Mono'; font-size: 12px; font-weight: 600; letter-spacing: 1px;
+    padding: 3px 8px; border-radius: 4px;
+  }
+  .staff-role.owner { background: rgba(74,133,0,0.08); color: #4A8500; }
+  .staff-role.admin { background: rgba(0,0,0,0.05); color: #444; }
+  .staff-role.viewer { background: rgba(0,0,0,0.03); color: #999; }
+  .staff-role.pending { background: rgba(212,160,23,0.1); color: #D4A017; }
+
+  .staff-name { font-family: 'Outfit'; font-size: 17px; font-weight: 700; color: #1A1A1A; margin-bottom: 2px; }
+  .staff-email { font-family: 'DM Mono'; font-size: 13px; color: #999; font-weight: 500; margin-bottom: 10px; word-break: break-all; }
+
+  .staff-meta {
+    padding: 10px 12px; border-radius: 8px; background: #FAFAF7; border: 1px solid #EEEEE8;
+    margin-bottom: 14px;
+  }
+  .staff-meta-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 3px 0;
+  }
+  .staff-meta-label { font-family: 'DM Mono'; font-size: 11px; color: #bbb; font-weight: 500; letter-spacing: 1px; }
+  .staff-meta-value { font-family: 'DM Mono'; font-size: 13px; color: #555; font-weight: 600; }
+  .staff-meta-value.green { color: #4A8500; }
+
+  .staff-actions { display: flex; gap: 6px; }
+  .staff-btn {
+    font-family: 'DM Mono'; font-size: 12px; letter-spacing: 1px; font-weight: 600;
+    padding: 6px 12px; border-radius: 6px; cursor: pointer; border: none;
+    flex: 1; text-align: center; transition: opacity 0.15s;
+  }
+  .staff-btn:hover { opacity: 0.85; }
+  .staff-btn.green { background: rgba(74,133,0,0.06); color: #4A8500; border: 1px solid rgba(74,133,0,0.12); }
+  .staff-btn.neutral { background: #F5F5F0; color: #888; border: 1px solid #E5E5E0; }
+  .staff-btn.danger { background: rgba(220,30,60,0.04); color: #DC1E3C; border: 1px solid rgba(220,30,60,0.1); }
+  .staff-btn.disabled { opacity: 0.4; cursor: default; }
+
+  .staff-you-badge {
+    font-family: 'DM Mono'; font-size: 11px; font-weight: 600; letter-spacing: 1px;
+    color: #4A8500; margin-left: 6px;
+  }
+
+  /* ══════ INVITE CARD ══════ */
+  .invite-card {
+    background: #fff; border: 2px dashed #E5E5E0; border-radius: 14px;
+    padding: 22px; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; min-height: 280px; cursor: pointer;
+    transition: all 0.15s;
+  }
+  .invite-card:hover { border-color: rgba(74,133,0,0.3); background: rgba(74,133,0,0.01); }
+  .invite-icon { font-size: 36px; opacity: 0.35; margin-bottom: 8px; }
+  .invite-text { font-family: 'DM Mono'; font-size: 14px; letter-spacing: 2px; color: #bbb; font-weight: 600; }
+
+  /* ══════ ROLES EXPLANATION ══════ */
+  .roles-card {
+    background: #fff; border: 1px solid #E5E5E0; border-radius: 14px;
+    overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  }
+  .roles-header {
+    padding: 18px 22px; border-bottom: 1px solid #F0F0EB;
+  }
+  .roles-title { font-family: 'Rajdhani'; font-size: 18px; font-weight: 700; letter-spacing: 2px; color: #444; }
+  .roles-sub { font-family: 'DM Mono'; font-size: 12px; color: #bbb; letter-spacing: 1px; margin-top: 2px; }
+
+  .role-row {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 16px 22px; border-bottom: 1px solid #FAFAF7;
+  }
+  .role-row:last-child { border-bottom: none; }
+  .role-badge-lg {
+    font-family: 'DM Mono'; font-size: 13px; font-weight: 600; letter-spacing: 1px;
+    padding: 5px 12px; border-radius: 6px; min-width: 80px; text-align: center;
+    flex-shrink: 0;
+  }
+  .role-badge-lg.owner { background: rgba(74,133,0,0.08); color: #4A8500; }
+  .role-badge-lg.admin { background: rgba(0,0,0,0.05); color: #444; }
+  .role-badge-lg.viewer { background: rgba(0,0,0,0.03); color: #999; }
+  .role-info { flex: 1; }
+  .role-name { font-family: 'Outfit'; font-size: 15px; font-weight: 700; color: #1A1A1A; margin-bottom: 2px; }
+  .role-desc { font-family: 'Outfit'; font-size: 14px; color: #888; font-weight: 500; line-height: 1.4; }
+  .role-perms {
+    display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;
+  }
+  .perm-tag {
+    font-family: 'DM Mono'; font-size: 11px; font-weight: 600; letter-spacing: 1px;
+    padding: 3px 8px; border-radius: 4px;
+    background: #FAFAF7; border: 1px solid #EEEEE8; color: #888;
+  }
+  .perm-tag.yes { color: #4A8500; border-color: rgba(74,133,0,0.1); background: rgba(74,133,0,0.03); }
+  .perm-tag.no { color: #ccc; text-decoration: line-through; }
+
+  /* ══════ ACTIVITY LOG ══════ */
+  .log-card {
+    background: #fff; border: 1px solid #E5E5E0; border-radius: 14px;
+    padding: 22px; box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  }
+  .log-item {
+    display: flex; gap: 12px; align-items: center;
+    padding: 10px 0; border-bottom: 1px solid #F5F5F0;
+  }
+  .log-item:last-child { border-bottom: none; }
+  .log-date { font-family: 'DM Mono'; font-size: 13px; color: #bbb; font-weight: 500; min-width: 90px; }
+  .log-action { font-family: 'Outfit'; font-size: 15px; color: #444; font-weight: 500; flex: 1; }
+  .log-action strong { color: #1A1A1A; font-weight: 700; }
+  .log-staff { font-family: 'DM Mono'; font-size: 13px; color: #4A8500; font-weight: 600; }
+  .log-type {
+    font-family: 'DM Mono'; font-size: 11px; font-weight: 600; letter-spacing: 1px;
+    padding: 2px 6px; border-radius: 3px;
+    background: rgba(0,0,0,0.03); color: #999;
+  }
+
+  .disclaimer {
+    font-family: 'DM Mono'; font-size: 12px; color: #ccc; letter-spacing: 1px; font-weight: 500;
+    text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #E5E5E0;
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════ SIDEBAR ══════ -->
+<nav class="sidebar">
+  <div class="sb-logo"><span class="bite">BITE</span><span class="back">BACK</span><span class="sb-badge">PRACTICE</span></div>
+  <div class="sb-section">OVERVIEW</div>
+  <div class="sb-item"><span class="sb-icon">📊</span> Dashboard</div>
+  <div class="sb-item"><span class="sb-icon">👥</span> Patients</div>
+  <div class="sb-section">MANAGE</div>
+  <div class="sb-item"><span class="sb-icon">🎯</span> Challenges</div>
+  <div class="sb-item"><span class="sb-icon">🎁</span> Treats</div>
+  <div class="sb-item"><span class="sb-icon">📱</span> QR Codes</div>
+  <div class="sb-section">SETTINGS</div>
+  <div class="sb-item"><span class="sb-icon">🏢</span> Branding</div>
+  <div class="sb-item active"><span class="sb-icon">👤</span> Staff</div>
+  <div class="sb-item"><span class="sb-icon">💳</span> Billing</div>
+  <div class="sb-footer">
+    <div class="sb-practice">Bright Smiles Orthodontics</div>
+    <div class="sb-plan">PRO · $99/MO · 24 PATIENTS</div>
+  </div>
+</nav>
+
+<!-- ══════ MAIN ══════ -->
+<div class="main">
+
+  <div class="page-header">
+    <div>
+      <div class="page-title">STAFF</div>
+      <div class="page-subtitle">MANAGE TEAM ACCESS · 3 MEMBERS · 1 PENDING INVITE</div>
+    </div>
+    <button class="btn btn-primary">+ INVITE STAFF</button>
+  </div>
+
+  <!-- ══════ STAFF MEMBERS ══════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title">TEAM MEMBERS</div>
+      <span class="section-badge green">3 ACTIVE</span>
+    </div>
+
+    <div class="staff-grid">
+
+      <!-- Owner -->
+      <div class="staff-card you">
+        <div class="staff-top">
+          <div class="staff-avatar owner">DP</div>
+          <span class="staff-role owner">OWNER</span>
+        </div>
+        <div class="staff-name">Dr. Patel <span class="staff-you-badge">(YOU)</span></div>
+        <div class="staff-email">dr.patel@brightsmiles.com</div>
+        <div class="staff-meta">
+          <div class="staff-meta-row">
+            <span class="staff-meta-label">LAST ACTIVE</span>
+            <span class="staff-meta-value green">NOW</span>
+          </div>
+          <div class="staff-meta-row">
+            <span class="staff-meta-label">ACTIONS THIS WEEK</span>
+            <span class="staff-meta-value">14</span>
+          </div>
+          <div class="staff-meta-row">
+            <span class="staff-meta-label">JOINED</span>
+            <span class="staff-meta-value">NOV 1, 2025</span>
+          </div>
+        </div>
+        <div class="staff-actions">
+          <button class="staff-btn neutral staff-btn disabled">EDIT ROLE</button>
+          <button class="staff-btn neutral staff-btn disabled">REMOVE</button>
+        </div>
+      </div>
+
+      <!-- Admin -->
+      <div class="staff-card">
+        <div class="staff-top">
+          <div class="staff-avatar admin">SK</div>
+          <span class="staff-role admin">ADMIN</span>
+        </div>
+        <div class="staff-name">Sarah Kim</div>
+        <div class="staff-email">sarah.k@brightsmiles.com</div>
+        <div class="staff-meta">
+          <div class="staff-meta-row">
+            <span class="staff-meta-label">LAST ACTIVE</span>
+            <span class="staff-meta-value">2 HRS AGO</span>
+          </div>
+          <div class="staff-meta-row">
+            <span class="staff-meta-label">ACTIONS THIS WEEK</span>
+            <span class="staff-meta-value">9</span>
+          </div>
+          <div class="staff-meta-row">
+            <span class="staff-meta-label">JOINED</span>
+            <span class="staff-meta-value">NOV 15, 2025</span>
+          </div>
+        </div>
+        <div class="staff-actions">
+          <button class="staff-btn green">EDIT ROLE</button>
+          <button class="staff-btn danger">REMOVE</button>
+        </div>
+      </div>
+
+      <!-- Viewer -->
+      <div class="staff-card">
+        <div class="staff-top">
+          <div class="staff-avatar viewer">MR</div>
+          <span class="staff-role viewer">VIEWER</span>
+        </div>
+        <div class="staff-name">Maria Reyes</div>
+        <div class="staff-email">maria.r@brightsmiles.com</div>
+        <div class="staff-meta">
+          <div class="staff-meta-row">
+            <span class="staff-meta-label">LAST ACTIVE</span>
+            <span class="staff-meta-value">3 DAYS AGO</span>
+          </div>
+          <div class="staff-meta-row">
+            <span class="staff-meta-label">ACTIONS THIS WEEK</span>
+            <span class="staff-meta-value">0</span>
+          </div>
+          <div class="staff-meta-row">
+            <span class="staff-meta-label">JOINED</span>
+            <span class="staff-meta-value">JAN 10, 2026</span>
+          </div>
+        </div>
+        <div class="staff-actions">
+          <button class="staff-btn green">EDIT ROLE</button>
+          <button class="staff-btn danger">REMOVE</button>
+        </div>
+      </div>
+
+      <!-- Pending invite -->
+      <div class="staff-card" style="opacity:0.7;">
+        <div class="staff-top">
+          <div class="staff-avatar viewer" style="background:linear-gradient(135deg,#D4A017,#F0C040);">JL</div>
+          <span class="staff-role pending">PENDING</span>
+        </div>
+        <div class="staff-name">Dr. James Lee</div>
+        <div class="staff-email">james.lee@brightsmiles.com</div>
+        <div class="staff-meta">
+          <div class="staff-meta-row">
+            <span class="staff-meta-label">INVITED</span>
+            <span class="staff-meta-value">FEB 17, 2026</span>
+          </div>
+          <div class="staff-meta-row">
+            <span class="staff-meta-label">INVITED AS</span>
+            <span class="staff-meta-value">ADMIN</span>
+          </div>
+          <div class="staff-meta-row">
+            <span class="staff-meta-label">MAGIC LINK</span>
+            <span class="staff-meta-value green">SENT</span>
+          </div>
+        </div>
+        <div class="staff-actions">
+          <button class="staff-btn green">RESEND INVITE</button>
+          <button class="staff-btn danger">REVOKE</button>
+        </div>
+      </div>
+
+      <!-- Invite ghost card -->
+      <div class="invite-card">
+        <div class="invite-icon">➕</div>
+        <div class="invite-text">INVITE STAFF</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════ ROLES & PERMISSIONS ══════ -->
+  <div class="section">
+    <div class="section-title">ROLES & PERMISSIONS</div>
+
+    <div class="roles-card">
+      <div class="roles-header">
+        <div class="roles-title">ACCESS LEVELS</div>
+        <div class="roles-sub">ALL ACTIONS ARE LOGGED WITH STAFF NAME AND TIMESTAMP</div>
+      </div>
+
+      <div class="role-row">
+        <div class="role-badge-lg owner">OWNER</div>
+        <div class="role-info">
+          <div class="role-name">Practice Owner</div>
+          <div class="role-desc">Full access to everything. Manages billing, staff, and branding. Cannot be removed.</div>
+          <div class="role-perms">
+            <span class="perm-tag yes">PATIENTS</span>
+            <span class="perm-tag yes">CHALLENGES</span>
+            <span class="perm-tag yes">TREATS</span>
+            <span class="perm-tag yes">QR CODES</span>
+            <span class="perm-tag yes">TIMELINE</span>
+            <span class="perm-tag yes">BRANDING</span>
+            <span class="perm-tag yes">STAFF</span>
+            <span class="perm-tag yes">BILLING</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="role-row">
+        <div class="role-badge-lg admin">ADMIN</div>
+        <div class="role-info">
+          <div class="role-name">Office Admin / Orthodontist</div>
+          <div class="role-desc">Can manage patients, log fumbles, confirm compliance, adjust timelines, generate QR codes, and manage treats. Cannot manage billing or remove the owner.</div>
+          <div class="role-perms">
+            <span class="perm-tag yes">PATIENTS</span>
+            <span class="perm-tag yes">CHALLENGES</span>
+            <span class="perm-tag yes">TREATS</span>
+            <span class="perm-tag yes">QR CODES</span>
+            <span class="perm-tag yes">TIMELINE</span>
+            <span class="perm-tag yes">BRANDING</span>
+            <span class="perm-tag no">STAFF</span>
+            <span class="perm-tag no">BILLING</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="role-row">
+        <div class="role-badge-lg viewer">VIEWER</div>
+        <div class="role-info">
+          <div class="role-name">Front Desk / Assistant</div>
+          <div class="role-desc">Can view patient data, compliance scores, and leaderboards. Can fulfill treats at appointments. Cannot modify challenges, timelines, or settings.</div>
+          <div class="role-perms">
+            <span class="perm-tag yes">VIEW PATIENTS</span>
+            <span class="perm-tag yes">FULFILL TREATS</span>
+            <span class="perm-tag no">CHALLENGES</span>
+            <span class="perm-tag no">QR CODES</span>
+            <span class="perm-tag no">TIMELINE</span>
+            <span class="perm-tag no">BRANDING</span>
+            <span class="perm-tag no">STAFF</span>
+            <span class="perm-tag no">BILLING</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ STAFF ACTIVITY LOG ══════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title">RECENT STAFF ACTIVITY</div>
+      <span class="section-badge green">LAST 7 DAYS</span>
+    </div>
+
+    <div class="log-card">
+      <div class="log-item">
+        <div class="log-date">FEB 19</div>
+        <div class="log-action">Confirmed compliance for <strong>SmileQueen</strong> (BB-5512-TL)</div>
+        <div class="log-staff">Dr. Patel</div>
+        <div class="log-type">COMPLIANCE</div>
+      </div>
+      <div class="log-item">
+        <div class="log-date">FEB 18</div>
+        <div class="log-action">Logged fumble — Rubber Bands for <strong>SmileQueen</strong> (BB-5512-TL)</div>
+        <div class="log-staff">Dr. Patel</div>
+        <div class="log-type">FUMBLE</div>
+      </div>
+      <div class="log-item">
+        <div class="log-date">FEB 18</div>
+        <div class="log-action">Fulfilled treat <strong>$10 Starbucks Card</strong> for SteelGrin (BB-2204-JE)</div>
+        <div class="log-staff">Sarah Kim</div>
+        <div class="log-type">TREAT</div>
+      </div>
+      <div class="log-item">
+        <div class="log-date">FEB 17</div>
+        <div class="log-action">Invited <strong>Dr. James Lee</strong> as Admin</div>
+        <div class="log-staff">Dr. Patel</div>
+        <div class="log-type">STAFF</div>
+      </div>
+      <div class="log-item">
+        <div class="log-date">FEB 16</div>
+        <div class="log-action">Generated QR code <strong>BB-7741-NK</strong> — Aligners, 18 mo</div>
+        <div class="log-staff">Sarah Kim</div>
+        <div class="log-type">QR CODE</div>
+      </div>
+      <div class="log-item">
+        <div class="log-date">FEB 15</div>
+        <div class="log-action">Pushed back timeline for <strong>BraceGod</strong> (BB-2847-XK) — +7 days</div>
+        <div class="log-staff">Dr. Patel</div>
+        <div class="log-type">TIMELINE</div>
+      </div>
+      <div class="log-item">
+        <div class="log-date">FEB 14</div>
+        <div class="log-action">Added challenge <strong>Rubber Bands</strong> to SmileQueen (BB-5512-TL)</div>
+        <div class="log-staff">Dr. Patel</div>
+        <div class="log-type">CHALLENGE</div>
+      </div>
+      <div class="log-item">
+        <div class="log-date">FEB 13</div>
+        <div class="log-action">Fulfilled treat <strong>Candy Bag</strong> for IronJaw (BB-1923-MR)</div>
+        <div class="log-staff">Sarah Kim</div>
+        <div class="log-type">TREAT</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="disclaimer">BITEBACK PRACTICE DASHBOARD · ALL STAFF ACTIONS LOGGED · AUTH VIA EMAIL MAGIC LINK · NO PASSWORDS STORED</div>
+
+</div>
+
+</body>
+</html>

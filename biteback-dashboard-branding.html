@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BiteBack — Branding</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Outfit:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #F5F5F0; color: #1A1A1A; font-family: 'Outfit', sans-serif; display: flex; min-height: 100vh; }
+
+  /* ══════ SIDEBAR ══════ */
+  .sidebar {
+    width: 240px; background: #fff; border-right: 1px solid #E5E5E0;
+    display: flex; flex-direction: column; padding: 20px 0;
+    flex-shrink: 0; position: fixed; top: 0; bottom: 0;
+    box-shadow: 1px 0 8px rgba(0,0,0,0.03);
+  }
+  .sb-logo { font-family: 'Rajdhani'; font-size: 24px; font-weight: 700; letter-spacing: 3px; padding: 0 20px 20px; }
+  .sb-logo .bite { color: #1A1A1A; }
+  .sb-logo .back { color: #4A8500; }
+  .sb-badge {
+    font-family: 'DM Mono'; font-size: 14px; letter-spacing: 1px;
+    background: rgba(74,133,0,0.08); color: #4A8500; border: 1px solid rgba(74,133,0,0.12);
+    padding: 2px 6px; border-radius: 4px; margin-left: 6px; vertical-align: middle;
+  }
+  .sb-section { font-family: 'DM Mono'; font-size: 14px; letter-spacing: 2px; color: #bbb; padding: 16px 20px 8px; }
+  .sb-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 20px; cursor: pointer; font-family: 'Outfit'; font-size: 16px; color: #888; font-weight: 500;
+  }
+  .sb-item:hover { background: rgba(0,0,0,0.02); }
+  .sb-item.active { background: rgba(74,133,0,0.05); color: #4A8500; border-right: 2px solid #4A8500; }
+  .sb-icon { font-size: 18px; width: 22px; text-align: center; }
+  .sb-footer { margin-top: auto; padding: 16px 20px; border-top: 1px solid #E5E5E0; }
+  .sb-practice { font-family: 'Outfit'; font-size: 16px; font-weight: 600; color: #333; }
+  .sb-plan { font-family: 'DM Mono'; font-size: 14px; color: #999; letter-spacing: 1px; margin-top: 2px; }
+
+  /* ══════ MAIN ══════ */
+  .main { margin-left: 240px; flex: 1; padding: 24px 32px; }
+
+  .page-header { margin-bottom: 28px; }
+  .page-title { font-family: 'Rajdhani'; font-size: 28px; font-weight: 700; letter-spacing: 2px; color: #1A1A1A; }
+  .page-subtitle { font-family: 'DM Mono'; font-size: 14px; color: #999; letter-spacing: 1px; font-weight: 500; margin-top: 2px; }
+
+  .btn {
+    font-family: 'DM Mono'; font-size: 14px; letter-spacing: 1px; font-weight: 600;
+    padding: 10px 18px; border-radius: 8px; cursor: pointer; border: none;
+    transition: opacity 0.15s;
+  }
+  .btn:hover { opacity: 0.85; }
+  .btn-primary { background: #4A8500; color: #fff; }
+  .btn-outline { background: #fff; color: #888; border: 1px solid #E5E5E0; }
+
+  /* ══════ SECTIONS ══════ */
+  .section { margin-bottom: 28px; }
+  .section-title { font-family: 'Rajdhani'; font-size: 20px; font-weight: 700; letter-spacing: 2px; color: #444; margin-bottom: 14px; }
+
+  /* ══════ GRID ══════ */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  /* ══════ CARDS ══════ */
+  .card {
+    background: #fff; border: 1px solid #E5E5E0; border-radius: 14px;
+    padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  }
+  .card-title {
+    font-family: 'DM Mono'; font-size: 13px; letter-spacing: 2px; color: #999; font-weight: 600;
+    margin-bottom: 18px;
+  }
+
+  /* ══════ LOGO UPLOAD ══════ */
+  .logo-area {
+    display: flex; gap: 24px; align-items: flex-start;
+  }
+  .logo-preview {
+    width: 120px; height: 120px; border-radius: 14px; border: 2px dashed #E5E5E0;
+    display: flex; align-items: center; justify-content: center;
+    background: #FAFAF7; flex-shrink: 0; overflow: hidden; position: relative;
+  }
+  .logo-preview.has-logo { border: 2px solid #E5E5E0; border-style: solid; }
+  .logo-placeholder {
+    text-align: center;
+  }
+  .logo-placeholder-icon { font-size: 32px; opacity: 0.3; margin-bottom: 4px; }
+  .logo-placeholder-text { font-family: 'DM Mono'; font-size: 11px; color: #ccc; letter-spacing: 1px; }
+
+  .logo-mock {
+    width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, #4A8500 0%, #7BC62D 100%); border-radius: 12px;
+  }
+  .logo-mock-text { font-family: 'Rajdhani'; font-size: 28px; font-weight: 700; color: #fff; letter-spacing: 2px; }
+
+  .logo-details { flex: 1; }
+  .logo-name { font-family: 'Outfit'; font-size: 18px; font-weight: 700; color: #1A1A1A; margin-bottom: 4px; }
+  .logo-file { font-family: 'DM Mono'; font-size: 13px; color: #999; font-weight: 500; margin-bottom: 12px; }
+  .logo-specs { font-family: 'DM Mono'; font-size: 12px; color: #bbb; line-height: 1.8; margin-bottom: 14px; }
+  .logo-actions { display: flex; gap: 8px; }
+
+  /* ══════ PRACTICE NAME ══════ */
+  .form-group { margin-bottom: 16px; }
+  .form-label { font-family: 'DM Mono'; font-size: 12px; letter-spacing: 2px; color: #888; font-weight: 600; margin-bottom: 6px; display: block; }
+  .form-input {
+    width: 100%; font-family: 'Outfit'; font-size: 15px; font-weight: 500;
+    padding: 10px 14px; border-radius: 8px; border: 1px solid #E5E5E0;
+    background: #FAFAF7; color: #1A1A1A; outline: none;
+  }
+  .form-input:focus { border-color: rgba(74,133,0,0.4); }
+  .form-hint { font-family: 'DM Mono'; font-size: 11px; color: #bbb; font-weight: 500; margin-top: 4px; }
+
+  .name-preview {
+    padding: 14px 16px; border-radius: 10px; background: #FAFAF7; border: 1px solid #EEEEE8;
+    margin-top: 12px;
+  }
+  .name-preview-label { font-family: 'DM Mono'; font-size: 11px; color: #bbb; letter-spacing: 1px; margin-bottom: 6px; }
+  .name-preview-text { font-family: 'Outfit'; font-size: 14px; color: #555; font-weight: 500; line-height: 1.6; }
+  .name-preview-text strong { color: #1A1A1A; font-weight: 700; }
+
+  /* ══════ SHARE CARD PREVIEW ══════ */
+  .preview-row { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+
+  .share-card-mock {
+    width: 200px; border-radius: 14px; overflow: hidden; position: relative;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+  }
+  .share-card-dark {
+    background: #0A0A0A; padding: 20px 16px; text-align: center; min-height: 340px;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .share-card-light {
+    background: #F5F5F0; padding: 20px 16px; text-align: center; min-height: 340px;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+
+  .sc-top { margin-bottom: auto; }
+  .sc-streak { font-family: 'Rajdhani'; font-size: 48px; font-weight: 700; line-height: 1; }
+  .sc-streak.lime { color: #BFFF00; }
+  .sc-streak.green { color: #4A8500; }
+  .sc-label { font-family: 'DM Mono'; font-size: 11px; letter-spacing: 2px; margin-top: 4px; }
+  .sc-label.light-txt { color: #888; }
+  .sc-label.dark-txt { color: #666; }
+  .sc-tier { font-family: 'DM Mono'; font-size: 12px; font-weight: 600; letter-spacing: 1px; margin-top: 8px; }
+  .sc-tier.gold-dark { color: #FFD700; }
+  .sc-tier.gold-light { color: #B8860B; }
+  .sc-quote { font-family: 'Outfit'; font-size: 13px; font-weight: 500; margin-top: 12px; font-style: italic; line-height: 1.4; }
+  .sc-quote.light-txt { color: #999; }
+  .sc-quote.dark-txt { color: #777; }
+
+  .sc-bottom { margin-top: auto; padding-top: 16px; }
+  .sc-brand { display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 4px; }
+  .sc-brand-logo {
+    width: 18px; height: 18px; border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Rajdhani'; font-size: 9px; font-weight: 700; color: #fff;
+  }
+  .sc-brand-logo.dark-card { background: #4A8500; }
+  .sc-brand-logo.light-card { background: #4A8500; }
+  .sc-brand-name { font-family: 'Outfit'; font-size: 11px; font-weight: 600; }
+  .sc-brand-name.light-txt { color: #888; }
+  .sc-brand-name.dark-txt { color: #777; }
+  .sc-cta { font-family: 'DM Mono'; font-size: 9px; letter-spacing: 1px; }
+  .sc-cta.light-txt { color: #666; }
+  .sc-cta.dark-txt { color: #aaa; }
+
+  .preview-label {
+    font-family: 'DM Mono'; font-size: 12px; letter-spacing: 1px; color: #999; font-weight: 600;
+    text-align: center; margin-top: 10px;
+  }
+
+  /* ══════ LEADERBOARD PREVIEW ══════ */
+  .lb-preview {
+    background: #0A0A0A; border-radius: 14px; padding: 20px; max-width: 340px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+  }
+  .lb-header { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+  .lb-logo-mini {
+    width: 24px; height: 24px; border-radius: 6px; background: #4A8500;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Rajdhani'; font-size: 11px; font-weight: 700; color: #fff;
+  }
+  .lb-practice-name { font-family: 'Outfit'; font-size: 14px; font-weight: 600; color: #fff; }
+  .lb-subtitle { font-family: 'DM Mono'; font-size: 11px; color: #666; letter-spacing: 1px; }
+
+  .lb-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 0; border-bottom: 1px solid #1A1A1A;
+  }
+  .lb-row:last-child { border-bottom: none; }
+  .lb-rank { font-family: 'Rajdhani'; font-size: 18px; font-weight: 700; color: #BFFF00; min-width: 24px; }
+  .lb-nick { font-family: 'Outfit'; font-size: 14px; font-weight: 600; color: #fff; flex: 1; }
+  .lb-streak-val { font-family: 'DM Mono'; font-size: 13px; color: #BFFF00; font-weight: 600; }
+
+  /* ══════ MARKETING VALUE ══════ */
+  .value-card {
+    background: #fff; border: 1px solid #E5E5E0; border-radius: 14px;
+    padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  }
+  .value-item {
+    display: flex; gap: 14px; align-items: flex-start;
+    padding: 12px 0; border-bottom: 1px solid #F5F5F0;
+  }
+  .value-item:last-child { border-bottom: none; }
+  .value-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+  .value-title { font-family: 'Outfit'; font-size: 15px; font-weight: 700; color: #1A1A1A; margin-bottom: 2px; }
+  .value-desc { font-family: 'Outfit'; font-size: 14px; color: #888; font-weight: 500; line-height: 1.4; }
+
+  .disclaimer {
+    font-family: 'DM Mono'; font-size: 12px; color: #ccc; letter-spacing: 1px; font-weight: 500;
+    text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #E5E5E0;
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════ SIDEBAR ══════ -->
+<nav class="sidebar">
+  <div class="sb-logo"><span class="bite">BITE</span><span class="back">BACK</span><span class="sb-badge">PRACTICE</span></div>
+  <div class="sb-section">OVERVIEW</div>
+  <div class="sb-item"><span class="sb-icon">📊</span> Dashboard</div>
+  <div class="sb-item"><span class="sb-icon">👥</span> Patients</div>
+  <div class="sb-section">MANAGE</div>
+  <div class="sb-item"><span class="sb-icon">🎯</span> Challenges</div>
+  <div class="sb-item"><span class="sb-icon">🎁</span> Treats</div>
+  <div class="sb-item"><span class="sb-icon">📱</span> QR Codes</div>
+  <div class="sb-section">SETTINGS</div>
+  <div class="sb-item active"><span class="sb-icon">🏢</span> Branding</div>
+  <div class="sb-item"><span class="sb-icon">👤</span> Staff</div>
+  <div class="sb-item"><span class="sb-icon">💳</span> Billing</div>
+  <div class="sb-footer">
+    <div class="sb-practice">Bright Smiles Orthodontics</div>
+    <div class="sb-plan">PRO · $99/MO · 24 PATIENTS</div>
+  </div>
+</nav>
+
+<!-- ══════ MAIN ══════ -->
+<div class="main">
+
+  <div class="page-header">
+    <div class="page-title">BRANDING</div>
+    <div class="page-subtitle">YOUR LOGO & NAME APPEAR ON EVERY PATIENT'S SHARE CARDS & LEADERBOARD</div>
+  </div>
+
+  <!-- ══════ LOGO + PRACTICE NAME ══════ -->
+  <div class="grid-2" style="margin-bottom:28px;">
+
+    <!-- Logo Upload -->
+    <div class="card">
+      <div class="card-title">PRACTICE LOGO</div>
+      <div class="logo-area">
+        <div class="logo-preview has-logo">
+          <div class="logo-mock">
+            <div class="logo-mock-text">BS</div>
+          </div>
+        </div>
+        <div class="logo-details">
+          <div class="logo-name">Bright Smiles Orthodontics</div>
+          <div class="logo-file">bright-smiles-logo.png · 512×512 · 24 KB</div>
+          <div class="logo-specs">
+            FORMAT: PNG or SVG<br>
+            MIN SIZE: 200×200px<br>
+            MAX FILE: 500 KB<br>
+            DISPLAYED: Small — bottom corner of share cards
+          </div>
+          <div class="logo-actions">
+            <button class="btn btn-outline" style="font-size:13px; padding:8px 14px;">REPLACE LOGO</button>
+            <button class="btn btn-outline" style="font-size:13px; padding:8px 14px; color:#DC1E3C; border-color:rgba(220,30,60,0.2);">REMOVE</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Practice Name -->
+    <div class="card">
+      <div class="card-title">PRACTICE NAME & CTA</div>
+      <div class="form-group">
+        <label class="form-label">DISPLAY NAME</label>
+        <input class="form-input" value="Bright Smiles Orthodontics">
+        <div class="form-hint">Appears on share cards, leaderboard header, and QR cards</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">WEBSITE URL (OPTIONAL)</label>
+        <input class="form-input" placeholder="https://brightsmiles.com" value="https://brightsmiles.com">
+      </div>
+      <div class="name-preview">
+        <div class="name-preview-label">SHARE CARD FOOTER PREVIEW</div>
+        <div class="name-preview-text">
+          Get roasted at biteback.app — <strong>Bright Smiles Orthodontics</strong>
+        </div>
+      </div>
+      <div style="margin-top:14px;">
+        <button class="btn btn-primary">SAVE CHANGES</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ SHARE CARD PREVIEWS ══════ -->
+  <div class="section">
+    <div class="section-title">SHARE CARD PREVIEW</div>
+    <div class="card" style="padding:30px;">
+      <div style="font-family:'Outfit'; font-size:14px; color:#888; font-weight:500; margin-bottom:20px; text-align:center;">
+        Every share card your patients post includes your practice logo and name — free organic marketing on every Instagram Story and TikTok.
+      </div>
+      <div class="preview-row">
+
+        <!-- Dark mode card -->
+        <div>
+          <div class="share-card-mock">
+            <div class="share-card-dark">
+              <div class="sc-top">
+                <div class="sc-streak lime">30</div>
+                <div class="sc-label light-txt">DAY STREAK</div>
+                <div class="sc-tier gold-dark">🏆 SMILE SOLDIER</div>
+                <div class="sc-quote light-txt">"30 days?! You're actually doing this. I'm... almost proud." — Bri</div>
+              </div>
+              <div class="sc-bottom">
+                <div class="sc-brand">
+                  <div class="sc-brand-logo dark-card">BS</div>
+                  <div class="sc-brand-name light-txt">Bright Smiles Orthodontics</div>
+                </div>
+                <div class="sc-cta light-txt">GET ROASTED AT BITEBACK.APP</div>
+              </div>
+            </div>
+          </div>
+          <div class="preview-label">DARK MODE</div>
+        </div>
+
+        <!-- Light mode card -->
+        <div>
+          <div class="share-card-mock">
+            <div class="share-card-light">
+              <div class="sc-top">
+                <div class="sc-streak green">30</div>
+                <div class="sc-label dark-txt">DAY STREAK</div>
+                <div class="sc-tier gold-light">🏆 SMILE SOLDIER</div>
+                <div class="sc-quote dark-txt">"30 days?! You're actually doing this. I'm... almost proud." — Bri</div>
+              </div>
+              <div class="sc-bottom">
+                <div class="sc-brand">
+                  <div class="sc-brand-logo light-card">BS</div>
+                  <div class="sc-brand-name dark-txt">Bright Smiles Orthodontics</div>
+                </div>
+                <div class="sc-cta dark-txt">GET ROASTED AT BITEBACK.APP</div>
+              </div>
+            </div>
+          </div>
+          <div class="preview-label">LIGHT MODE</div>
+        </div>
+
+        <!-- Leaderboard preview -->
+        <div>
+          <div class="lb-preview">
+            <div class="lb-header">
+              <div class="lb-logo-mini">BS</div>
+              <div>
+                <div class="lb-practice-name">Bright Smiles Orthodontics</div>
+                <div class="lb-subtitle">TOP STREAKS</div>
+              </div>
+            </div>
+            <div class="lb-row">
+              <div class="lb-rank">1</div>
+              <div class="lb-nick">🌟 OrthoPrincess</div>
+              <div class="lb-streak-val">🔥 61d</div>
+            </div>
+            <div class="lb-row">
+              <div class="lb-rank">2</div>
+              <div class="lb-nick">✨ GlowUp</div>
+              <div class="lb-streak-val">🔥 45d</div>
+            </div>
+            <div class="lb-row">
+              <div class="lb-rank">3</div>
+              <div class="lb-nick">😎 Jaylen</div>
+              <div class="lb-streak-val">🔥 30d</div>
+            </div>
+            <div class="lb-row">
+              <div class="lb-rank">4</div>
+              <div class="lb-nick">🎯 RetainerKing</div>
+              <div class="lb-streak-val">🔥 22d</div>
+            </div>
+            <div class="lb-row">
+              <div class="lb-rank">5</div>
+              <div class="lb-nick">💎 DiamondTeeth</div>
+              <div class="lb-streak-val">🔥 18d</div>
+            </div>
+          </div>
+          <div class="preview-label">LEADERBOARD</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ WHY THIS MATTERS ══════ -->
+  <div class="section">
+    <div class="section-title">WHY BRANDING MATTERS</div>
+    <div class="value-card">
+      <div class="value-item">
+        <div class="value-icon">📱</div>
+        <div>
+          <div class="value-title">Every share card is a mini-ad for your practice</div>
+          <div class="value-desc">When teens post their streak milestones or fumble roasts on Instagram Stories and TikTok, your practice name and logo go with it. Organic reach you don't have to manage.</div>
+        </div>
+      </div>
+      <div class="value-item">
+        <div class="value-icon">🏆</div>
+        <div>
+          <div class="value-title">Leaderboard builds practice identity</div>
+          <div class="value-desc">Your patients compete under your practice name. "Top streaks at Bright Smiles Orthodontics" creates community and pride — patients want to represent your office.</div>
+        </div>
+      </div>
+      <div class="value-item">
+        <div class="value-icon">🎯</div>
+        <div>
+          <div class="value-title">The CTA drives new patients</div>
+          <div class="value-desc">"Get roasted at biteback.app — Bright Smiles Orthodontics" appears on every single share card. Friends see it, ask about it, and look up your practice.</div>
+        </div>
+      </div>
+      <div class="value-item">
+        <div class="value-icon">💰</div>
+        <div>
+          <div class="value-title">This is how $99/month pays for itself</div>
+          <div class="value-desc">One new patient referral from a viral share card covers a full year of BiteBack. Most practices see teens sharing multiple times per month.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="disclaimer">BITEBACK PRACTICE DASHBOARD · PRACTICE LOGOS STORED FOR BRANDING ONLY · NO PHI</div>
+
+</div>
+
+</body>
+</html>
