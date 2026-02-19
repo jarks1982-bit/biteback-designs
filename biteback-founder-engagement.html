@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BiteBack — Founder · Engagement</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Outfit:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #F5F5F0; color: #1A1A1A; font-family: 'Outfit', sans-serif; min-height: 100vh; }
+
+  .topbar { background: #0A0A0A; padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; border-bottom: 2px solid #BFFF00; }
+  .topbar-left { display: flex; align-items: center; gap: 14px; }
+  .tb-logo { font-family: 'Rajdhani'; font-size: 22px; font-weight: 700; letter-spacing: 3px; }
+  .tb-logo .bite { color: #fff; } .tb-logo .back { color: #BFFF00; }
+  .tb-badge { font-family: 'DM Mono'; font-size: 12px; font-weight: 600; letter-spacing: 2px; background: rgba(191,255,0,0.12); color: #BFFF00; border: 1px solid rgba(191,255,0,0.2); padding: 3px 10px; border-radius: 4px; }
+  .tb-divider { width: 1px; height: 20px; background: #333; }
+  .tb-nav { display: flex; gap: 4px; }
+  .tb-nav-item { font-family: 'DM Mono'; font-size: 13px; letter-spacing: 1px; font-weight: 600; padding: 6px 14px; border-radius: 6px; cursor: pointer; color: #666; }
+  .tb-nav-item:hover { color: #999; } .tb-nav-item.active { color: #BFFF00; background: rgba(191,255,0,0.08); }
+  .topbar-right { display: flex; align-items: center; gap: 14px; }
+  .tb-live { display: flex; align-items: center; gap: 6px; font-family: 'DM Mono'; font-size: 12px; color: #4A8500; font-weight: 600; letter-spacing: 1px; }
+  .tb-live-dot { width: 8px; height: 8px; border-radius: 50%; background: #4A8500; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+  .tb-time { font-family: 'DM Mono'; font-size: 12px; color: #555; font-weight: 500; }
+
+  .main { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+  .page-header { margin-bottom: 24px; }
+  .page-title { font-family: 'Rajdhani'; font-size: 28px; font-weight: 700; letter-spacing: 2px; }
+  .page-subtitle { font-family: 'DM Mono'; font-size: 14px; color: #999; letter-spacing: 1px; font-weight: 500; margin-top: 2px; }
+
+  .section { margin-bottom: 28px; }
+  .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .section-title { font-family: 'Rajdhani'; font-size: 20px; font-weight: 700; letter-spacing: 2px; color: #444; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+  .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; }
+  .card { background: #fff; border: 1px solid #E5E5E0; border-radius: 14px; padding: 22px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
+  .card-title { font-family: 'DM Mono'; font-size: 12px; letter-spacing: 2px; color: #999; font-weight: 600; margin-bottom: 14px; }
+
+  /* ══════ KPIs ══════ */
+  .kpi-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-bottom: 28px; }
+  .kpi-card { background: #fff; border: 1px solid #E5E5E0; border-radius: 12px; padding: 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); text-align: center; }
+  .kpi-label { font-family: 'DM Mono'; font-size: 11px; letter-spacing: 2px; color: #999; font-weight: 600; margin-bottom: 8px; }
+  .kpi-value { font-family: 'Rajdhani'; font-size: 40px; font-weight: 700; line-height: 1; }
+  .kpi-value.green { color: #4A8500; } .kpi-value.dark { color: #1A1A1A; } .kpi-value.amber { color: #D4A017; } .kpi-value.red { color: #DC1E3C; }
+  .kpi-delta { font-family: 'DM Mono'; font-size: 12px; font-weight: 600; margin-top: 6px; }
+  .kpi-delta.up { color: #4A8500; } .kpi-delta.down { color: #DC1E3C; } .kpi-delta.flat { color: #999; }
+
+  /* ══════ DAU CHART ══════ */
+  .dau-chart { display: flex; align-items: flex-end; gap: 3px; height: 120px; }
+  .dau-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; }
+  .dau-bar { width: 100%; border-radius: 2px 2px 0 0; min-height: 1px; }
+  .dau-label { font-family: 'DM Mono'; font-size: 8px; color: #ccc; margin-top: 3px; }
+
+  /* ══════ SHARE CARD TYPES ══════ */
+  .share-type-row { display: flex; flex-direction: column; gap: 8px; }
+  .share-type {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px; border-radius: 8px; background: #FAFAF7; border: 1px solid #EEEEE8;
+  }
+  .share-type-icon { font-size: 20px; flex-shrink: 0; }
+  .share-type-info { flex: 1; }
+  .share-type-name { font-family: 'Outfit'; font-size: 14px; font-weight: 600; color: #333; }
+  .share-type-bar-wrap { flex: 1; height: 6px; background: #EEEEE8; border-radius: 3px; overflow: hidden; }
+  .share-type-bar { height: 100%; border-radius: 3px; }
+  .share-type-stats { text-align: right; min-width: 80px; }
+  .share-type-count { font-family: 'Rajdhani'; font-size: 20px; font-weight: 700; }
+  .share-type-pct { font-family: 'DM Mono'; font-size: 11px; color: #bbb; }
+
+  /* ══════ NOTIFICATION STATS ══════ */
+  .notif-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .notif-card {
+    padding: 14px; border-radius: 10px; background: #FAFAF7; border: 1px solid #EEEEE8;
+    text-align: center;
+  }
+  .notif-type { font-family: 'DM Mono'; font-size: 10px; letter-spacing: 1px; color: #999; font-weight: 600; margin-bottom: 6px; }
+  .notif-sent { font-family: 'Rajdhani'; font-size: 22px; font-weight: 700; color: #1A1A1A; line-height: 1; }
+  .notif-rate { font-family: 'DM Mono'; font-size: 11px; color: #bbb; margin-top: 4px; }
+  .notif-rate strong { font-weight: 700; }
+  .notif-rate strong.green { color: #4A8500; }
+  .notif-rate strong.amber { color: #D4A017; }
+  .notif-rate strong.red { color: #DC1E3C; }
+
+  /* ══════ FEATURE USAGE ══════ */
+  .feature-list { display: flex; flex-direction: column; gap: 6px; }
+  .feature-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px; border-radius: 8px; background: #FAFAF7; border: 1px solid #EEEEE8;
+  }
+  .feature-name { font-family: 'Outfit'; font-size: 14px; font-weight: 600; color: #333; min-width: 180px; }
+  .feature-bar-wrap { flex: 1; height: 8px; background: #EEEEE8; border-radius: 4px; overflow: hidden; }
+  .feature-bar { height: 100%; border-radius: 4px; background: #4A8500; }
+  .feature-pct { font-family: 'Rajdhani'; font-size: 20px; font-weight: 700; min-width: 50px; text-align: right; }
+  .feature-pct.high { color: #4A8500; }
+  .feature-pct.mid { color: #D4A017; }
+  .feature-pct.low { color: #DC1E3C; }
+
+  /* ══════ TREATS STATS ══════ */
+  .treat-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .treat-stat {
+    text-align: center; padding: 16px 8px; border-radius: 10px;
+    background: #FAFAF7; border: 1px solid #EEEEE8;
+  }
+  .treat-stat-value { font-family: 'Rajdhani'; font-size: 28px; font-weight: 700; line-height: 1; }
+  .treat-stat-label { font-family: 'DM Mono'; font-size: 10px; letter-spacing: 1px; color: #888; font-weight: 500; margin-top: 6px; }
+
+  /* ══════ REDEMPTION FUNNEL ══════ */
+  .rd-funnel { display: flex; flex-direction: column; gap: 6px; }
+  .rd-step {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px; border-radius: 8px; background: #FAFAF7; border: 1px solid #EEEEE8;
+  }
+  .rd-step-label { font-family: 'DM Mono'; font-size: 12px; color: #888; font-weight: 600; letter-spacing: 1px; min-width: 130px; }
+  .rd-step-bar { flex: 1; height: 8px; background: #EEEEE8; border-radius: 4px; overflow: hidden; }
+  .rd-step-fill { height: 100%; border-radius: 4px; }
+  .rd-step-value { font-family: 'Rajdhani'; font-size: 20px; font-weight: 700; min-width: 50px; text-align: right; }
+  .rd-step-pct { font-family: 'DM Mono'; font-size: 12px; color: #bbb; min-width: 40px; text-align: right; }
+
+  /* ══════ VIRAL COEFFICIENT ══════ */
+  .viral-big {
+    text-align: center; padding: 28px; border-radius: 14px;
+    background: linear-gradient(135deg, rgba(74,133,0,0.04), rgba(74,133,0,0.01));
+    border: 1px solid rgba(74,133,0,0.12);
+  }
+  .viral-big-value { font-family: 'Rajdhani'; font-size: 64px; font-weight: 700; color: #4A8500; line-height: 1; }
+  .viral-big-label { font-family: 'DM Mono'; font-size: 14px; color: #888; letter-spacing: 2px; font-weight: 600; margin-top: 8px; }
+  .viral-big-desc { font-family: 'Outfit'; font-size: 14px; color: #999; font-weight: 500; margin-top: 8px; line-height: 1.5; max-width: 400px; margin-left: auto; margin-right: auto; }
+
+  .viral-breakdown { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 18px; }
+  .viral-stat { text-align: center; padding: 14px 8px; background: #fff; border-radius: 10px; border: 1px solid rgba(74,133,0,0.08); }
+  .viral-stat-value { font-family: 'Rajdhani'; font-size: 26px; font-weight: 700; line-height: 1; }
+  .viral-stat-value.green { color: #4A8500; } .viral-stat-value.dark { color: #1A1A1A; } .viral-stat-value.amber { color: #D4A017; }
+  .viral-stat-label { font-family: 'DM Mono'; font-size: 10px; letter-spacing: 1px; color: #888; font-weight: 500; margin-top: 4px; }
+
+  .disclaimer { font-family: 'DM Mono'; font-size: 12px; color: #ccc; letter-spacing: 1px; font-weight: 500; text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #E5E5E0; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="tb-logo"><span class="bite">BITE</span><span class="back">BACK</span></div>
+    <span class="tb-badge">FOUNDER</span>
+    <div class="tb-divider"></div>
+    <div class="tb-nav">
+      <div class="tb-nav-item">OVERVIEW</div>
+      <div class="tb-nav-item">PRACTICES</div>
+      <div class="tb-nav-item">PATIENTS</div>
+      <div class="tb-nav-item active">ENGAGEMENT</div>
+      <div class="tb-nav-item">REVENUE</div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <div class="tb-live"><div class="tb-live-dot"></div> LIVE</div>
+    <div class="tb-time">FEB 19, 2026 · 11:22 AM</div>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="page-header">
+    <div class="page-title">ENGAGEMENT</div>
+    <div class="page-subtitle">APP USAGE · CHECK-INS · SHARING · NOTIFICATIONS · FEATURE ADOPTION · VIRALITY</div>
+  </div>
+
+  <!-- ══════ KPIs ══════ -->
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-label">DAU</div>
+      <div class="kpi-value green">1,847</div>
+      <div class="kpi-delta up">↑ +12% vs last month</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">MAU</div>
+      <div class="kpi-value dark">2,612</div>
+      <div class="kpi-delta up">↑ +18% vs last month</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">DAU / MAU</div>
+      <div class="kpi-value green">71%</div>
+      <div class="kpi-delta up">↑ from 64%</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">CHECK-INS TODAY</div>
+      <div class="kpi-value dark">1,847</div>
+      <div class="kpi-delta flat">CLUTCH: 1,623 · FUMBLE: 224</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">SHARES THIS MONTH</div>
+      <div class="kpi-value amber">812</div>
+      <div class="kpi-delta up">↑ +34% vs last month</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">NOTIF OPEN RATE</div>
+      <div class="kpi-value green">62%</div>
+      <div class="kpi-delta up">↑ from 57%</div>
+    </div>
+  </div>
+
+  <!-- ══════ DAU TREND + SHARE CARD BREAKDOWN ══════ -->
+  <div class="grid-2" style="margin-bottom:28px;">
+
+    <!-- DAU Trend (30 day) -->
+    <div class="card">
+      <div class="card-title">DAILY ACTIVE USERS · LAST 30 DAYS</div>
+      <div class="dau-chart">
+        <div class="dau-bar-wrap"><div class="dau-bar" style="height:52%; background:#4A8500;"></div><div class="dau-label">21</div></div>
+        <div class="dau-bar-wrap"><div class="dau-bar" style="height:55%; background:#4A8500;"></div></div>
+        <div class="dau-bar-wrap"><div class="dau-bar" style="height:48%; background:#4A8500;"></div></div>
+        <div class="dau-bar-wrap"><div class="dau-bar" style="height:42%; background:#D4A017;"></div></div>
+        <div class="dau-bar-wrap"><div class="dau-bar" style="height:38%; background:#D4A017;"></div><div class="dau-label">25</div></div>
+        <div class="dau-bar-wrap"><div class="dau-bar" style="height:56%; background:#4A8500;"></div></div>
+        <div class="dau-bar-wrap"><div class="dau-bar" style="height:60%; background:#4A8500;"></div></div>
+        <div class="dau-bar-wrap"><div class="dau-bar" style="height:58%; background:#4A8500;"></div></div>
+        <div class="dau-bar-wrap"><div class="dau-bar" style="height:62%; background:#4A8500;"></div></div>
+        <div class="dau-bar-wrap"><div class="dau-bar" style="height:59%; background:#4A8500;"></div></div>
+        <div class="dau-bar-wrap"><div class="dau-bar" style="height:45%; background:#D4A017;"></div><div class="dau-label">31</div></div>
+        <div class="dau-bar-wrap"><div class="dau-bar" style="height:40%; background:#D4A017;"></div></div>
+        <div class="dau-bar-wrap"><div class="dau-bar" style="height:64%; background:#4A8500;"></div></div>
+        <div class="dau-bar-wrap"><div class="dau-bar" style="height:68%; background:#4A8500;"></div></div>
+        <div class="dau-bar-wrap"><div class="dau-bar" style="height:66%; background:#4A8500;"></div><div class="dau-label">4</div></div>
+        <div class="dau-bar-wrap"><div class="dau-bar" style="height:70%; background:#4A8500;"></div></div>
+        <div class="dau-bar-wrap"><div class="dau-bar" style="height:67%; background:#4A8500;"></div></div>
+        <div class="dau-bar-wrap"><div class="dau-bar" style="height:48%; background:#D4A017;"></div></div>
+        <div class="dau-bar-wrap"><div class="dau-bar" style="height:44%; background:#D4A017;"></div></div>
+        <div class="dau-bar-wrap"><div class="dau-bar" style="height:72%; background:#4A8500;"></div><div class="dau-label">10</div></div>
+        <div class="dau-bar-wrap"><div class="dau-bar" style="height:75%; background:#4A8500;"></div></div>
+        <div class="dau-bar-wrap"><div class="dau-bar" style="height:78%; background:#4A8500;"></div></div>
+        <div class="dau-bar-wrap"><div class="dau-bar" style="height:74%; background:#4A8500;"></div></div>
+        <div class="dau-bar-wrap"><div class="dau-bar" style="height:80%; background:#4A8500;"></div></div>
+        <div class="dau-bar-wrap"><div class="dau-bar" style="height:50%; background:#D4A017;"></div><div class="dau-label">15</div></div>
+        <div class="dau-bar-wrap"><div class="dau-bar" style="height:46%; background:#D4A017;"></div></div>
+        <div class="dau-bar-wrap"><div class="dau-bar" style="height:82%; background:#4A8500;"></div></div>
+        <div class="dau-bar-wrap"><div class="dau-bar" style="height:85%; background:#4A8500;"></div></div>
+        <div class="dau-bar-wrap"><div class="dau-bar" style="height:88%; background:#4A8500;"></div></div>
+        <div class="dau-bar-wrap"><div class="dau-bar" style="height:92%; background:linear-gradient(180deg,#4A8500,#7BC62D);"></div><div class="dau-label">19</div></div>
+      </div>
+      <div style="font-family:'DM Mono'; font-size:11px; color:#bbb; margin-top:10px; text-align:center;">
+        WEEKDAY AVG: <strong style="color:#4A8500;">1,780</strong> · WEEKEND AVG: <strong style="color:#D4A017;">1,320</strong> · WEEKEND DROP: -26%
+      </div>
+    </div>
+
+    <!-- Share Card Breakdown -->
+    <div class="card">
+      <div class="card-title">SHARE CARDS · THIS MONTH</div>
+      <div class="share-type-row">
+        <div class="share-type">
+          <div class="share-type-icon">🔥</div>
+          <div class="share-type-name">Streak Milestone</div>
+          <div class="share-type-bar-wrap"><div class="share-type-bar" style="width:100%; background:#4A8500;"></div></div>
+          <div class="share-type-stats"><div class="share-type-count" style="color:#4A8500;">524</div><div class="share-type-pct">42%</div></div>
+        </div>
+        <div class="share-type">
+          <div class="share-type-icon">💀</div>
+          <div class="share-type-name">Fumble Roast</div>
+          <div class="share-type-bar-wrap"><div class="share-type-bar" style="width:67%; background:#DC1E3C;"></div></div>
+          <div class="share-type-stats"><div class="share-type-count" style="color:#DC1E3C;">350</div><div class="share-type-pct">28%</div></div>
+        </div>
+        <div class="share-type">
+          <div class="share-type-icon">⭐</div>
+          <div class="share-type-name">Tier-Up</div>
+          <div class="share-type-bar-wrap"><div class="share-type-bar" style="width:36%; background:#B8860B;"></div></div>
+          <div class="share-type-stats"><div class="share-type-count" style="color:#B8860B;">187</div><div class="share-type-pct">15%</div></div>
+        </div>
+        <div class="share-type">
+          <div class="share-type-icon">⏳</div>
+          <div class="share-type-name">Countdown</div>
+          <div class="share-type-bar-wrap"><div class="share-type-bar" style="width:14%; background:#888;"></div></div>
+          <div class="share-type-stats"><div class="share-type-count" style="color:#888;">75</div><div class="share-type-pct">6%</div></div>
+        </div>
+        <div class="share-type">
+          <div class="share-type-icon">🏆</div>
+          <div class="share-type-name">Leaderboard Rank</div>
+          <div class="share-type-bar-wrap"><div class="share-type-bar" style="width:10%; background:#888;"></div></div>
+          <div class="share-type-stats"><div class="share-type-count" style="color:#888;">62</div><div class="share-type-pct">5%</div></div>
+        </div>
+        <div class="share-type">
+          <div class="share-type-icon">🩺</div>
+          <div class="share-type-name">Doctor Update</div>
+          <div class="share-type-bar-wrap"><div class="share-type-bar" style="width:10%; background:#888;"></div></div>
+          <div class="share-type-stats"><div class="share-type-count" style="color:#888;">49</div><div class="share-type-pct">4%</div></div>
+        </div>
+      </div>
+      <div style="font-family:'DM Mono'; font-size:11px; color:#bbb; margin-top:12px; text-align:center;">
+        TOTAL: <strong style="color:#1A1A1A;">1,247</strong> CREATED · <strong style="color:#4A8500;">812</strong> ACTUALLY SHARED (65% SHARE-THROUGH)
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ NOTIFICATIONS + FEATURE USAGE ══════ -->
+  <div class="grid-2" style="margin-bottom:28px;">
+
+    <!-- Notification Performance -->
+    <div class="card">
+      <div class="card-title">PUSH NOTIFICATION PERFORMANCE · THIS MONTH</div>
+      <div class="notif-grid">
+        <div class="notif-card">
+          <div class="notif-type">DAILY REMINDER</div>
+          <div class="notif-sent">68,412</div>
+          <div class="notif-rate">OPEN: <strong class="green">71%</strong></div>
+        </div>
+        <div class="notif-card">
+          <div class="notif-type">FOLLOW-UP</div>
+          <div class="notif-sent">12,847</div>
+          <div class="notif-rate">OPEN: <strong class="amber">48%</strong></div>
+        </div>
+        <div class="notif-card">
+          <div class="notif-type">FUMBLE ALERT</div>
+          <div class="notif-sent">8,291</div>
+          <div class="notif-rate">OPEN: <strong class="green">82%</strong></div>
+        </div>
+        <div class="notif-card">
+          <div class="notif-type">STREAK MILESTONE</div>
+          <div class="notif-sent">4,127</div>
+          <div class="notif-rate">OPEN: <strong class="green">89%</strong></div>
+        </div>
+        <div class="notif-card">
+          <div class="notif-type">DOCTOR ADJUST</div>
+          <div class="notif-sent">891</div>
+          <div class="notif-rate">OPEN: <strong class="green">94%</strong></div>
+        </div>
+        <div class="notif-card">
+          <div class="notif-type">LEADERBOARD</div>
+          <div class="notif-sent">6,512</div>
+          <div class="notif-rate">OPEN: <strong class="amber">55%</strong></div>
+        </div>
+        <div class="notif-card">
+          <div class="notif-type">TREAT UNLOCKED</div>
+          <div class="notif-sent">1,204</div>
+          <div class="notif-rate">OPEN: <strong class="green">91%</strong></div>
+        </div>
+        <div class="notif-card">
+          <div class="notif-type">OFFICE OVERRIDE</div>
+          <div class="notif-sent">1,847</div>
+          <div class="notif-rate">OPEN: <strong class="green">88%</strong></div>
+        </div>
+        <div class="notif-card">
+          <div class="notif-type">FORECAST UPDATE</div>
+          <div class="notif-sent">32,018</div>
+          <div class="notif-rate">OPEN: <strong class="green">63%</strong></div>
+        </div>
+      </div>
+      <div style="font-family:'DM Mono'; font-size:11px; color:#bbb; margin-top:12px; text-align:center;">
+        OVERALL OPEN RATE: <strong style="color:#4A8500;">62%</strong> · OPT-OUT RATE: <strong style="color:#4A8500;">3.2%</strong> · MAX 2/DAY ENFORCED
+      </div>
+    </div>
+
+    <!-- Feature Usage -->
+    <div class="card">
+      <div class="card-title">PATIENT FEATURE ADOPTION · % WHO USE REGULARLY</div>
+      <div class="feature-list">
+        <div class="feature-item">
+          <div class="feature-name">Daily Check-in</div>
+          <div class="feature-bar-wrap"><div class="feature-bar" style="width:94%;"></div></div>
+          <div class="feature-pct high">94%</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-name">Treatment Countdown</div>
+          <div class="feature-bar-wrap"><div class="feature-bar" style="width:87%;"></div></div>
+          <div class="feature-pct high">87%</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-name">Leaderboard</div>
+          <div class="feature-bar-wrap"><div class="feature-bar" style="width:72%;"></div></div>
+          <div class="feature-pct high">72%</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-name">Share Cards</div>
+          <div class="feature-bar-wrap"><div class="feature-bar" style="width:45%; background:#D4A017;"></div></div>
+          <div class="feature-pct mid">45%</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-name">Redemption Quest</div>
+          <div class="feature-bar-wrap"><div class="feature-bar" style="width:38%; background:#D4A017;"></div></div>
+          <div class="feature-pct mid">38%</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-name">Stats / Weekly Recap</div>
+          <div class="feature-bar-wrap"><div class="feature-bar" style="width:34%; background:#D4A017;"></div></div>
+          <div class="feature-pct mid">34%</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-name">Selfie Capture</div>
+          <div class="feature-bar-wrap"><div class="feature-bar" style="width:28%; background:#DC1E3C;"></div></div>
+          <div class="feature-pct low">28%</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-name">Accountability Partner</div>
+          <div class="feature-bar-wrap"><div class="feature-bar" style="width:19%; background:#DC1E3C;"></div></div>
+          <div class="feature-pct low">19%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ TREATS + REDEMPTION ══════ -->
+  <div class="grid-2" style="margin-bottom:28px;">
+
+    <div class="card">
+      <div class="card-title">TREATS · PLATFORM-WIDE</div>
+      <div class="treat-stats">
+        <div class="treat-stat">
+          <div class="treat-stat-value" style="color:#1A1A1A;">247</div>
+          <div class="treat-stat-label">TREATS CREATED</div>
+        </div>
+        <div class="treat-stat">
+          <div class="treat-stat-value" style="color:#4A8500;">1,892</div>
+          <div class="treat-stat-label">EARNED BY PATIENTS</div>
+        </div>
+        <div class="treat-stat">
+          <div class="treat-stat-value" style="color:#4A8500;">1,204</div>
+          <div class="treat-stat-label">FULFILLED</div>
+        </div>
+        <div class="treat-stat">
+          <div class="treat-stat-value" style="color:#D4A017;">688</div>
+          <div class="treat-stat-label">PENDING</div>
+        </div>
+      </div>
+      <div style="font-family:'DM Mono'; font-size:11px; color:#bbb; margin-top:14px; text-align:center;">
+        FULFILLMENT RATE: <strong style="color:#4A8500;">64%</strong> · AVG TIME TO FULFILL: <strong style="color:#1A1A1A;">12 DAYS</strong>
+      </div>
+      <div style="font-family:'DM Mono'; font-size:11px; color:#bbb; margin-top:6px; text-align:center;">
+        MOST POPULAR: <strong style="color:#1A1A1A;">$10 GIFT CARD (30d)</strong> · HIGHEST MOTIVATION: <strong style="color:#1A1A1A;">AIRPODS RAFFLE (90d)</strong>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">REDEMPTION QUEST · PLATFORM-WIDE</div>
+      <div class="rd-funnel">
+        <div class="rd-step">
+          <div class="rd-step-label">FUMBLES TOTAL</div>
+          <div class="rd-step-bar"><div class="rd-step-fill" style="width:100%; background:#DC1E3C;"></div></div>
+          <div class="rd-step-value" style="color:#DC1E3C;">4,218</div>
+          <div class="rd-step-pct">100%</div>
+        </div>
+        <div class="rd-step">
+          <div class="rd-step-label">QUEST TRIGGERED</div>
+          <div class="rd-step-bar"><div class="rd-step-fill" style="width:74%; background:#D4A017;"></div></div>
+          <div class="rd-step-value" style="color:#D4A017;">3,121</div>
+          <div class="rd-step-pct">74%</div>
+        </div>
+        <div class="rd-step">
+          <div class="rd-step-label">QUEST STARTED</div>
+          <div class="rd-step-bar"><div class="rd-step-fill" style="width:58%; background:#D4A017;"></div></div>
+          <div class="rd-step-value" style="color:#D4A017;">2,446</div>
+          <div class="rd-step-pct">58%</div>
+        </div>
+        <div class="rd-step">
+          <div class="rd-step-label">DAY 1 COMPLETE</div>
+          <div class="rd-step-bar"><div class="rd-step-fill" style="width:51%; background:#4A8500;"></div></div>
+          <div class="rd-step-value" style="color:#4A8500;">2,151</div>
+          <div class="rd-step-pct">51%</div>
+        </div>
+        <div class="rd-step">
+          <div class="rd-step-label">DAY 2 COMPLETE</div>
+          <div class="rd-step-bar"><div class="rd-step-fill" style="width:42%; background:#4A8500;"></div></div>
+          <div class="rd-step-value" style="color:#4A8500;">1,772</div>
+          <div class="rd-step-pct">42%</div>
+        </div>
+        <div class="rd-step">
+          <div class="rd-step-label">QUEST COMPLETE</div>
+          <div class="rd-step-bar"><div class="rd-step-fill" style="width:38%; background:#4A8500;"></div></div>
+          <div class="rd-step-value" style="color:#4A8500;">1,564</div>
+          <div class="rd-step-pct">64%*</div>
+        </div>
+      </div>
+      <div style="font-family:'DM Mono'; font-size:11px; color:#bbb; margin-top:10px; text-align:center;">
+        *64% OF THOSE WHO START COMPLETE ALL 3 DAYS · <strong style="color:#4A8500;">BIGGEST DROP: QUEST START (DAY 0→1)</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ VIRAL COEFFICIENT ══════ -->
+  <div class="section">
+    <div class="viral-big">
+      <div class="viral-big-value">0.31</div>
+      <div class="viral-big-label">ESTIMATED VIRAL COEFFICIENT (K-FACTOR)</div>
+      <div class="viral-big-desc">For every 10 patients, share cards generate approximately 3.1 new app downloads. Not yet self-sustaining (K &gt; 1.0), but strong for a vertical health app. Fumble roast cards drive the most virality.</div>
+      <div class="viral-breakdown">
+        <div class="viral-stat">
+          <div class="viral-stat-value green">812</div>
+          <div class="viral-stat-label">SHARES THIS MONTH</div>
+        </div>
+        <div class="viral-stat">
+          <div class="viral-stat-value dark">~24K</div>
+          <div class="viral-stat-label">EST. IMPRESSIONS</div>
+        </div>
+        <div class="viral-stat">
+          <div class="viral-stat-value amber">487</div>
+          <div class="viral-stat-label">CLICK-THROUGHS</div>
+        </div>
+        <div class="viral-stat">
+          <div class="viral-stat-value green">142</div>
+          <div class="viral-stat-label">APP DOWNLOADS</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="disclaimer">BITEBACK FOUNDER DASHBOARD · INTERNAL USE ONLY · ENGAGEMENT DATA PLATFORM-WIDE</div>
+
+</div>
+</body>
+</html>

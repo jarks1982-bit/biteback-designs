@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BiteBack — Founder · Patients</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Outfit:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #F5F5F0; color: #1A1A1A; font-family: 'Outfit', sans-serif; min-height: 100vh; }
+
+  .topbar { background: #0A0A0A; padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; border-bottom: 2px solid #BFFF00; }
+  .topbar-left { display: flex; align-items: center; gap: 14px; }
+  .tb-logo { font-family: 'Rajdhani'; font-size: 22px; font-weight: 700; letter-spacing: 3px; }
+  .tb-logo .bite { color: #fff; } .tb-logo .back { color: #BFFF00; }
+  .tb-badge { font-family: 'DM Mono'; font-size: 12px; font-weight: 600; letter-spacing: 2px; background: rgba(191,255,0,0.12); color: #BFFF00; border: 1px solid rgba(191,255,0,0.2); padding: 3px 10px; border-radius: 4px; }
+  .tb-divider { width: 1px; height: 20px; background: #333; }
+  .tb-nav { display: flex; gap: 4px; }
+  .tb-nav-item { font-family: 'DM Mono'; font-size: 13px; letter-spacing: 1px; font-weight: 600; padding: 6px 14px; border-radius: 6px; cursor: pointer; color: #666; }
+  .tb-nav-item:hover { color: #999; } .tb-nav-item.active { color: #BFFF00; background: rgba(191,255,0,0.08); }
+  .topbar-right { display: flex; align-items: center; gap: 14px; }
+  .tb-live { display: flex; align-items: center; gap: 6px; font-family: 'DM Mono'; font-size: 12px; color: #4A8500; font-weight: 600; letter-spacing: 1px; }
+  .tb-live-dot { width: 8px; height: 8px; border-radius: 50%; background: #4A8500; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+  .tb-time { font-family: 'DM Mono'; font-size: 12px; color: #555; font-weight: 500; }
+
+  .main { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+  .page-header { margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; }
+  .page-title { font-family: 'Rajdhani'; font-size: 28px; font-weight: 700; letter-spacing: 2px; }
+  .page-subtitle { font-family: 'DM Mono'; font-size: 14px; color: #999; letter-spacing: 1px; font-weight: 500; margin-top: 2px; }
+
+  .section { margin-bottom: 28px; }
+  .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .section-title { font-family: 'Rajdhani'; font-size: 20px; font-weight: 700; letter-spacing: 2px; color: #444; }
+  .section-badge { font-family: 'DM Mono'; font-size: 12px; font-weight: 600; letter-spacing: 1px; padding: 4px 10px; border-radius: 5px; }
+  .section-badge.green { background: rgba(74,133,0,0.06); color: #4A8500; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+  .card { background: #fff; border: 1px solid #E5E5E0; border-radius: 14px; padding: 22px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
+  .card-title { font-family: 'DM Mono'; font-size: 12px; letter-spacing: 2px; color: #999; font-weight: 600; margin-bottom: 14px; }
+
+  /* ══════ KPIs ══════ */
+  .kpi-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-bottom: 28px; }
+  .kpi-card { background: #fff; border: 1px solid #E5E5E0; border-radius: 12px; padding: 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); text-align: center; }
+  .kpi-label { font-family: 'DM Mono'; font-size: 11px; letter-spacing: 2px; color: #999; font-weight: 600; margin-bottom: 8px; }
+  .kpi-value { font-family: 'Rajdhani'; font-size: 40px; font-weight: 700; line-height: 1; }
+  .kpi-value.green { color: #4A8500; } .kpi-value.dark { color: #1A1A1A; } .kpi-value.amber { color: #D4A017; } .kpi-value.red { color: #DC1E3C; }
+  .kpi-delta { font-family: 'DM Mono'; font-size: 12px; font-weight: 600; margin-top: 6px; }
+  .kpi-delta.up { color: #4A8500; } .kpi-delta.down { color: #DC1E3C; } .kpi-delta.flat { color: #999; }
+
+  /* ══════ HISTOGRAM ══════ */
+  .histo-wrap { display: flex; align-items: flex-end; gap: 4px; height: 120px; padding: 0 4px; }
+  .histo-col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; }
+  .histo-bar { width: 100%; border-radius: 3px 3px 0 0; min-height: 2px; }
+  .histo-label { font-family: 'DM Mono'; font-size: 9px; color: #bbb; font-weight: 500; margin-top: 4px; text-align: center; line-height: 1.2; }
+  .histo-val { font-family: 'DM Mono'; font-size: 11px; font-weight: 700; margin-bottom: 2px; }
+
+  /* ══════ TIER DISTRIBUTION ══════ */
+  .tier-row { display: flex; flex-direction: column; gap: 8px; }
+  .tier-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 8px; background: #FAFAF7; border: 1px solid #EEEEE8; }
+  .tier-icon { font-size: 20px; flex-shrink: 0; }
+  .tier-name { font-family: 'Outfit'; font-size: 14px; font-weight: 700; color: #333; min-width: 120px; }
+  .tier-bar-wrap { flex: 1; height: 8px; background: #EEEEE8; border-radius: 4px; overflow: hidden; }
+  .tier-bar { height: 100%; border-radius: 4px; }
+  .tier-count { font-family: 'Rajdhani'; font-size: 20px; font-weight: 700; min-width: 50px; text-align: right; }
+  .tier-pct { font-family: 'DM Mono'; font-size: 12px; color: #bbb; font-weight: 500; min-width: 40px; text-align: right; }
+
+  /* ══════ COMPLIANCE CURVE ══════ */
+  .curve-wrap { position: relative; height: 140px; margin-top: 10px; }
+  .curve-grid { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; }
+  .curve-gridline { border-top: 1px dashed #EEEEE8; position: relative; }
+  .curve-gridlabel { position: absolute; left: -30px; top: -7px; font-family: 'DM Mono'; font-size: 10px; color: #ccc; font-weight: 500; }
+  .curve-area {
+    position: absolute; bottom: 0; left: 30px; right: 10px; height: 120px;
+  }
+  .curve-svg { width: 100%; height: 100%; }
+  .curve-x-labels { display: flex; justify-content: space-between; padding: 4px 30px 0 30px; }
+  .curve-x { font-family: 'DM Mono'; font-size: 10px; color: #bbb; font-weight: 500; }
+
+  /* ══════ TRACK SPLIT ══════ */
+  .track-split { display: flex; gap: 14px; align-items: center; justify-content: center; padding: 10px 0; }
+  .track-donut {
+    width: 100px; height: 100px; border-radius: 50%; position: relative;
+    background: conic-gradient(#4A8500 0% 62%, #D4A017 62% 100%);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .track-donut-inner {
+    width: 60px; height: 60px; border-radius: 50%; background: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Rajdhani'; font-size: 20px; font-weight: 700; color: #1A1A1A;
+  }
+  .track-legend { display: flex; flex-direction: column; gap: 8px; }
+  .track-legend-item { display: flex; align-items: center; gap: 8px; }
+  .track-dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+  .track-legend-text { font-family: 'Outfit'; font-size: 14px; font-weight: 600; color: #555; }
+  .track-legend-count { font-family: 'DM Mono'; font-size: 13px; color: #999; font-weight: 500; }
+
+  /* ══════ FUMBLE PATTERNS ══════ */
+  .heatmap-grid { display: grid; grid-template-columns: auto repeat(24, 1fr); gap: 2px; }
+  .heatmap-header { font-family: 'DM Mono'; font-size: 9px; color: #bbb; text-align: center; padding: 2px; }
+  .heatmap-label { font-family: 'DM Mono'; font-size: 10px; color: #999; font-weight: 500; padding-right: 6px; display: flex; align-items: center; }
+  .heatmap-cell { aspect-ratio: 1; border-radius: 2px; min-width: 0; }
+  .heatmap-cell.h0 { background: #EEEEE8; }
+  .heatmap-cell.h1 { background: rgba(220,30,60,0.1); }
+  .heatmap-cell.h2 { background: rgba(220,30,60,0.25); }
+  .heatmap-cell.h3 { background: rgba(220,30,60,0.45); }
+  .heatmap-cell.h4 { background: rgba(220,30,60,0.7); }
+
+  /* ══════ TABLE ══════ */
+  .table-wrap { background: #fff; border: 1px solid #E5E5E0; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
+  .table-toolbar { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border-bottom: 1px solid #F0F0EB; }
+  .search-box { display: flex; align-items: center; gap: 8px; background: #F5F5F0; border: 1px solid #E5E5E0; border-radius: 8px; padding: 7px 12px; width: 280px; }
+  .search-box input { background: none; border: none; outline: none; color: #333; font-family: 'Outfit'; font-size: 15px; font-weight: 500; width: 100%; }
+  .search-box input::placeholder { color: #bbb; }
+  .filter-chips { display: flex; gap: 6px; }
+  .chip { font-family: 'DM Mono'; font-size: 13px; letter-spacing: 1px; font-weight: 500; padding: 6px 12px; border-radius: 6px; cursor: pointer; background: #F5F5F0; border: 1px solid #E5E5E0; color: #999; }
+  .chip.active { border-color: rgba(74,133,0,0.25); color: #4A8500; background: rgba(74,133,0,0.04); }
+
+  table { width: 100%; border-collapse: collapse; }
+  thead th { font-family: 'DM Mono'; font-size: 11px; letter-spacing: 2px; color: #999; font-weight: 600; text-align: left; padding: 10px 14px; border-bottom: 1px solid #F0F0EB; cursor: pointer; }
+  thead th:hover { color: #555; }
+  tbody td { padding: 11px 14px; border-bottom: 1px solid #FAFAF7; font-family: 'Outfit'; font-size: 14px; color: #444; font-weight: 500; }
+  tbody tr:hover { background: #FAFAF7; }
+  .td-mono { font-family: 'DM Mono'; font-size: 13px; font-weight: 500; }
+  .td-bold { font-family: 'Outfit'; font-size: 14px; font-weight: 700; color: #1A1A1A; }
+
+  .risk-badge { font-family: 'DM Mono'; font-size: 11px; font-weight: 600; letter-spacing: 1px; padding: 2px 8px; border-radius: 4px; }
+  .risk-badge.on-track { background: rgba(74,133,0,0.06); color: #4A8500; }
+  .risk-badge.at-risk { background: rgba(212,160,23,0.08); color: #D4A017; }
+  .risk-badge.high-risk { background: rgba(220,30,60,0.06); color: #DC1E3C; }
+
+  .track-badge { font-family: 'DM Mono'; font-size: 11px; font-weight: 600; letter-spacing: 1px; padding: 2px 6px; border-radius: 3px; }
+  .track-badge.aligners { background: rgba(74,133,0,0.06); color: #4A8500; }
+  .track-badge.braces { background: rgba(212,160,23,0.08); color: #D4A017; }
+
+  .premium-badge { font-family: 'DM Mono'; font-size: 10px; font-weight: 600; letter-spacing: 1px; padding: 1px 5px; border-radius: 3px; background: rgba(184,134,11,0.08); color: #B8860B; }
+
+  .table-footer { display: flex; justify-content: space-between; align-items: center; padding: 12px 18px; border-top: 1px solid #F0F0EB; }
+  .table-count { font-family: 'DM Mono'; font-size: 13px; color: #999; font-weight: 500; }
+
+  .disclaimer { font-family: 'DM Mono'; font-size: 12px; color: #ccc; letter-spacing: 1px; font-weight: 500; text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #E5E5E0; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="tb-logo"><span class="bite">BITE</span><span class="back">BACK</span></div>
+    <span class="tb-badge">FOUNDER</span>
+    <div class="tb-divider"></div>
+    <div class="tb-nav">
+      <div class="tb-nav-item">OVERVIEW</div>
+      <div class="tb-nav-item">PRACTICES</div>
+      <div class="tb-nav-item active">PATIENTS</div>
+      <div class="tb-nav-item">ENGAGEMENT</div>
+      <div class="tb-nav-item">REVENUE</div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <div class="tb-live"><div class="tb-live-dot"></div> LIVE</div>
+    <div class="tb-time">FEB 19, 2026 · 11:22 AM</div>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="page-header">
+    <div>
+      <div class="page-title">PATIENTS</div>
+      <div class="page-subtitle">PLATFORM-WIDE PATIENT METRICS · COMPLIANCE · STREAKS · TIERS · BEHAVIORAL PATTERNS</div>
+    </div>
+  </div>
+
+  <!-- ══════ KPIs ══════ -->
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-label">TOTAL PATIENTS</div>
+      <div class="kpi-value dark">2,847</div>
+      <div class="kpi-delta up">↑ +412 this month</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">AVG COMPLIANCE</div>
+      <div class="kpi-value green">87%</div>
+      <div class="kpi-delta up">↑ +2% vs last month</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">AVG STREAK</div>
+      <div class="kpi-value green">18.4d</div>
+      <div class="kpi-delta up">↑ from 15.1d</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">FUMBLE RATE</div>
+      <div class="kpi-value amber">12%</div>
+      <div class="kpi-delta up">↓ improved from 15%</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">PREMIUM</div>
+      <div class="kpi-value dark">284</div>
+      <div class="kpi-delta flat">10% of total</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">REDEMPTION RATE</div>
+      <div class="kpi-value green">64%</div>
+      <div class="kpi-delta up">↑ from 58%</div>
+    </div>
+  </div>
+
+  <!-- ══════ STREAK HISTOGRAM + TIER DISTRIBUTION ══════ -->
+  <div class="grid-2" style="margin-bottom:28px;">
+
+    <!-- Streak Distribution -->
+    <div class="card">
+      <div class="card-title">STREAK DISTRIBUTION · ALL PATIENTS</div>
+      <div class="histo-wrap">
+        <div class="histo-col">
+          <div class="histo-val" style="color:#DC1E3C;">342</div>
+          <div class="histo-bar" style="height:35%; background:#DC1E3C;"></div>
+          <div class="histo-label">0d</div>
+        </div>
+        <div class="histo-col">
+          <div class="histo-val" style="color:#D4A017;">487</div>
+          <div class="histo-bar" style="height:50%; background:#D4A017;"></div>
+          <div class="histo-label">1-7d</div>
+        </div>
+        <div class="histo-col">
+          <div class="histo-val" style="color:#4A8500;">612</div>
+          <div class="histo-bar" style="height:63%; background:#4A8500;"></div>
+          <div class="histo-label">8-14d</div>
+        </div>
+        <div class="histo-col">
+          <div class="histo-val" style="color:#4A8500;">521</div>
+          <div class="histo-bar" style="height:53%; background:#4A8500;"></div>
+          <div class="histo-label">15-30d</div>
+        </div>
+        <div class="histo-col">
+          <div class="histo-val" style="color:#4A8500;">398</div>
+          <div class="histo-bar" style="height:41%; background:#4A8500;"></div>
+          <div class="histo-label">31-60d</div>
+        </div>
+        <div class="histo-col">
+          <div class="histo-val" style="color:#4A8500;">312</div>
+          <div class="histo-bar" style="height:32%; background: linear-gradient(180deg, #B8860B, #D4A017);"></div>
+          <div class="histo-label">61-90d</div>
+        </div>
+        <div class="histo-col">
+          <div class="histo-val" style="color:#B8860B;">175</div>
+          <div class="histo-bar" style="height:18%; background: linear-gradient(180deg, #B8860B, #FFD700);"></div>
+          <div class="histo-label">90+d</div>
+        </div>
+      </div>
+      <div style="font-family:'DM Mono'; font-size:11px; color:#bbb; margin-top:12px; text-align:center;">
+        MEDIAN STREAK: <strong style="color:#4A8500;">16d</strong> · LONGEST: <strong style="color:#B8860B;">127d</strong> · 88% HAVE ACTIVE STREAK
+      </div>
+    </div>
+
+    <!-- Tier Distribution -->
+    <div class="card">
+      <div class="card-title">TIER DISTRIBUTION · ALL PATIENTS</div>
+      <div class="tier-row">
+        <div class="tier-item">
+          <div class="tier-icon">🦷</div>
+          <div class="tier-name">Snagglefang</div>
+          <div class="tier-bar-wrap"><div class="tier-bar" style="width:36%; background:#888;"></div></div>
+          <div class="tier-count" style="color:#888;">1,025</div>
+          <div class="tier-pct">36%</div>
+        </div>
+        <div class="tier-item">
+          <div class="tier-icon">⚡</div>
+          <div class="tier-name">Wire Warrior</div>
+          <div class="tier-bar-wrap"><div class="tier-bar" style="width:28%; background:#4A8500;"></div></div>
+          <div class="tier-count" style="color:#4A8500;">797</div>
+          <div class="tier-pct">28%</div>
+        </div>
+        <div class="tier-item">
+          <div class="tier-icon">🪖</div>
+          <div class="tier-name">Smile Soldier</div>
+          <div class="tier-bar-wrap"><div class="tier-bar" style="width:19%; background:#4A8500;"></div></div>
+          <div class="tier-count" style="color:#4A8500;">541</div>
+          <div class="tier-pct">19%</div>
+        </div>
+        <div class="tier-item">
+          <div class="tier-icon">💎</div>
+          <div class="tier-name">Brace Face Elite</div>
+          <div class="tier-bar-wrap"><div class="tier-bar" style="width:11%; background:#B8860B;"></div></div>
+          <div class="tier-count" style="color:#B8860B;">313</div>
+          <div class="tier-pct">11%</div>
+        </div>
+        <div class="tier-item">
+          <div class="tier-icon">🏆</div>
+          <div class="tier-name">Titanium</div>
+          <div class="tier-bar-wrap"><div class="tier-bar" style="width:6%; background:linear-gradient(90deg, #B8860B, #FFD700);"></div></div>
+          <div class="tier-count" style="color:#B8860B;">171</div>
+          <div class="tier-pct">6%</div>
+        </div>
+      </div>
+      <div style="font-family:'DM Mono'; font-size:11px; color:#bbb; margin-top:12px; text-align:center;">
+        TOP-TIER (TITANIUM) PATIENTS HAVE 94% AVG COMPLIANCE vs 71% FOR SNAGGLEFANG
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ COMPLIANCE DECAY + TRACK SPLIT ══════ -->
+  <div class="grid-2" style="margin-bottom:28px;">
+
+    <!-- Compliance Over Treatment Duration -->
+    <div class="card">
+      <div class="card-title">COMPLIANCE DECAY OVER TREATMENT DURATION</div>
+      <div style="font-family:'Outfit'; font-size:13px; color:#888; margin-bottom:10px;">Average compliance % by month of treatment — the key insight for PFDE tuning</div>
+      <div class="curve-wrap">
+        <div class="curve-area">
+          <svg class="curve-svg" viewBox="0 0 400 120" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="curveGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#4A8500" stop-opacity="0.15"/>
+                <stop offset="100%" stop-color="#4A8500" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <path d="M0,8 C30,6 50,8 80,12 C110,16 140,22 170,30 C200,38 230,44 260,52 C290,58 320,62 350,70 C370,75 390,80 400,84 L400,120 L0,120 Z" fill="url(#curveGrad)"/>
+            <path d="M0,8 C30,6 50,8 80,12 C110,16 140,22 170,30 C200,38 230,44 260,52 C290,58 320,62 350,70 C370,75 390,80 400,84" stroke="#4A8500" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <!-- Danger zone line at 70% -->
+            <line x1="0" y1="36" x2="400" y2="36" stroke="#DC1E3C" stroke-width="1" stroke-dasharray="4,4" opacity="0.4"/>
+            <text x="404" y="40" font-family="DM Mono" font-size="9" fill="#DC1E3C" opacity="0.6">70%</text>
+          </svg>
+        </div>
+      </div>
+      <div class="curve-x-labels">
+        <div class="curve-x">MO 1<br><span style="color:#4A8500;">94%</span></div>
+        <div class="curve-x">MO 3<br><span style="color:#4A8500;">90%</span></div>
+        <div class="curve-x">MO 6<br><span style="color:#4A8500;">85%</span></div>
+        <div class="curve-x">MO 9<br><span style="color:#D4A017;">80%</span></div>
+        <div class="curve-x">MO 12<br><span style="color:#D4A017;">75%</span></div>
+        <div class="curve-x">MO 18<br><span style="color:#D4A017;">72%</span></div>
+      </div>
+      <div style="font-family:'DM Mono'; font-size:11px; color:#bbb; margin-top:10px; text-align:center;">
+        BIGGEST DROP: MONTH 4-6 (−5%). TREAT MILESTONES AT 30d AND 60d FLATTEN THE CURVE.
+      </div>
+    </div>
+
+    <!-- Track Split + Fumble Heatmap -->
+    <div class="card">
+      <div class="card-title">TRACK SPLIT</div>
+      <div class="track-split">
+        <div class="track-donut">
+          <div class="track-donut-inner">2,847</div>
+        </div>
+        <div class="track-legend">
+          <div class="track-legend-item">
+            <div class="track-dot" style="background:#4A8500;"></div>
+            <div class="track-legend-text">Aligners</div>
+            <div class="track-legend-count">1,765 (62%)</div>
+          </div>
+          <div class="track-legend-item">
+            <div class="track-dot" style="background:#D4A017;"></div>
+            <div class="track-legend-text">Braces</div>
+            <div class="track-legend-count">1,082 (38%)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-title" style="margin-top:18px;">FUMBLE HEATMAP · HOUR OF DAY</div>
+      <div style="font-family:'Outfit'; font-size:12px; color:#999; margin-bottom:8px;">When fumbles happen across all patients (darker = more fumbles)</div>
+      <div class="heatmap-grid">
+        <div class="heatmap-label"></div>
+        <div class="heatmap-header">12a</div><div class="heatmap-header"></div><div class="heatmap-header"></div>
+        <div class="heatmap-header"></div><div class="heatmap-header"></div><div class="heatmap-header">6a</div>
+        <div class="heatmap-header"></div><div class="heatmap-header"></div><div class="heatmap-header"></div>
+        <div class="heatmap-header"></div><div class="heatmap-header"></div><div class="heatmap-header">12p</div>
+        <div class="heatmap-header"></div><div class="heatmap-header"></div><div class="heatmap-header"></div>
+        <div class="heatmap-header"></div><div class="heatmap-header"></div><div class="heatmap-header">6p</div>
+        <div class="heatmap-header"></div><div class="heatmap-header"></div><div class="heatmap-header"></div>
+        <div class="heatmap-header"></div><div class="heatmap-header"></div><div class="heatmap-header">11p</div>
+
+        <div class="heatmap-label">MON</div>
+        <div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h1"></div><div class="heatmap-cell h1"></div><div class="heatmap-cell h1"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h1"></div><div class="heatmap-cell h1"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h1"></div><div class="heatmap-cell h1"></div><div class="heatmap-cell h2"></div><div class="heatmap-cell h2"></div><div class="heatmap-cell h2"></div><div class="heatmap-cell h3"></div><div class="heatmap-cell h4"></div><div class="heatmap-cell h3"></div><div class="heatmap-cell h2"></div><div class="heatmap-cell h1"></div>
+
+        <div class="heatmap-label">TUE</div>
+        <div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h1"></div><div class="heatmap-cell h1"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h1"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h1"></div><div class="heatmap-cell h1"></div><div class="heatmap-cell h2"></div><div class="heatmap-cell h2"></div><div class="heatmap-cell h2"></div><div class="heatmap-cell h3"></div><div class="heatmap-cell h3"></div><div class="heatmap-cell h3"></div><div class="heatmap-cell h2"></div><div class="heatmap-cell h1"></div>
+
+        <div class="heatmap-label">WED</div>
+        <div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h1"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h1"></div><div class="heatmap-cell h1"></div><div class="heatmap-cell h1"></div><div class="heatmap-cell h1"></div><div class="heatmap-cell h2"></div><div class="heatmap-cell h2"></div><div class="heatmap-cell h2"></div><div class="heatmap-cell h3"></div><div class="heatmap-cell h3"></div><div class="heatmap-cell h4"></div><div class="heatmap-cell h3"></div><div class="heatmap-cell h2"></div><div class="heatmap-cell h1"></div>
+
+        <div class="heatmap-label">FRI</div>
+        <div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h1"></div><div class="heatmap-cell h1"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h1"></div><div class="heatmap-cell h1"></div><div class="heatmap-cell h2"></div><div class="heatmap-cell h2"></div><div class="heatmap-cell h2"></div><div class="heatmap-cell h3"></div><div class="heatmap-cell h3"></div><div class="heatmap-cell h4"></div><div class="heatmap-cell h4"></div><div class="heatmap-cell h4"></div><div class="heatmap-cell h4"></div><div class="heatmap-cell h3"></div><div class="heatmap-cell h2"></div><div class="heatmap-cell h1"></div>
+
+        <div class="heatmap-label">SAT</div>
+        <div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h1"></div><div class="heatmap-cell h1"></div><div class="heatmap-cell h2"></div><div class="heatmap-cell h2"></div><div class="heatmap-cell h3"></div><div class="heatmap-cell h3"></div><div class="heatmap-cell h4"></div><div class="heatmap-cell h4"></div><div class="heatmap-cell h4"></div><div class="heatmap-cell h4"></div><div class="heatmap-cell h4"></div><div class="heatmap-cell h4"></div><div class="heatmap-cell h3"></div><div class="heatmap-cell h2"></div><div class="heatmap-cell h1"></div>
+
+        <div class="heatmap-label">SUN</div>
+        <div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h0"></div><div class="heatmap-cell h1"></div><div class="heatmap-cell h1"></div><div class="heatmap-cell h2"></div><div class="heatmap-cell h2"></div><div class="heatmap-cell h3"></div><div class="heatmap-cell h3"></div><div class="heatmap-cell h3"></div><div class="heatmap-cell h4"></div><div class="heatmap-cell h4"></div><div class="heatmap-cell h4"></div><div class="heatmap-cell h4"></div><div class="heatmap-cell h3"></div><div class="heatmap-cell h3"></div><div class="heatmap-cell h2"></div><div class="heatmap-cell h1"></div>
+      </div>
+      <div style="font-family:'DM Mono'; font-size:11px; color:#bbb; margin-top:10px; text-align:center;">
+        PEAK FUMBLE: <strong style="color:#DC1E3C;">FRI-SAT 8PM-11PM</strong> · LOWEST: <strong style="color:#4A8500;">WEEKDAY MORNINGS</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ TOP PATIENTS TABLE ══════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title">PLATFORM LEADERBOARD · TOP PATIENTS</div>
+      <span class="section-badge green">TOP 50 ACROSS ALL PRACTICES</span>
+    </div>
+    <div class="table-wrap">
+      <div class="table-toolbar">
+        <div class="search-box"><span>🔍</span><input placeholder="Search by nickname or code..."></div>
+        <div class="filter-chips">
+          <div class="chip active">TOP 50</div>
+          <div class="chip">LONGEST STREAKS</div>
+          <div class="chip">HIGHEST COMPLIANCE</div>
+          <div class="chip">MOST SHARES</div>
+        </div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>RANK</th>
+            <th>NICKNAME</th>
+            <th>CODE</th>
+            <th>PRACTICE</th>
+            <th>TRACK</th>
+            <th>STREAK ↕</th>
+            <th>COMPLIANCE ↕</th>
+            <th>TIER</th>
+            <th>SHARES</th>
+            <th>STATUS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-family:'Rajdhani'; font-size:22px; font-weight:700; color:#B8860B;">1</td>
+            <td class="td-bold">OrthoPrincess</td>
+            <td class="td-mono" style="color:#999;">BB-0912-LP</td>
+            <td class="td-mono">Bright Smiles</td>
+            <td><span class="track-badge aligners">ALIGNERS</span></td>
+            <td class="td-mono" style="color:#B8860B; font-weight:700;">🔥 127d</td>
+            <td class="td-mono" style="color:#4A8500;">98%</td>
+            <td class="td-mono">🏆 Titanium</td>
+            <td class="td-mono">47</td>
+            <td><span class="risk-badge on-track">ON TRACK</span></td>
+          </tr>
+          <tr>
+            <td style="font-family:'Rajdhani'; font-size:22px; font-weight:700; color:#B8860B;">2</td>
+            <td class="td-bold">GlowUp</td>
+            <td class="td-mono" style="color:#999;">BB-3341-RK</td>
+            <td class="td-mono">Apex Ortho</td>
+            <td><span class="track-badge aligners">ALIGNERS</span></td>
+            <td class="td-mono" style="color:#B8860B; font-weight:700;">🔥 112d</td>
+            <td class="td-mono" style="color:#4A8500;">97%</td>
+            <td class="td-mono">🏆 Titanium</td>
+            <td class="td-mono">38</td>
+            <td><span class="risk-badge on-track">ON TRACK</span></td>
+          </tr>
+          <tr>
+            <td style="font-family:'Rajdhani'; font-size:22px; font-weight:700; color:#B8860B;">3</td>
+            <td class="td-bold">SteelGrin</td>
+            <td class="td-mono" style="color:#999;">BB-2204-JE</td>
+            <td class="td-mono">Bright Smiles</td>
+            <td><span class="track-badge braces">BRACES</span></td>
+            <td class="td-mono" style="color:#4A8500; font-weight:700;">🔥 98d</td>
+            <td class="td-mono" style="color:#4A8500;">96%</td>
+            <td class="td-mono">💎 Brace Face Elite</td>
+            <td class="td-mono">31</td>
+            <td><span class="risk-badge on-track">ON TRACK</span></td>
+          </tr>
+          <tr>
+            <td style="font-family:'Rajdhani'; font-size:22px; font-weight:700; color:#999;">4</td>
+            <td class="td-bold">IronJaw <span class="premium-badge">PRO</span></td>
+            <td class="td-mono" style="color:#999;">BB-1923-MR</td>
+            <td class="td-mono">Dr. Kim Ortho</td>
+            <td><span class="track-badge braces">BRACES</span></td>
+            <td class="td-mono" style="color:#4A8500; font-weight:700;">🔥 91d</td>
+            <td class="td-mono" style="color:#4A8500;">95%</td>
+            <td class="td-mono">💎 Brace Face Elite</td>
+            <td class="td-mono">26</td>
+            <td><span class="risk-badge on-track">ON TRACK</span></td>
+          </tr>
+          <tr>
+            <td style="font-family:'Rajdhani'; font-size:22px; font-weight:700; color:#999;">5</td>
+            <td class="td-bold">BraceQueen <span class="premium-badge">PRO</span></td>
+            <td class="td-mono" style="color:#999;">BB-7721-NX</td>
+            <td class="td-mono">Apex Ortho</td>
+            <td><span class="track-badge braces">BRACES</span></td>
+            <td class="td-mono" style="color:#4A8500; font-weight:700;">🔥 84d</td>
+            <td class="td-mono" style="color:#4A8500;">93%</td>
+            <td class="td-mono">💎 Brace Face Elite</td>
+            <td class="td-mono">22</td>
+            <td><span class="risk-badge on-track">ON TRACK</span></td>
+          </tr>
+          <tr>
+            <td style="font-family:'Rajdhani'; font-size:22px; font-weight:700; color:#999;">6</td>
+            <td class="td-bold">NightByte</td>
+            <td class="td-mono" style="color:#999;">BB-2847-XK</td>
+            <td class="td-mono">SmileCraft</td>
+            <td><span class="track-badge aligners">ALIGNERS</span></td>
+            <td class="td-mono" style="color:#4A8500; font-weight:700;">🔥 76d</td>
+            <td class="td-mono" style="color:#4A8500;">91%</td>
+            <td class="td-mono">🪖 Smile Soldier</td>
+            <td class="td-mono">19</td>
+            <td><span class="risk-badge on-track">ON TRACK</span></td>
+          </tr>
+          <tr>
+            <td style="font-family:'Rajdhani'; font-size:22px; font-weight:700; color:#999;">7</td>
+            <td class="td-bold">RetainerKing</td>
+            <td class="td-mono" style="color:#999;">BB-4491-SW</td>
+            <td class="td-mono">Precision Ortho</td>
+            <td><span class="track-badge aligners">ALIGNERS</span></td>
+            <td class="td-mono" style="color:#4A8500; font-weight:700;">🔥 71d</td>
+            <td class="td-mono" style="color:#4A8500;">90%</td>
+            <td class="td-mono">🪖 Smile Soldier</td>
+            <td class="td-mono">15</td>
+            <td><span class="risk-badge on-track">ON TRACK</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="table-footer">
+        <div class="table-count">SHOWING 7 OF 2,847 PATIENTS</div>
+        <div style="font-family:'DM Mono'; font-size:12px; color:#bbb;">SORTED BY STREAK LENGTH</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="disclaimer">BITEBACK FOUNDER DASHBOARD · INTERNAL USE ONLY · PATIENT DATA ANONYMIZED · NO PHI</div>
+
+</div>
+</body>
+</html>

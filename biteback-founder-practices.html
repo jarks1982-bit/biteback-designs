@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BiteBack — Founder · Practices</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Outfit:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #F5F5F0; color: #1A1A1A; font-family: 'Outfit', sans-serif; min-height: 100vh; }
+
+  /* ══════ TOP BAR ══════ */
+  .topbar {
+    background: #0A0A0A; padding: 14px 32px; display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 100; border-bottom: 2px solid #BFFF00;
+  }
+  .topbar-left { display: flex; align-items: center; gap: 14px; }
+  .tb-logo { font-family: 'Rajdhani'; font-size: 22px; font-weight: 700; letter-spacing: 3px; }
+  .tb-logo .bite { color: #fff; } .tb-logo .back { color: #BFFF00; }
+  .tb-badge { font-family: 'DM Mono'; font-size: 12px; font-weight: 600; letter-spacing: 2px; background: rgba(191,255,0,0.12); color: #BFFF00; border: 1px solid rgba(191,255,0,0.2); padding: 3px 10px; border-radius: 4px; }
+  .tb-divider { width: 1px; height: 20px; background: #333; }
+  .tb-nav { display: flex; gap: 4px; }
+  .tb-nav-item { font-family: 'DM Mono'; font-size: 13px; letter-spacing: 1px; font-weight: 600; padding: 6px 14px; border-radius: 6px; cursor: pointer; color: #666; transition: all 0.15s; }
+  .tb-nav-item:hover { color: #999; }
+  .tb-nav-item.active { color: #BFFF00; background: rgba(191,255,0,0.08); }
+  .topbar-right { display: flex; align-items: center; gap: 14px; }
+  .tb-live { display: flex; align-items: center; gap: 6px; font-family: 'DM Mono'; font-size: 12px; color: #4A8500; font-weight: 600; letter-spacing: 1px; }
+  .tb-live-dot { width: 8px; height: 8px; border-radius: 50%; background: #4A8500; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .tb-time { font-family: 'DM Mono'; font-size: 12px; color: #555; font-weight: 500; }
+
+  /* ══════ MAIN ══════ */
+  .main { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+  .page-header { margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; }
+  .page-title { font-family: 'Rajdhani'; font-size: 28px; font-weight: 700; letter-spacing: 2px; }
+  .page-subtitle { font-family: 'DM Mono'; font-size: 14px; color: #999; letter-spacing: 1px; font-weight: 500; margin-top: 2px; }
+
+  .btn { font-family: 'DM Mono'; font-size: 14px; letter-spacing: 1px; font-weight: 600; padding: 10px 18px; border-radius: 8px; cursor: pointer; border: none; transition: opacity 0.15s; }
+  .btn:hover { opacity: 0.85; }
+  .btn-primary { background: #4A8500; color: #fff; }
+  .btn-outline { background: #fff; color: #888; border: 1px solid #E5E5E0; }
+
+  .section { margin-bottom: 28px; }
+  .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .section-title { font-family: 'Rajdhani'; font-size: 20px; font-weight: 700; letter-spacing: 2px; color: #444; }
+  .section-badge { font-family: 'DM Mono'; font-size: 12px; font-weight: 600; letter-spacing: 1px; padding: 4px 10px; border-radius: 5px; }
+  .section-badge.green { background: rgba(74,133,0,0.06); color: #4A8500; }
+
+  /* ══════ KPIs ══════ */
+  .kpi-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 28px; }
+  .kpi-card { background: #fff; border: 1px solid #E5E5E0; border-radius: 12px; padding: 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); text-align: center; }
+  .kpi-label { font-family: 'DM Mono'; font-size: 11px; letter-spacing: 2px; color: #999; font-weight: 600; margin-bottom: 8px; }
+  .kpi-value { font-family: 'Rajdhani'; font-size: 40px; font-weight: 700; line-height: 1; }
+  .kpi-value.green { color: #4A8500; } .kpi-value.dark { color: #1A1A1A; } .kpi-value.amber { color: #D4A017; } .kpi-value.red { color: #DC1E3C; }
+  .kpi-delta { font-family: 'DM Mono'; font-size: 12px; font-weight: 600; margin-top: 6px; }
+  .kpi-delta.up { color: #4A8500; } .kpi-delta.down { color: #DC1E3C; } .kpi-delta.flat { color: #999; }
+
+  /* ══════ CARDS ══════ */
+  .card { background: #fff; border: 1px solid #E5E5E0; border-radius: 14px; padding: 22px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
+  .card-title { font-family: 'DM Mono'; font-size: 12px; letter-spacing: 2px; color: #999; font-weight: 600; margin-bottom: 14px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+
+  /* ══════ DISTRIBUTION BARS ══════ */
+  .dist-row { display: flex; flex-direction: column; gap: 10px; }
+  .dist-item { display: flex; align-items: center; gap: 12px; }
+  .dist-label { font-family: 'DM Mono'; font-size: 12px; color: #888; font-weight: 600; letter-spacing: 1px; min-width: 100px; }
+  .dist-bar-wrap { flex: 1; height: 10px; background: #EEEEE8; border-radius: 5px; overflow: hidden; }
+  .dist-bar { height: 100%; border-radius: 5px; }
+  .dist-bar.green { background: #4A8500; }
+  .dist-bar.amber { background: #D4A017; }
+  .dist-bar.red { background: #DC1E3C; }
+  .dist-bar.gray { background: #bbb; }
+  .dist-value { font-family: 'Rajdhani'; font-size: 20px; font-weight: 700; min-width: 36px; text-align: right; }
+  .dist-pct { font-family: 'DM Mono'; font-size: 12px; color: #bbb; font-weight: 500; min-width: 40px; }
+
+  /* ══════ PRACTICE CARDS ══════ */
+  .practice-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .practice-card {
+    background: #fff; border: 1px solid #E5E5E0; border-radius: 14px;
+    padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); position: relative;
+  }
+  .practice-card.churn { border-color: rgba(220,30,60,0.2); opacity: 0.6; }
+  .practice-card.trial-card { border-style: dashed; }
+  .pc-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+  .pc-name { font-family: 'Outfit'; font-size: 16px; font-weight: 700; color: #1A1A1A; }
+  .pc-location { font-family: 'DM Mono'; font-size: 12px; color: #999; font-weight: 500; margin-top: 2px; }
+  .plan-badge { font-family: 'DM Mono'; font-size: 11px; font-weight: 600; letter-spacing: 1px; padding: 2px 8px; border-radius: 4px; }
+  .plan-badge.starter { background: rgba(212,160,23,0.08); color: #D4A017; }
+  .plan-badge.pro { background: rgba(74,133,0,0.06); color: #4A8500; }
+  .plan-badge.trial { background: rgba(0,0,0,0.04); color: #999; }
+
+  .pc-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+  .pc-stat { text-align: center; padding: 8px 4px; background: #FAFAF7; border: 1px solid #EEEEE8; border-radius: 8px; }
+  .pc-stat-value { font-family: 'Rajdhani'; font-size: 22px; font-weight: 700; line-height: 1; }
+  .pc-stat-value.green { color: #4A8500; } .pc-stat-value.dark { color: #1A1A1A; } .pc-stat-value.amber { color: #D4A017; } .pc-stat-value.red { color: #DC1E3C; }
+  .pc-stat-label { font-family: 'DM Mono'; font-size: 10px; letter-spacing: 1px; color: #bbb; font-weight: 500; margin-top: 2px; }
+
+  .pc-meta { display: flex; justify-content: space-between; align-items: center; padding-top: 10px; border-top: 1px solid #F0F0EB; }
+  .pc-meta-item { font-family: 'DM Mono'; font-size: 11px; color: #bbb; font-weight: 500; }
+  .pc-meta-item strong { color: #555; }
+
+  .health-badge { font-family: 'DM Mono'; font-size: 11px; font-weight: 600; letter-spacing: 1px; padding: 3px 8px; border-radius: 4px; }
+  .health-badge.healthy { background: rgba(74,133,0,0.06); color: #4A8500; }
+  .health-badge.at-risk { background: rgba(212,160,23,0.08); color: #D4A017; }
+  .health-badge.churn-risk { background: rgba(220,30,60,0.06); color: #DC1E3C; }
+  .health-badge.new { background: rgba(0,0,0,0.04); color: #999; }
+
+  .pc-actions { display: flex; gap: 6px; margin-top: 12px; }
+  .pc-btn {
+    font-family: 'DM Mono'; font-size: 11px; letter-spacing: 0.5px; font-weight: 600;
+    padding: 5px 10px; border-radius: 5px; cursor: pointer; border: none; flex: 1; text-align: center;
+  }
+  .pc-btn.view { background: rgba(74,133,0,0.04); border: 1px solid rgba(74,133,0,0.12); color: #4A8500; }
+  .pc-btn.email { background: #F5F5F0; border: 1px solid #E5E5E0; color: #888; }
+
+  /* ══════ TABLE ══════ */
+  .table-wrap { background: #fff; border: 1px solid #E5E5E0; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
+  .table-toolbar { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border-bottom: 1px solid #F0F0EB; }
+  .search-box { display: flex; align-items: center; gap: 8px; background: #F5F5F0; border: 1px solid #E5E5E0; border-radius: 8px; padding: 7px 12px; width: 260px; }
+  .search-box input { background: none; border: none; outline: none; color: #333; font-family: 'Outfit'; font-size: 15px; font-weight: 500; width: 100%; }
+  .search-box input::placeholder { color: #bbb; }
+  .filter-chips { display: flex; gap: 6px; }
+  .chip { font-family: 'DM Mono'; font-size: 13px; letter-spacing: 1px; font-weight: 500; padding: 6px 12px; border-radius: 6px; cursor: pointer; background: #F5F5F0; border: 1px solid #E5E5E0; color: #999; }
+  .chip.active { border-color: rgba(74,133,0,0.25); color: #4A8500; background: rgba(74,133,0,0.04); }
+
+  table { width: 100%; border-collapse: collapse; }
+  thead th { font-family: 'DM Mono'; font-size: 11px; letter-spacing: 2px; color: #999; font-weight: 600; text-align: left; padding: 10px 14px; border-bottom: 1px solid #F0F0EB; }
+  thead th.sortable { cursor: pointer; }
+  thead th.sortable:hover { color: #555; }
+  tbody td { padding: 12px 14px; border-bottom: 1px solid #FAFAF7; font-family: 'Outfit'; font-size: 14px; color: #444; font-weight: 500; }
+  tbody tr:hover { background: #FAFAF7; }
+  .td-mono { font-family: 'DM Mono'; font-size: 13px; font-weight: 500; }
+  .td-bold { font-family: 'Outfit'; font-size: 14px; font-weight: 700; color: #1A1A1A; }
+  .health-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 4px; }
+  .health-dot.green { background: #4A8500; } .health-dot.amber { background: #D4A017; } .health-dot.red { background: #DC1E3C; } .health-dot.gray { background: #ccc; }
+
+  .td-btn { font-family: 'DM Mono'; font-size: 11px; letter-spacing: 0.5px; font-weight: 600; padding: 4px 10px; border-radius: 4px; cursor: pointer; background: rgba(74,133,0,0.04); border: 1px solid rgba(74,133,0,0.12); color: #4A8500; }
+  .td-btn:hover { background: rgba(74,133,0,0.08); }
+
+  .table-footer { display: flex; justify-content: space-between; align-items: center; padding: 12px 18px; border-top: 1px solid #F0F0EB; }
+  .table-count { font-family: 'DM Mono'; font-size: 13px; color: #999; font-weight: 500; }
+
+  /* ══════ COHORT TABLE ══════ */
+  .cohort-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; }
+  .cohort-header { font-family: 'DM Mono'; font-size: 10px; letter-spacing: 1px; color: #999; font-weight: 600; text-align: center; padding: 6px 4px; }
+  .cohort-cell {
+    text-align: center; padding: 10px 4px; border-radius: 6px;
+    font-family: 'DM Mono'; font-size: 13px; font-weight: 600;
+  }
+  .cohort-cell.high { background: rgba(74,133,0,0.12); color: #4A8500; }
+  .cohort-cell.med { background: rgba(74,133,0,0.06); color: #6DB000; }
+  .cohort-cell.low { background: rgba(212,160,23,0.08); color: #D4A017; }
+  .cohort-cell.danger { background: rgba(220,30,60,0.06); color: #DC1E3C; }
+  .cohort-cell.empty { background: #FAFAF7; color: #ccc; }
+  .cohort-label { font-family: 'DM Mono'; font-size: 11px; color: #888; font-weight: 600; letter-spacing: 1px; text-align: center; padding: 8px 4px; }
+
+  .disclaimer { font-family: 'DM Mono'; font-size: 12px; color: #ccc; letter-spacing: 1px; font-weight: 500; text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #E5E5E0; }
+</style>
+</head>
+<body>
+
+<!-- ══════ TOP BAR ══════ -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="tb-logo"><span class="bite">BITE</span><span class="back">BACK</span></div>
+    <span class="tb-badge">FOUNDER</span>
+    <div class="tb-divider"></div>
+    <div class="tb-nav">
+      <div class="tb-nav-item">OVERVIEW</div>
+      <div class="tb-nav-item active">PRACTICES</div>
+      <div class="tb-nav-item">PATIENTS</div>
+      <div class="tb-nav-item">ENGAGEMENT</div>
+      <div class="tb-nav-item">REVENUE</div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <div class="tb-live"><div class="tb-live-dot"></div> LIVE</div>
+    <div class="tb-time">FEB 19, 2026 · 11:22 AM</div>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="page-header">
+    <div>
+      <div class="page-title">PRACTICES</div>
+      <div class="page-subtitle">ALL PRACTICES · HEALTH · CHURN RISK · UPGRADE OPPORTUNITIES</div>
+    </div>
+    <div style="display:flex; gap:8px;">
+      <button class="btn btn-outline">EXPORT CSV</button>
+      <button class="btn btn-primary">+ ADD PRACTICE</button>
+    </div>
+  </div>
+
+  <!-- ══════ KPIs ══════ -->
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-label">TOTAL PRACTICES</div>
+      <div class="kpi-value dark">37</div>
+      <div class="kpi-delta up">↑ +8 this month</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">PRO PLANS</div>
+      <div class="kpi-value green">21</div>
+      <div class="kpi-delta flat">57% of total</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">STARTER PLANS</div>
+      <div class="kpi-value amber">16</div>
+      <div class="kpi-delta flat">43% of total</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">IN TRIAL</div>
+      <div class="kpi-value dark">8</div>
+      <div class="kpi-delta up">↑ 5 likely to convert</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">CHURN RISK</div>
+      <div class="kpi-value red">3</div>
+      <div class="kpi-delta down">needs outreach</div>
+    </div>
+  </div>
+
+  <!-- ══════ DISTRIBUTIONS + COHORT ══════ -->
+  <div class="grid-2" style="margin-bottom:28px;">
+
+    <!-- Plan & Health Distribution -->
+    <div class="card">
+      <div class="card-title">PRACTICE DISTRIBUTION</div>
+
+      <div style="font-family:'DM Mono'; font-size:11px; color:#bbb; letter-spacing:1px; margin-bottom:8px;">BY PLAN</div>
+      <div class="dist-row" style="margin-bottom:18px;">
+        <div class="dist-item">
+          <div class="dist-label">PRO</div>
+          <div class="dist-bar-wrap"><div class="dist-bar green" style="width:57%;"></div></div>
+          <div class="dist-value" style="color:#4A8500;">21</div>
+          <div class="dist-pct">57%</div>
+        </div>
+        <div class="dist-item">
+          <div class="dist-label">STARTER</div>
+          <div class="dist-bar-wrap"><div class="dist-bar amber" style="width:43%;"></div></div>
+          <div class="dist-value" style="color:#D4A017;">16</div>
+          <div class="dist-pct">43%</div>
+        </div>
+      </div>
+
+      <div style="font-family:'DM Mono'; font-size:11px; color:#bbb; letter-spacing:1px; margin-bottom:8px;">BY HEALTH</div>
+      <div class="dist-row" style="margin-bottom:18px;">
+        <div class="dist-item">
+          <div class="dist-label">HEALTHY</div>
+          <div class="dist-bar-wrap"><div class="dist-bar green" style="width:73%;"></div></div>
+          <div class="dist-value" style="color:#4A8500;">27</div>
+          <div class="dist-pct">73%</div>
+        </div>
+        <div class="dist-item">
+          <div class="dist-label">AT RISK</div>
+          <div class="dist-bar-wrap"><div class="dist-bar amber" style="width:19%;"></div></div>
+          <div class="dist-value" style="color:#D4A017;">7</div>
+          <div class="dist-pct">19%</div>
+        </div>
+        <div class="dist-item">
+          <div class="dist-label">CHURN RISK</div>
+          <div class="dist-bar-wrap"><div class="dist-bar red" style="width:8%;"></div></div>
+          <div class="dist-value" style="color:#DC1E3C;">3</div>
+          <div class="dist-pct">8%</div>
+        </div>
+      </div>
+
+      <div style="font-family:'DM Mono'; font-size:11px; color:#bbb; letter-spacing:1px; margin-bottom:8px;">BY PATIENT COUNT</div>
+      <div class="dist-row">
+        <div class="dist-item">
+          <div class="dist-label">100+</div>
+          <div class="dist-bar-wrap"><div class="dist-bar green" style="width:19%;"></div></div>
+          <div class="dist-value" style="color:#4A8500;">7</div>
+          <div class="dist-pct">19%</div>
+        </div>
+        <div class="dist-item">
+          <div class="dist-label">50–99</div>
+          <div class="dist-bar-wrap"><div class="dist-bar green" style="width:27%;"></div></div>
+          <div class="dist-value" style="color:#4A8500;">10</div>
+          <div class="dist-pct">27%</div>
+        </div>
+        <div class="dist-item">
+          <div class="dist-label">25–49</div>
+          <div class="dist-bar-wrap"><div class="dist-bar amber" style="width:30%;"></div></div>
+          <div class="dist-value" style="color:#D4A017;">11</div>
+          <div class="dist-pct">30%</div>
+        </div>
+        <div class="dist-item">
+          <div class="dist-label">1–24</div>
+          <div class="dist-bar-wrap"><div class="dist-bar gray" style="width:24%;"></div></div>
+          <div class="dist-value" style="color:#999;">9</div>
+          <div class="dist-pct">24%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Retention Cohort -->
+    <div class="card">
+      <div class="card-title">RETENTION COHORT · MONTHLY</div>
+      <div style="font-family:'Outfit'; font-size:13px; color:#888; margin-bottom:14px;">Percentage of practices still active N months after signup</div>
+
+      <div class="cohort-grid">
+        <div class="cohort-header">COHORT</div>
+        <div class="cohort-header">MONTH 1</div>
+        <div class="cohort-header">MONTH 2</div>
+        <div class="cohort-header">MONTH 3</div>
+        <div class="cohort-header">MONTH 4</div>
+        <div class="cohort-header">MONTH 5</div>
+
+        <div class="cohort-label">SEP '25</div>
+        <div class="cohort-cell high">100%</div>
+        <div class="cohort-cell high">100%</div>
+        <div class="cohort-cell high">100%</div>
+        <div class="cohort-cell med">86%</div>
+        <div class="cohort-cell med">86%</div>
+
+        <div class="cohort-label">OCT '25</div>
+        <div class="cohort-cell high">100%</div>
+        <div class="cohort-cell high">92%</div>
+        <div class="cohort-cell med">83%</div>
+        <div class="cohort-cell med">83%</div>
+        <div class="cohort-cell empty">—</div>
+
+        <div class="cohort-label">NOV '25</div>
+        <div class="cohort-cell high">100%</div>
+        <div class="cohort-cell high">90%</div>
+        <div class="cohort-cell med">80%</div>
+        <div class="cohort-cell empty">—</div>
+        <div class="cohort-cell empty">—</div>
+
+        <div class="cohort-label">DEC '25</div>
+        <div class="cohort-cell high">100%</div>
+        <div class="cohort-cell high">91%</div>
+        <div class="cohort-cell empty">—</div>
+        <div class="cohort-cell empty">—</div>
+        <div class="cohort-cell empty">—</div>
+
+        <div class="cohort-label">JAN '26</div>
+        <div class="cohort-cell high">100%</div>
+        <div class="cohort-cell empty">—</div>
+        <div class="cohort-cell empty">—</div>
+        <div class="cohort-cell empty">—</div>
+        <div class="cohort-cell empty">—</div>
+
+        <div class="cohort-label">FEB '26</div>
+        <div class="cohort-cell high">—</div>
+        <div class="cohort-cell empty">—</div>
+        <div class="cohort-cell empty">—</div>
+        <div class="cohort-cell empty">—</div>
+        <div class="cohort-cell empty">—</div>
+      </div>
+      <div style="font-family:'DM Mono'; font-size:11px; color:#bbb; margin-top:12px; text-align:center;">
+        AVG 3-MONTH RETENTION: <strong style="color:#4A8500;">87%</strong> · INDUSTRY BENCHMARK: ~80%
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ CHURN RISK + UPGRADE OPPORTUNITIES ══════ -->
+  <div class="grid-2" style="margin-bottom:28px;">
+
+    <!-- Churn Risk -->
+    <div class="card">
+      <div class="card-title">⚠️ CHURN RISK · NEEDS OUTREACH</div>
+      <div class="practice-grid" style="grid-template-columns: 1fr;">
+        <div class="practice-card churn" style="opacity:1;">
+          <div class="pc-top">
+            <div><div class="pc-name">Valley Orthodontics</div><div class="pc-location">Phoenix, AZ</div></div>
+            <span class="health-badge churn-risk">CHURN RISK</span>
+          </div>
+          <div class="pc-stats">
+            <div class="pc-stat"><div class="pc-stat-value red">0</div><div class="pc-stat-label">PATIENTS</div></div>
+            <div class="pc-stat"><div class="pc-stat-value red">0</div><div class="pc-stat-label">LOGINS/MO</div></div>
+            <div class="pc-stat"><div class="pc-stat-value red">28d</div><div class="pc-stat-label">INACTIVE</div></div>
+          </div>
+          <div class="pc-meta">
+            <div class="pc-meta-item">STARTER · <strong>$49/mo</strong></div>
+            <div class="pc-meta-item">JOINED DEC 2025</div>
+          </div>
+          <div class="pc-actions"><button class="pc-btn email">📧 SEND EMAIL</button><button class="pc-btn view">VIEW</button></div>
+        </div>
+
+        <div class="practice-card churn" style="opacity:1;">
+          <div class="pc-top">
+            <div><div class="pc-name">Cedar Park Dental</div><div class="pc-location">Cedar Park, TX</div></div>
+            <span class="health-badge churn-risk">CHURN RISK</span>
+          </div>
+          <div class="pc-stats">
+            <div class="pc-stat"><div class="pc-stat-value red">3</div><div class="pc-stat-label">PATIENTS</div></div>
+            <div class="pc-stat"><div class="pc-stat-value red">1</div><div class="pc-stat-label">LOGINS/MO</div></div>
+            <div class="pc-stat"><div class="pc-stat-value amber">14d</div><div class="pc-stat-label">INACTIVE</div></div>
+          </div>
+          <div class="pc-meta">
+            <div class="pc-meta-item">STARTER · <strong>$49/mo</strong></div>
+            <div class="pc-meta-item">JOINED NOV 2025</div>
+          </div>
+          <div class="pc-actions"><button class="pc-btn email">📧 SEND EMAIL</button><button class="pc-btn view">VIEW</button></div>
+        </div>
+
+        <div class="practice-card churn" style="opacity:1;">
+          <div class="pc-top">
+            <div><div class="pc-name">Lakeside Ortho</div><div class="pc-location">Minneapolis, MN</div></div>
+            <span class="health-badge churn-risk">CHURN RISK</span>
+          </div>
+          <div class="pc-stats">
+            <div class="pc-stat"><div class="pc-stat-value amber">7</div><div class="pc-stat-label">PATIENTS</div></div>
+            <div class="pc-stat"><div class="pc-stat-value red">2</div><div class="pc-stat-label">LOGINS/MO</div></div>
+            <div class="pc-stat"><div class="pc-stat-value amber">10d</div><div class="pc-stat-label">INACTIVE</div></div>
+          </div>
+          <div class="pc-meta">
+            <div class="pc-meta-item">STARTER · <strong>$49/mo</strong></div>
+            <div class="pc-meta-item">JOINED OCT 2025</div>
+          </div>
+          <div class="pc-actions"><button class="pc-btn email">📧 SEND EMAIL</button><button class="pc-btn view">VIEW</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upgrade Opportunities -->
+    <div class="card">
+      <div class="card-title">🚀 UPGRADE OPPORTUNITIES · STARTER → PRO</div>
+      <div class="practice-grid" style="grid-template-columns: 1fr;">
+        <div class="practice-card">
+          <div class="pc-top">
+            <div><div class="pc-name">SmileCraft Dental</div><div class="pc-location">Indianapolis, IN</div></div>
+            <span class="plan-badge starter">STARTER</span>
+          </div>
+          <div class="pc-stats">
+            <div class="pc-stat"><div class="pc-stat-value amber">24/25</div><div class="pc-stat-label">PATIENTS</div></div>
+            <div class="pc-stat"><div class="pc-stat-value green">84%</div><div class="pc-stat-label">COMPLIANCE</div></div>
+            <div class="pc-stat"><div class="pc-stat-value green">43</div><div class="pc-stat-label">SHARES</div></div>
+          </div>
+          <div class="pc-meta">
+            <div class="pc-meta-item" style="color:#D4A017; font-weight:600;">96% OF PATIENT LIMIT</div>
+            <div class="pc-meta-item">JOINED JAN 2026</div>
+          </div>
+          <div class="pc-actions"><button class="pc-btn email">📧 UPGRADE NUDGE</button><button class="pc-btn view">VIEW</button></div>
+        </div>
+
+        <div class="practice-card">
+          <div class="pc-top">
+            <div><div class="pc-name">Precision Orthodontics</div><div class="pc-location">Nashville, TN</div></div>
+            <span class="plan-badge starter">STARTER</span>
+          </div>
+          <div class="pc-stats">
+            <div class="pc-stat"><div class="pc-stat-value amber">22/25</div><div class="pc-stat-label">PATIENTS</div></div>
+            <div class="pc-stat"><div class="pc-stat-value green">89%</div><div class="pc-stat-label">COMPLIANCE</div></div>
+            <div class="pc-stat"><div class="pc-stat-value green">31</div><div class="pc-stat-label">SHARES</div></div>
+          </div>
+          <div class="pc-meta">
+            <div class="pc-meta-item" style="color:#D4A017; font-weight:600;">88% OF PATIENT LIMIT</div>
+            <div class="pc-meta-item">JOINED DEC 2025</div>
+          </div>
+          <div class="pc-actions"><button class="pc-btn email">📧 UPGRADE NUDGE</button><button class="pc-btn view">VIEW</button></div>
+        </div>
+
+        <div class="practice-card">
+          <div class="pc-top">
+            <div><div class="pc-name">OrthoWorks Austin</div><div class="pc-location">Austin, TX</div></div>
+            <span class="plan-badge starter">STARTER</span>
+          </div>
+          <div class="pc-stats">
+            <div class="pc-stat"><div class="pc-stat-value amber">22/25</div><div class="pc-stat-label">PATIENTS</div></div>
+            <div class="pc-stat"><div class="pc-stat-value amber">76%</div><div class="pc-stat-label">COMPLIANCE</div></div>
+            <div class="pc-stat"><div class="pc-stat-value dark">11</div><div class="pc-stat-label">SHARES</div></div>
+          </div>
+          <div class="pc-meta">
+            <div class="pc-meta-item" style="color:#D4A017; font-weight:600;">88% OF PATIENT LIMIT</div>
+            <div class="pc-meta-item">JOINED JAN 2026</div>
+          </div>
+          <div class="pc-actions"><button class="pc-btn email">📧 UPGRADE NUDGE</button><button class="pc-btn view">VIEW</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ ALL PRACTICES TABLE ══════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title">ALL PRACTICES</div>
+    </div>
+    <div class="table-wrap">
+      <div class="table-toolbar">
+        <div class="search-box"><span>🔍</span><input placeholder="Search practices..."></div>
+        <div class="filter-chips">
+          <div class="chip active">ALL (37)</div>
+          <div class="chip">PRO (21)</div>
+          <div class="chip">STARTER (16)</div>
+          <div class="chip">TRIAL (8)</div>
+          <div class="chip">CHURN RISK (3)</div>
+        </div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th class="sortable">PRACTICE ↕</th>
+            <th>LOCATION</th>
+            <th class="sortable">PLAN ↕</th>
+            <th class="sortable">PATIENTS ↕</th>
+            <th class="sortable">AVG COMPLIANCE ↕</th>
+            <th class="sortable">SHARES/MO ↕</th>
+            <th class="sortable">STAFF LOGINS ↕</th>
+            <th class="sortable">MRR ↕</th>
+            <th class="sortable">JOINED ↕</th>
+            <th>HEALTH</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-bold">Apex Ortho Group</td>
+            <td class="td-mono" style="color:#999;">Dallas, TX</td>
+            <td><span class="plan-badge pro">PRO</span></td>
+            <td class="td-mono">201</td>
+            <td class="td-mono" style="color:#4A8500;">88%</td>
+            <td class="td-mono">312</td>
+            <td class="td-mono">67</td>
+            <td class="td-mono" style="font-weight:700;">$99</td>
+            <td class="td-mono" style="color:#999;">Oct '25</td>
+            <td><span class="health-dot green"></span><span class="td-mono" style="color:#4A8500;">Healthy</span></td>
+            <td><span class="td-btn">VIEW</span></td>
+          </tr>
+          <tr>
+            <td class="td-bold">Bright Smiles Orthodontics</td>
+            <td class="td-mono" style="color:#999;">Indianapolis, IN</td>
+            <td><span class="plan-badge pro">PRO</span></td>
+            <td class="td-mono">124</td>
+            <td class="td-mono" style="color:#4A8500;">91%</td>
+            <td class="td-mono">187</td>
+            <td class="td-mono">42</td>
+            <td class="td-mono" style="font-weight:700;">$99</td>
+            <td class="td-mono" style="color:#999;">Sep '25</td>
+            <td><span class="health-dot green"></span><span class="td-mono" style="color:#4A8500;">Healthy</span></td>
+            <td><span class="td-btn">VIEW</span></td>
+          </tr>
+          <tr>
+            <td class="td-bold">Dr. Kim Orthodontics</td>
+            <td class="td-mono" style="color:#999;">Seattle, WA</td>
+            <td><span class="plan-badge pro">PRO</span></td>
+            <td class="td-mono">89</td>
+            <td class="td-mono" style="color:#4A8500;">86%</td>
+            <td class="td-mono">94</td>
+            <td class="td-mono">28</td>
+            <td class="td-mono" style="font-weight:700;">$99</td>
+            <td class="td-mono" style="color:#999;">Nov '25</td>
+            <td><span class="health-dot green"></span><span class="td-mono" style="color:#4A8500;">Healthy</span></td>
+            <td><span class="td-btn">VIEW</span></td>
+          </tr>
+          <tr>
+            <td class="td-bold">SmileCraft Dental</td>
+            <td class="td-mono" style="color:#999;">Indianapolis, IN</td>
+            <td><span class="plan-badge starter">STARTER</span></td>
+            <td class="td-mono" style="color:#D4A017;">24/25</td>
+            <td class="td-mono" style="color:#4A8500;">84%</td>
+            <td class="td-mono">43</td>
+            <td class="td-mono">18</td>
+            <td class="td-mono" style="font-weight:700;">$49</td>
+            <td class="td-mono" style="color:#999;">Jan '26</td>
+            <td><span class="health-dot green"></span><span class="td-mono" style="color:#4A8500;">Healthy</span></td>
+            <td><span class="td-btn">VIEW</span></td>
+          </tr>
+          <tr>
+            <td class="td-bold">Precision Orthodontics</td>
+            <td class="td-mono" style="color:#999;">Nashville, TN</td>
+            <td><span class="plan-badge starter">STARTER</span></td>
+            <td class="td-mono" style="color:#D4A017;">22/25</td>
+            <td class="td-mono" style="color:#4A8500;">89%</td>
+            <td class="td-mono">31</td>
+            <td class="td-mono">14</td>
+            <td class="td-mono" style="font-weight:700;">$49</td>
+            <td class="td-mono" style="color:#999;">Dec '25</td>
+            <td><span class="health-dot green"></span><span class="td-mono" style="color:#4A8500;">Healthy</span></td>
+            <td><span class="td-btn">VIEW</span></td>
+          </tr>
+          <tr>
+            <td class="td-bold">OrthoWorks Austin</td>
+            <td class="td-mono" style="color:#999;">Austin, TX</td>
+            <td><span class="plan-badge starter">STARTER</span></td>
+            <td class="td-mono">22</td>
+            <td class="td-mono" style="color:#D4A017;">76%</td>
+            <td class="td-mono">11</td>
+            <td class="td-mono" style="color:#DC1E3C;">6</td>
+            <td class="td-mono" style="font-weight:700;">$49</td>
+            <td class="td-mono" style="color:#999;">Jan '26</td>
+            <td><span class="health-dot amber"></span><span class="td-mono" style="color:#D4A017;">At Risk</span></td>
+            <td><span class="td-btn">VIEW</span></td>
+          </tr>
+          <tr>
+            <td class="td-bold">Pacific Braces</td>
+            <td class="td-mono" style="color:#999;">San Diego, CA</td>
+            <td><span class="plan-badge trial">TRIAL</span></td>
+            <td class="td-mono">8</td>
+            <td class="td-mono" style="color:#999;">—</td>
+            <td class="td-mono">2</td>
+            <td class="td-mono">3</td>
+            <td class="td-mono" style="color:#999;">$0</td>
+            <td class="td-mono" style="color:#999;">Feb '26</td>
+            <td><span class="health-dot gray"></span><span class="td-mono" style="color:#999;">Trial</span></td>
+            <td><span class="td-btn">VIEW</span></td>
+          </tr>
+          <tr style="opacity:0.5;">
+            <td class="td-bold">Valley Orthodontics</td>
+            <td class="td-mono" style="color:#999;">Phoenix, AZ</td>
+            <td><span class="plan-badge starter">STARTER</span></td>
+            <td class="td-mono" style="color:#DC1E3C;">0</td>
+            <td class="td-mono" style="color:#999;">—</td>
+            <td class="td-mono" style="color:#DC1E3C;">0</td>
+            <td class="td-mono" style="color:#DC1E3C;">0</td>
+            <td class="td-mono" style="font-weight:700;">$49</td>
+            <td class="td-mono" style="color:#999;">Dec '25</td>
+            <td><span class="health-dot red"></span><span class="td-mono" style="color:#DC1E3C;">Churn</span></td>
+            <td><span class="td-btn">VIEW</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="table-footer">
+        <div class="table-count">SHOWING 8 OF 37 PRACTICES</div>
+        <div class="filter-chips">
+          <div class="chip active" style="padding:4px 10px; font-size:12px;">1</div>
+          <div class="chip" style="padding:4px 10px; font-size:12px;">2</div>
+          <div class="chip" style="padding:4px 10px; font-size:12px;">3</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="disclaimer">BITEBACK FOUNDER DASHBOARD · INTERNAL USE ONLY · PRACTICE DATA IS CONFIDENTIAL</div>
+
+</div>
+</body>
+</html>
