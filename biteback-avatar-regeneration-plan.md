@@ -6,11 +6,12 @@
 
 ## 1. WHY REGENERATE
 
-The current avatars were generated for HTML mockups where the largest display size was ~256px. The production app needs:
+The original avatars were generated in a 3D vinyl toy style for HTML mockups. After exploration, the style direction has been **pivoted to 2D illustrated sketch style** (generated in Midjourney) which better fits:
 
-- **512px share cards** — current renders may look soft or show artifacts at this size
-- **Reaction expressions** — one static face per coach doesn't match the emotional range of 66 contexts
-- **Consistent style across all 5 coaches** — regenerating as a batch ensures style cohesion
+- **Teen personality** — the sketchy, exaggerated style reads as more relatable and less corporate than 3D renders
+- **Expression range** — 2D illustration handles facial expression variety more naturally across 5 distinct emotions
+- **512px share cards** — the bold line work and saturated colors hold up better at large sizes than 3D renders
+- **Consistent batch generation** — Midjourney produces more reliable style consistency across a batch than 3D prompts
 
 ---
 
@@ -64,16 +65,18 @@ Not all 5 expressions need full-body renders. Body images appear in two places:
 
 ## 3. STYLE SPEC — Locked
 
-Carry forward from existing avatars. Do not deviate.
+**Updated from original 3D vinyl toy direction to 2D illustrated sketch style based on Midjourney exploration.**
 
-**Style:** 3D illustrated vinyl toy / Makeship collectible
-**Finish:** Bold, matte
-**Pose:** Front-facing (face crops), slight angle OK for body
-**Personality:** Sassy, personality-forward
-**Silhouette:** Each coach must have a distinct, recognizable silhouette
-**Background:** Transparent (background-removed PNGs)
-**Lighting:** Soft studio lighting, consistent across all coaches
+**Style:** 2D illustrated cartoon character, exaggerated proportions, sketch-style line work
+**Proportions:** Big head, expressive oversized eyes, thin body/legs — cartoon chibi-adjacent but edgier
+**Line work:** Visible sketchy outlines with slight roughness, not clean vector. Adds personality.
+**Color:** Bold, saturated fills with minimal shading. Each coach's palette is immediately recognizable.
+**Personality:** Sassy, attitude-forward, teen energy. Every pose tells you who this character is.
+**Silhouette:** Each coach must have a distinct, instantly recognizable silhouette at 48px
+**Background:** White or transparent (background-removed PNGs for production)
+**Clothing:** Modern teen fashion — hoodies, sneakers, accessories that match personality
 **Resolution:** Generate at 1024px minimum, scale down for exports
+**Reference:** Bri reference image (Midjourney) — pink hoodie with star, blue/pink messy ponytail, gold hoops, black leggings, attitude-forward stance, hands in hoodie pocket
 
 ---
 
@@ -133,22 +136,42 @@ Carry forward from existing avatars. Do not deviate.
 
 ## 5. GENERATION APPROACH
 
-### 5a. Tool: ChatGPT (DALL-E 3) or Midjourney
+### 5a. Tool: Midjourney
 
-Use whichever tool generated the original 5 coaches. Consistency with existing style is more important than which tool is used.
+Midjourney produced the locked style reference (Bri). All coaches must be generated in Midjourney to maintain style consistency. Use `--style raw` to reduce artistic interpretation and stay close to the prompt.
 
 ### 5b. Prompt Template
 
 Base prompt (adapt per coach + expression):
 
 ```
-3D illustrated vinyl toy character, Makeship collectible style.
-Bold matte finish, front-facing, studio lighting, transparent background.
-[COACH DESCRIPTION — physical appearance, outfit, accessories].
+Full body cartoon character illustration, teenage [GENDER], [COACH DESCRIPTION — physical appearance, outfit, accessories, personality cues].
 Expression: [EXPRESSION DIRECTION from Section 4].
-High resolution, clean edges for background removal.
-No text, no watermark, no background elements.
+Exaggerated proportions, big expressive head, thin legs, sketchy line work, bold saturated colors, white background.
+Modern teen fashion, attitude-forward pose, sassy personality.
+No text, no watermark.
+--style raw --ar 2:3
 ```
+
+**Face crop variant** (for 1:1 face renders):
+```
+[Same prompt but replace "Full body" with "Portrait close-up, head and shoulders"]
+--style raw --ar 1:1
+```
+
+### 5b-ii. Per-Coach Physical Description Seeds
+
+Use these as the `[COACH DESCRIPTION]` in prompts. Adapt per expression.
+
+**BRI:** Teenage girl, blue hair with pink streaks in messy ponytail, gold hoop earrings, oversized pink hoodie with star, black leggings, pink-accent sneakers. Sassy, hands-in-pocket energy.
+
+**JAY:** Teenage boy, short dark hair buzzed on sides, deadpan expression, gray hoodie with hood half-up, dark jeans, white sneakers. Arms crossed, zero-effort cool energy.
+
+**KENJI:** Teenage boy, spiky black hair with red tips, intense eyes, red track jacket with black stripe, black joggers, red high-tops. Athletic, ready-to-fight stance.
+
+**CLAIRE:** Teenage girl, neat dark hair with purple highlights in a low ponytail, round glasses, purple cardigan over white shirt, plaid skirt, oxford shoes, holds tablet or clipboard. Composed, judging-you energy.
+
+**MASON:** Teenage boy, messy curly brown hair, big goofy grin, green graphic tee with funny print, cargo shorts, mismatched socks, beat-up sneakers. Relaxed, chaotic energy, finger guns or peace sign.
 
 ### 5c. Generation Order
 
@@ -167,11 +190,12 @@ Full-body versions for share cards. Only needed for the two share card expressio
 ### 5d. QA Per Batch
 
 After each batch:
-- [ ] All 5 coaches are style-consistent (same lighting, finish, proportion)
+- [ ] All 5 coaches are style-consistent (same line weight, proportion ratio, color saturation)
 - [ ] Expression is clearly distinct from neutral at 48px (smallest render size)
 - [ ] Character silhouette is recognizable at 48px
-- [ ] Background is fully transparent (no halo artifacts)
-- [ ] Colors match coach palette (skin/hair/outfit tones carry across expressions)
+- [ ] Background is cleanly removable (no complex overlap with character edges)
+- [ ] Colors match coach palette (hair/outfit tones carry across expressions)
+- [ ] Proportions match reference (big head, thin legs, exaggerated features)
 
 ---
 
