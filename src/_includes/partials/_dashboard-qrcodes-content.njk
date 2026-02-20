@@ -1,0 +1,127 @@
+
+<div class="db-page-header">
+  <div>
+    <div class="db-page-title">QR CODES</div>
+    <div class="db-page-subtitle">GENERATE & MANAGE PATIENT ONBOARDING CODES</div>
+  </div>
+  <div style="display:flex;gap:8px;">
+    <button class="db-btn db-btn-outline">BULK GENERATE</button>
+    <button class="db-btn db-btn-primary">+ NEW CODE</button>
+  </div>
+</div>
+
+{# ── Stat Cards ── #}
+<div class="db-stats-row db-stats-4">
+  <div class="db-stat-card"><div class="db-stat-label">TOTAL GENERATED</div><div class="db-stat-value dark">31</div><div class="db-stat-delta">all time</div></div>
+  <div class="db-stat-card"><div class="db-stat-label">ACTIVATED</div><div class="db-stat-value green">24</div><div class="db-stat-delta">patient scanned & onboarded</div></div>
+  <div class="db-stat-card"><div class="db-stat-label">PENDING</div><div class="db-stat-value amber">5</div><div class="db-stat-delta">generated, not yet scanned</div></div>
+  <div class="db-stat-card"><div class="db-stat-label">EXPIRED</div><div class="db-stat-value" style="color:#bbb;">2</div><div class="db-stat-delta">30-day expiry passed</div></div>
+</div>
+
+{# ── Generate New Code ── #}
+<div class="db-section-title" style="margin-bottom:14px;">GENERATE NEW CODE</div>
+<div class="db-grid-2">
+  {# LEFT: Config form #}
+  <div class="db-card">
+    <div style="font-family:var(--font-display);font-size:20px;font-weight:700;letter-spacing:2px;color:#1A1A1A;margin-bottom:4px;">INDIVIDUAL CODE</div>
+    <div style="font-family:var(--font-body);font-size:14px;color:#888;margin-bottom:18px;">Configure a new patient code. The QR encodes track, challenges, duration, and sensitivity — no PHI.</div>
+
+    <div class="db-form-group">
+      <label class="db-form-label">STAFF LABEL</label>
+      <input class="db-form-input" placeholder="e.g., Tues 3pm aligner">
+      <div class="db-form-hint">Internal shorthand only — do not enter patient names</div>
+    </div>
+    <div class="db-form-group">
+      <label class="db-form-label">TREATMENT TRACK</label>
+      <select class="db-form-input"><option>Aligners</option><option>Braces</option></select>
+    </div>
+    <div class="db-form-group">
+      <label class="db-form-label">CHALLENGES</label>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <div class="qr-toggle on"><span>😁</span><span style="flex:1;font-family:var(--font-body);font-size:14px;font-weight:600;color:#333;">Wear Aligners (22+ hrs)</span><span class="qr-check">✓</span></div>
+        <div class="qr-toggle on"><span>🔧</span><span style="flex:1;font-family:var(--font-body);font-size:14px;font-weight:600;color:#333;">Use Chewies</span><span class="qr-check">✓</span></div>
+        <div class="qr-toggle"><span>🦷</span><span style="flex:1;font-family:var(--font-body);font-size:14px;font-weight:600;color:#333;">Wear Rubber Bands</span><span class="qr-check">✓</span></div>
+      </div>
+      <div class="db-form-hint">Max 3 active challenges per patient</div>
+    </div>
+    <div style="display:flex;gap:12px;">
+      <div class="db-form-group" style="flex:1;"><label class="db-form-label">TREATMENT DURATION</label><input class="db-form-input" type="number" value="18"><div class="db-form-hint">Months</div></div>
+      <div class="db-form-group" style="flex:1;"><label class="db-form-label">PLANNED END DATE</label><input class="db-form-input" type="date" value="2027-08-19"></div>
+    </div>
+    <div class="db-form-group">
+      <label class="db-form-label">FUMBLE SENSITIVITY</label>
+      <div style="display:flex;gap:8px;">
+        <div class="sens-opt">LOW<span class="sens-sub">Lenient</span></div>
+        <div class="sens-opt active">DEFAULT<span class="sens-sub">Balanced</span></div>
+        <div class="sens-opt">HIGH<span class="sens-sub">Strict</span></div>
+      </div>
+      <div class="db-form-hint">Affects fumble penalty multipliers for this patient</div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:20px;">
+      <button class="db-btn db-btn-primary">GENERATE CODE</button>
+      <button class="db-btn db-btn-outline">RESET</button>
+    </div>
+  </div>
+
+  {# RIGHT: QR Preview #}
+  <div class="db-card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
+    <div style="font-family:var(--font-display);font-size:20px;font-weight:700;letter-spacing:2px;color:#1A1A1A;margin-bottom:4px;align-self:flex-start;">PREVIEW</div>
+    <div style="font-family:var(--font-body);font-size:14px;color:#888;margin-bottom:18px;align-self:flex-start;">This is what the generated code will look like.</div>
+    <div style="width:180px;height:180px;background:#1A1A1A;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;">
+      <div style="display:grid;grid-template-columns:repeat(9,1fr);gap:2px;width:140px;height:140px;padding:10px;">
+        {% for i in range(81) %}
+        <div style="border-radius:1px;background:{% if i % 3 == 0 %}#fff{% elif i % 5 == 0 %}#4A8500{% else %}#1A1A1A{% endif %};"></div>
+        {% endfor %}
+      </div>
+    </div>
+    <div style="font-family:var(--font-mono);font-size:18px;font-weight:700;letter-spacing:3px;color:#1A1A1A;margin-bottom:4px;">BB-7741-NK</div>
+    <div style="font-family:var(--font-mono);font-size:13px;color:#999;margin-bottom:4px;">ALIGNERS · 18 MONTHS · DEFAULT SENSITIVITY</div>
+    <div style="font-family:var(--font-mono);font-size:11px;color:#bbb;letter-spacing:1px;margin-top:12px;padding:8px 12px;background:#FAFAF7;border:1px solid #EEEEE8;border-radius:6px;line-height:1.6;text-align:left;">
+      ENCODES: TRACK=ALIGNERS · CHALLENGES=2 · DURATION=18MO · SENSITIVITY=DEFAULT · PRACTICE=BRIGHTSMILES · CODE=BB-7741-NK
+    </div>
+  </div>
+</div>
+
+{# ── Print-Ready Card Preview ── #}
+<div class="db-section-title" style="margin:28px 0 14px;">PRINT-READY CARD</div>
+<div class="db-card" style="display:flex;gap:30px;align-items:center;">
+  <div style="width:320px;background:#fff;border:2px solid #1A1A1A;border-radius:12px;padding:24px;text-align:center;flex-shrink:0;">
+    <div style="font-family:var(--font-display);font-size:20px;font-weight:700;letter-spacing:3px;margin-bottom:4px;"><span style="color:#1A1A1A;">BITE</span><span style="color:#4A8500;">BACK</span></div>
+    <div style="font-family:var(--font-mono);font-size:11px;color:#999;letter-spacing:1px;margin-bottom:16px;">YOUR SMILE · YOUR RULES · YOUR ROAST</div>
+    <div style="width:120px;height:120px;background:#1A1A1A;border-radius:8px;margin:0 auto 12px;"></div>
+    <div style="font-family:var(--font-mono);font-size:16px;font-weight:700;letter-spacing:2px;color:#1A1A1A;margin-bottom:4px;">BB-7741-NK</div>
+    <div style="font-family:var(--font-mono);font-size:12px;color:#4A8500;font-weight:600;letter-spacing:1px;margin-bottom:12px;">ALIGNERS · 18 MONTHS</div>
+    <div style="font-family:var(--font-body);font-size:12px;color:#888;line-height:1.5;margin-bottom:8px;">1. Download BiteBack from App Store<br>2. Scan this QR code<br>3. Pick your coach. Get roasted.</div>
+    <div style="font-family:var(--font-mono);font-size:10px;color:#bbb;letter-spacing:1px;">BRIGHT SMILES ORTHODONTICS · BITEBACK.APP</div>
+  </div>
+  <div>
+    <div style="font-family:var(--font-display);font-size:18px;font-weight:700;letter-spacing:2px;color:#444;margin-bottom:8px;">DELIVERY OPTIONS</div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <button class="db-btn db-btn-primary" style="width:200px;">🖨 PRINT CARD</button>
+      <button class="db-btn db-btn-outline" style="width:200px;">📧 EMAIL TO PRACTICE</button>
+      <button class="db-btn db-btn-outline" style="width:200px;">📋 COPY CODE</button>
+      <button class="db-btn db-btn-outline" style="width:200px;">⬇ DOWNLOAD QR IMAGE</button>
+    </div>
+  </div>
+</div>
+
+{# ── Generated Codes Table ── #}
+<div class="db-section-title" style="margin:28px 0 14px;">ALL GENERATED CODES</div>
+<div class="db-table-wrap">
+  <div class="db-table-toolbar">
+    <div class="db-search-box"><span>🔍</span><input placeholder="Search codes..."></div>
+    <div class="db-filter-chips">
+      <span class="db-chip active">ALL</span><span class="db-chip">ACTIVE</span><span class="db-chip">PENDING</span><span class="db-chip">EXPIRED</span>
+    </div>
+  </div>
+  <table class="db-table">
+    <thead><tr><th>CODE</th><th>LABEL</th><th>TRACK</th><th>CHALLENGES</th><th>DURATION</th><th>SENSITIVITY</th><th>STATUS</th><th>ACTIONS</th></tr></thead>
+    <tbody>
+      <tr><td class="td-mono" style="font-weight:700;color:#1A1A1A;">BB-7741-NK</td><td class="td-name">Tues 3pm aligner</td><td><span class="db-badge db-badge-track-aligners">ALIGNERS</span></td><td class="td-mono">2</td><td class="td-mono">18 mo</td><td class="td-mono">Default</td><td><span class="db-badge db-badge-on-track">ACTIVE</span></td><td style="display:flex;gap:4px;"><button class="db-btn db-btn-outline" style="font-size:12px;padding:5px 10px;">PRINT</button><button class="db-btn db-btn-outline" style="font-size:12px;padding:5px 10px;">COPY</button></td></tr>
+      <tr><td class="td-mono" style="font-weight:700;color:#1A1A1A;">BB-5512-TL</td><td class="td-name">Wed braces kid</td><td><span class="db-badge db-badge-track-braces">BRACES</span></td><td class="td-mono">3</td><td class="td-mono">24 mo</td><td class="td-mono">High</td><td><span class="db-badge db-badge-on-track">ACTIVE</span></td><td style="display:flex;gap:4px;"><button class="db-btn db-btn-outline" style="font-size:12px;padding:5px 10px;">PRINT</button><button class="db-btn db-btn-outline" style="font-size:12px;padding:5px 10px;">COPY</button></td></tr>
+      <tr><td class="td-mono" style="font-weight:700;color:#D4A017;">BB-3392-PX</td><td class="td-name">New patient Fri</td><td><span class="db-badge db-badge-track-aligners">ALIGNERS</span></td><td class="td-mono">2</td><td class="td-mono">12 mo</td><td class="td-mono">Default</td><td><span class="db-badge db-badge-at-risk">PENDING</span></td><td style="display:flex;gap:4px;"><button class="db-btn db-btn-outline" style="font-size:12px;padding:5px 10px;">PRINT</button><button class="db-btn db-btn-outline" style="font-size:12px;padding:5px 10px;">COPY</button></td></tr>
+      <tr style="opacity:0.5;"><td class="td-mono" style="font-weight:700;color:#bbb;">BB-1100-EX</td><td class="td-name">Old test code</td><td><span class="db-badge db-badge-track-braces">BRACES</span></td><td class="td-mono">2</td><td class="td-mono">18 mo</td><td class="td-mono">Low</td><td><span class="db-badge" style="background:rgba(0,0,0,0.04);color:#bbb;">EXPIRED</span></td><td><button class="db-btn db-btn-outline" style="font-size:12px;padding:5px 10px;color:#ccc;" disabled>—</button></td></tr>
+    </tbody>
+  </table>
+  <div class="db-table-footer"><span class="db-table-count">SHOWING 4 OF 31 CODES</span></div>
+</div>

@@ -1,0 +1,19 @@
+{% set c = coaches[bubbleCoach or coach or "bri"] %}
+{% set variant = bubbleVariant or "normal" %}
+
+<div style="display: flex; gap: 10px; align-items: flex-start; padding: 0 20px; margin: 12px 0;">
+  <img 
+    src="{{ c.avatar.face }}" 
+    alt="{{ c.name }}" 
+    style="width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;"
+    onerror="this.style.background='{{ c.color.dark }}'; this.style.width='32px'; this.style.height='32px'; this.style.borderRadius='50%';"
+  >
+  <div class="coach-bubble" style="
+    {% if variant == 'celebration' %}border-color: var(--clutch); background: rgba(191, 255, 0, 0.05);
+    {% elif variant == 'warning' %}border-color: var(--fumble); background: rgba(255, 23, 68, 0.05);
+    {% endif %}
+  ">
+    <span style="color: {{ c.color.dark }}; font-family: var(--font-display); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">{{ c.name }}</span>
+    <div style="margin-top: 4px;">{{ bubbleText or c.sampleRoast }}</div>
+  </div>
+</div>

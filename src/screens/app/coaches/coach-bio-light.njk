@@ -1,0 +1,13 @@
+---
+layout: base.njk
+pagination:
+  data: coaches
+  size: 1
+  alias: coachEntry
+permalink: "screens/app/coaches/{{ coachEntry.id }}/light/"
+eleventyComputed:
+  title: "Coach Bio — {{ coachEntry.name }} — Light"
+---
+{% set isDark = false %}
+{% set c = coachEntry %}
+{% include "partials/_coach-bio-content.njk" %}

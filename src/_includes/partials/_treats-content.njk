@@ -1,0 +1,124 @@
+{# Treats content - included by dark.njk and light.njk wrappers #}
+{# Expects: isDark variable set by wrapper #}
+
+<style>
+  .practice-header {
+    margin: 14px 16px 0; padding: 14px 16px; border-radius: 14px;
+    background: {% if isDark %}linear-gradient(135deg, rgba(191,255,0,0.04) 0%, rgba(191,255,0,0.01) 100%){% else %}linear-gradient(135deg, rgba(74,133,0,0.03) 0%, rgba(74,133,0,0.01) 100%){% endif %};
+    border: 1px solid {% if isDark %}rgba(191,255,0,0.08){% else %}rgba(74,133,0,0.08){% endif %};
+    text-align: center;
+  }
+  .ph-icon { font-size: 20px; margin-bottom: 4px; }
+  .ph-name { font-family: var(--font-body); font-size: 14px; font-weight: 600; color: {% if isDark %}#ccc{% else %}#444{% endif %}; }
+  .ph-sub { font-family: var(--font-mono); font-size: 9px; color: #777; letter-spacing: 1px; margin-top: 4px; }
+
+  .section-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 3px; color: #888; padding: 16px 20px 8px; }
+
+  /* ── Treat Card ── */
+  .treat-card { margin: 0 16px 10px; border-radius: 16px; padding: 16px; position: relative; overflow: hidden; }
+  .treat-card.locked { background: {% if isDark %}#111{% else %}#fff{% endif %}; border: 1px solid {% if isDark %}#1A1A1A{% else %}#E5E5E0{% endif %}; }
+  .treat-card.unlocked {
+    background: {% if isDark %}linear-gradient(135deg, rgba(191,255,0,0.06) 0%, rgba(191,255,0,0.02) 100%){% else %}linear-gradient(135deg, rgba(74,133,0,0.04) 0%, rgba(74,133,0,0.01) 100%){% endif %};
+    border: 1px solid {% if isDark %}rgba(191,255,0,0.15){% else %}rgba(74,133,0,0.12){% endif %};
+  }
+  .treat-card.claimed { background: {% if isDark %}#111{% else %}#fff{% endif %}; border: 1px solid {% if isDark %}#1A1A1A{% else %}#E5E5E0{% endif %}; opacity: 0.6; }
+  .treat-card.next { background: {% if isDark %}#111{% else %}#fff{% endif %}; border: 1px solid {% if isDark %}rgba(191,255,0,0.1){% else %}rgba(74,133,0,0.08){% endif %}; }
+
+  .tc-top { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 12px; }
+  .tc-icon {
+    width: 48px; height: 48px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0;
+  }
+  .locked .tc-icon { background: {% if isDark %}#1A1A1A{% else %}#F0F0EB{% endif %}; }
+  .unlocked .tc-icon { background: {% if isDark %}rgba(191,255,0,0.1){% else %}rgba(74,133,0,0.06){% endif %}; border: 1px solid {% if isDark %}rgba(191,255,0,0.2){% else %}rgba(74,133,0,0.12){% endif %}; }
+  .claimed .tc-icon { background: {% if isDark %}#1A1A1A{% else %}#F0F0EB{% endif %}; }
+  .next .tc-icon { background: {% if isDark %}rgba(191,255,0,0.06){% else %}rgba(74,133,0,0.04){% endif %}; border: 1px solid {% if isDark %}rgba(191,255,0,0.1){% else %}rgba(74,133,0,0.08){% endif %}; }
+
+  .tc-title { font-family: var(--font-body); font-size: 15px; font-weight: 600; color: {% if isDark %}#eee{% else %}#333{% endif %}; }
+  .unlocked .tc-title { color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %}; }
+  .tc-desc { font-family: var(--font-body); font-size: 12px; color: #888; margin-top: 2px; line-height: 1.4; }
+  .tc-milestone { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1px; margin-top: 6px; }
+  .locked .tc-milestone { color: {% if isDark %}#555{% else %}#bbb{% endif %}; }
+  .unlocked .tc-milestone { color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %}; }
+  .next .tc-milestone { color: #888; }
+
+  .tc-progress { margin-top: 12px; }
+  .tc-prog-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .tc-prog-label { font-family: var(--font-mono); font-size: 9px; color: #777; letter-spacing: 1px; }
+  .tc-prog-pct { font-family: var(--font-mono); font-size: 10px; color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %}; }
+  .tc-bar { width: 100%; height: 4px; background: {% if isDark %}#1A1A1A{% else %}#E5E5E0{% endif %}; border-radius: 2px; overflow: hidden; }
+  .tc-bar-fill { height: 4px; border-radius: 2px; background: {% if isDark %}linear-gradient(90deg, #BFFF00, #8BCC00){% else %}linear-gradient(90deg, #4A8500, #7BC62D){% endif %}; }
+
+  .tc-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px;
+    padding: 6px 12px; border-radius: 10px; margin-top: 10px;
+  }
+  .unlocked .tc-badge { background: {% if isDark %}rgba(191,255,0,0.08){% else %}rgba(74,133,0,0.06){% endif %}; color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %}; border: 1px solid {% if isDark %}rgba(191,255,0,0.15){% else %}rgba(74,133,0,0.1){% endif %}; }
+  .claimed .tc-badge { background: {% if isDark %}rgba(255,255,255,0.04){% else %}rgba(0,0,0,0.03){% endif %}; color: {% if isDark %}#555{% else %}#bbb{% endif %}; border: 1px solid {% if isDark %}#1A1A1A{% else %}#E5E5E0{% endif %}; }
+
+  .tc-lock { position: absolute; top: 16px; right: 16px; font-size: 16px; opacity: 0.3; }
+</style>
+
+<div class="practice-header">
+  <div class="ph-icon">🏥</div>
+  <div class="ph-name">Bright Smiles Orthodontics</div>
+  <div class="ph-sub">5 TREATS AVAILABLE</div>
+</div>
+
+<div class="section-label">🎉 UNLOCKED</div>
+<div class="treat-card unlocked">
+  <div class="tc-top">
+    <div class="tc-icon">🍬</div>
+    <div>
+      <div class="tc-title">Candy Bag</div>
+      <div class="tc-desc">Pick any candy from the prize wall at your next visit!</div>
+      <div class="tc-milestone">✓ 7-DAY STREAK · UNLOCKED</div>
+    </div>
+  </div>
+  <div class="tc-badge">🎁 SHOW AT NEXT VISIT</div>
+</div>
+
+<div class="section-label">⏳ NEXT UP</div>
+<div class="treat-card next">
+  <div class="tc-top">
+    <div class="tc-icon">☕</div>
+    <div>
+      <div class="tc-title">$10 Starbucks Card</div>
+      <div class="tc-desc">Gift card handed out at your next appointment</div>
+      <div class="tc-milestone">30-DAY STREAK · 30 DAYS LEFT</div>
+    </div>
+  </div>
+  <div class="tc-progress">
+    <div class="tc-prog-row">
+      <div class="tc-prog-label">PROGRESS</div>
+      <div class="tc-prog-pct">0/30</div>
+    </div>
+    <div class="tc-bar"><div class="tc-bar-fill" style="width:0%"></div></div>
+  </div>
+</div>
+
+<div class="section-label">🔒 LOCKED</div>
+<div class="treat-card locked">
+  <div class="tc-lock">🔒</div>
+  <div class="tc-top">
+    <div class="tc-icon">🎟️</div>
+    <div>
+      <div class="tc-title">Raffle Entry</div>
+      <div class="tc-desc">Enter the monthly prize raffle</div>
+      <div class="tc-milestone">60-DAY STREAK</div>
+    </div>
+  </div>
+</div>
+
+<div class="treat-card locked">
+  <div class="tc-lock">🔒</div>
+  <div class="tc-top">
+    <div class="tc-icon">🎧</div>
+    <div>
+      <div class="tc-title">AirPods Raffle</div>
+      <div class="tc-desc">Entry into the quarterly AirPods drawing</div>
+      <div class="tc-milestone">90-DAY STREAK</div>
+    </div>
+  </div>
+</div>

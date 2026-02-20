@@ -1,0 +1,97 @@
+---
+layout: onboarding.njk
+title: Set Your Heat
+screenTitle: "Step 6 — Set Your Heat"
+step: 6
+ctaText: "NEXT"
+---
+
+<style>
+  .heat-slider-area {
+    text-align: center; margin-bottom: 20px;
+  }
+  .big-fire { font-size: 48px; margin-bottom: 8px; }
+  .heat-level-label {
+    font-family: var(--font-display); font-weight: 700; font-size: 28px;
+    letter-spacing: 3px; color: #FF6D00;
+  }
+  .heat-level-sub {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px;
+    color: var(--text-secondary); margin-top: 2px;
+  }
+  .heat-dots-row {
+    display: flex; justify-content: center; gap: 12px;
+    margin-bottom: 20px;
+  }
+  .heat-dot-btn {
+    width: 48px; height: 48px; border-radius: 14px;
+    background: var(--card-bg); border: 1px solid #2A2A2A;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 2px; cursor: pointer;
+  }
+  .heat-dot-btn.active {
+    border-color: #FF6D00;
+    background: rgba(255,109,0,0.08);
+  }
+  .heat-dot-btn.locked {
+    opacity: 0.35;
+    cursor: default;
+  }
+  .hdb-num {
+    font-family: var(--font-display); font-weight: 700; font-size: 16px; color: var(--text-primary);
+  }
+  .heat-dot-btn.active .hdb-num { color: #FF6D00; }
+  .heat-dot-btn.locked .hdb-num { color: var(--text-min); }
+  .hdb-dots { display: flex; gap: 2px; }
+  .hdb-d { width: 5px; height: 5px; border-radius: 50%; }
+  .heat-preview-bubble {
+    background: rgba(255,109,0,0.06); border: 1px solid rgba(255,109,0,0.15);
+    border-radius: 14px; padding: 14px 18px;
+    margin: 16px 0;
+    font-family: var(--font-body); font-size: 13px; color: var(--text-secondary);
+    font-style: italic; text-align: center; line-height: 1.5;
+  }
+  .heat-note {
+    font-family: var(--font-mono); font-size: 10px; color: var(--text-tertiary);
+    text-align: center; letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+</style>
+
+<div style="flex: 1; display: flex; flex-direction: column; padding-top: 10px;">
+  <div class="heading" style="text-align: center; margin-bottom: 4px;">HOW HARD SHOULD<br/>BRI GO?</div>
+  <div class="body-text" style="text-align: center; margin-bottom: 24px;">Set your roast level</div>
+
+  <div class="heat-slider-area">
+    <div class="big-fire">🔥</div>
+    <div class="heat-level-label">LVL 3 — REAL TALK</div>
+    <div class="heat-level-sub">The sweet spot</div>
+  </div>
+
+  <div class="heat-dots-row">
+    <div class="heat-dot-btn">
+      <div class="hdb-num">1</div>
+      <div class="hdb-dots"><div class="hdb-d" style="background:#FFD600"></div></div>
+    </div>
+    <div class="heat-dot-btn">
+      <div class="hdb-num">2</div>
+      <div class="hdb-dots"><div class="hdb-d" style="background:#FFD600"></div><div class="hdb-d" style="background:#FFAB00"></div></div>
+    </div>
+    <div class="heat-dot-btn active">
+      <div class="hdb-num">3</div>
+      <div class="hdb-dots"><div class="hdb-d" style="background:#FFD600"></div><div class="hdb-d" style="background:#FFAB00"></div><div class="hdb-d" style="background:#FF6D00"></div></div>
+    </div>
+    <div class="heat-dot-btn locked">
+      <div class="hdb-num">4</div>
+      <div class="hdb-dots"><div class="hdb-d" style="background:#555"></div><div class="hdb-d" style="background:#555"></div><div class="hdb-d" style="background:#555"></div><div class="hdb-d" style="background:#555"></div></div>
+    </div>
+    <div class="heat-dot-btn locked">
+      <div class="hdb-num">5</div>
+      <div class="hdb-dots"><div class="hdb-d" style="background:#555"></div><div class="hdb-d" style="background:#555"></div><div class="hdb-d" style="background:#555"></div><div class="hdb-d" style="background:#555"></div><div class="hdb-d" style="background:#555"></div></div>
+    </div>
+  </div>
+
+  <div class="heat-preview-bubble">"bestie that's +1 day. your ortho will notice. but go off I guess" 💅</div>
+  <div class="heat-note">Lvl 4-5 unlock with Pro · Change anytime</div>
+</div>

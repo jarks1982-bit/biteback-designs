@@ -1,0 +1,143 @@
+
+<div class="db-page-header">
+  <div>
+    <div class="db-page-title">TREATS</div>
+    <div class="db-page-subtitle">MANAGE REWARDS · 5 ACTIVE TREATS</div>
+  </div>
+  <div style="display:flex;gap:8px;">
+    <button class="db-btn db-btn-outline">TEMPLATES</button>
+    <button class="db-btn db-btn-primary">+ NEW TREAT</button>
+  </div>
+</div>
+
+{# ── Stat Cards ── #}
+<div class="db-stats-row db-stats-4">
+  <div class="db-stat-card"><div class="db-stat-label">ACTIVE TREATS</div><div class="db-stat-value dark">5</div><div class="db-stat-delta">across all milestones</div></div>
+  <div class="db-stat-card"><div class="db-stat-label">ELIGIBLE NOW</div><div class="db-stat-value green">7</div><div class="db-stat-delta">patients ready to claim</div></div>
+  <div class="db-stat-card"><div class="db-stat-label">FULFILLED</div><div class="db-stat-value gold">18</div><div class="db-stat-delta">this month · $127 spent</div></div>
+  <div class="db-stat-card"><div class="db-stat-label">AVG MOTIVATION LIFT</div><div class="db-stat-value green">+12%</div><div class="db-stat-delta">compliance after treat unlock</div></div>
+</div>
+
+{# ── Active Treats Grid ── #}
+<div class="db-section-title" style="margin-bottom:14px;">ACTIVE TREATS <span style="font-size:13px;color:#4A8500;background:rgba(74,133,0,0.06);padding:4px 12px;border-radius:6px;margin-left:8px;">5 REWARDS</span></div>
+<div class="treat-grid">
+  {% set treats = [
+    {icon:"🍬", name:"Candy Bag", desc:"Assorted candy bag from the front desk prize box.", milestone:"STREAK", days:"7 DAYS", eligible:4, fulfilled:12, progress:8, cost:"$2–3"},
+    {icon:"☕", name:"$10 Starbucks Card", desc:"Gift card for any Starbucks drink of their choice.", milestone:"STREAK", days:"30 DAYS", eligible:2, fulfilled:4, progress:11, cost:"$10"},
+    {icon:"🎟️", name:"AirPods Raffle Entry", desc:"Entry into the quarterly AirPods raffle.", milestone:"STREAK", days:"60 DAYS", eligible:1, fulfilled:2, progress:6, cost:"$0"},
+    {icon:"🎧", name:"Premium Prize Pick", desc:"Choose from: AirPods, $25 Amazon card, or merch bundle.", milestone:"STREAK", days:"90 DAYS", eligible:0, fulfilled:0, progress:3, cost:"$10–25"},
+    {icon:"🍕", name:"Pizza Party", desc:"Top 5 streakers each month get a group pizza lunch.", milestone:"RANK", days:"TOP 5", eligible:5, fulfilled:0, progress:19, cost:"$20–50"}
+  ] %}
+  {% for t in treats %}
+  <div class="treat-card-lg">
+    <div class="treat-card-top"><span style="font-size:36px;">{{ t.icon }}</span><span class="db-badge db-badge-on-track" style="font-size:12px;">ACTIVE</span></div>
+    <div class="treat-card-title">{{ t.name }}</div>
+    <div class="treat-card-desc">{{ t.desc }}</div>
+    <div class="treat-milestone-row">
+      <span>{{ "🔥" if t.milestone == "STREAK" else "🏆" }}</span>
+      <span class="treat-milestone-label">{{ t.milestone }}</span>
+      <span class="treat-milestone-value">{{ t.days }}</span>
+    </div>
+    <div class="treat-stats-row">
+      <div class="treat-stat-mini"><div class="db-stat-value green" style="font-size:24px;">{{ t.eligible }}</div><div class="db-stat-label" style="font-size:11px;">ELIGIBLE</div></div>
+      <div class="treat-stat-mini"><div class="db-stat-value gold" style="font-size:24px;">{{ t.fulfilled }}</div><div class="db-stat-label" style="font-size:11px;">FULFILLED</div></div>
+      <div class="treat-stat-mini"><div class="db-stat-value amber" style="font-size:24px;">{{ t.progress }}</div><div class="db-stat-label" style="font-size:11px;">IN PROGRESS</div></div>
+    </div>
+    <div style="font-family:var(--font-mono);font-size:13px;color:#bbb;margin-bottom:14px;">EST. COST: <strong style="color:#1A1A1A;">{{ t.cost }}</strong> {{ "PER PATIENT" if t.milestone == "STREAK" else "(GROUP)" }}</div>
+    <div style="display:flex;gap:6px;margin-top:auto;">
+      <button class="ch-btn confirm" style="flex:1;">EDIT</button>
+      <button class="ch-btn disable" style="flex:1;">PAUSE</button>
+    </div>
+  </div>
+  {% endfor %}
+  <div class="treat-card-lg" style="border:2px dashed #E5E5E0;display:flex;align-items:center;justify-content:center;min-height:280px;cursor:pointer;background:transparent;">
+    <div style="text-align:center;"><div style="font-size:36px;margin-bottom:8px;opacity:0.35;">➕</div><div style="font-family:var(--font-mono);font-size:14px;letter-spacing:2px;color:#bbb;font-weight:600;">NEW TREAT</div></div>
+  </div>
+</div>
+
+{# ── Eligible Patients Table ── #}
+<div class="db-section-title" style="margin:28px 0 14px;">ELIGIBLE PATIENTS <span style="font-size:13px;color:#4A8500;background:rgba(74,133,0,0.06);padding:4px 12px;border-radius:6px;margin-left:8px;">7 READY</span></div>
+<div class="db-table-wrap">
+  <div class="db-table-toolbar">
+    <div class="db-search-box"><span>🔍</span><input placeholder="Search patients..."></div>
+    <div class="db-filter-chips">
+      <span class="db-chip active">ALL</span>
+      <span class="db-chip">ELIGIBLE</span>
+      <span class="db-chip">FULFILLED</span>
+      <span class="db-chip">IN PROGRESS</span>
+    </div>
+  </div>
+  <table class="db-table">
+    <thead><tr><th>LABEL</th><th>NICKNAME</th><th>CODE</th><th>TREAT</th><th>MILESTONE</th><th>PROGRESS</th><th>STATUS</th><th>ACTION</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="td-name">Tues 3pm aligner</td><td style="font-weight:600;color:#555;">NightByte</td><td class="td-code">BB-2847-XK</td>
+        <td style="font-weight:600;">☕ $10 Starbucks Card</td><td class="td-mono" style="color:#4A8500;">30-DAY STREAK</td>
+        <td><div class="db-compliance-bar"><div class="db-compliance-fill green" style="width:100%"></div></div><span class="td-mono" style="color:#888;">34/30d</span></td>
+        <td><span class="db-badge db-badge-on-track">ELIGIBLE</span></td><td><button class="db-btn db-btn-primary" style="font-size:12px;padding:5px 10px;">FULFILL</button></td>
+      </tr>
+      <tr>
+        <td class="td-name">Wed braces chair 4</td><td style="font-weight:600;color:#555;">IronJaw</td><td class="td-code">BB-1923-MR</td>
+        <td style="font-weight:600;">🍬 Candy Bag</td><td class="td-mono" style="color:#4A8500;">7-DAY STREAK</td>
+        <td><div class="db-compliance-bar"><div class="db-compliance-fill green" style="width:100%"></div></div><span class="td-mono" style="color:#888;">12/7d</span></td>
+        <td><span class="db-badge db-badge-on-track">ELIGIBLE</span></td><td><button class="db-btn db-btn-primary" style="font-size:12px;padding:5px 10px;">FULFILL</button></td>
+      </tr>
+      <tr>
+        <td class="td-name">Mon 10am aligner</td><td style="font-weight:600;color:#555;">BraceFace99</td><td class="td-code">BB-3301-AP</td>
+        <td style="font-weight:600;">🍬 Candy Bag</td><td class="td-mono" style="color:#4A8500;">7-DAY STREAK</td>
+        <td><div class="db-compliance-bar"><div class="db-compliance-fill green" style="width:100%"></div></div><span class="td-mono" style="color:#888;">9/7d</span></td>
+        <td><span class="db-badge db-badge-on-track">ELIGIBLE</span></td><td><button class="db-btn db-btn-primary" style="font-size:12px;padding:5px 10px;">FULFILL</button></td>
+      </tr>
+      <tr>
+        <td class="td-name">Dr P - retainer kid</td><td style="font-weight:600;color:#555;">PixelSmile</td><td class="td-code">BB-4412-LT</td>
+        <td style="font-weight:600;">🎟️ AirPods Raffle Entry</td><td class="td-mono" style="color:#4A8500;">60-DAY STREAK</td>
+        <td><div class="db-compliance-bar"><div class="db-compliance-fill green" style="width:100%"></div></div><span class="td-mono" style="color:#888;">63/60d</span></td>
+        <td><span class="db-badge db-badge-on-track">ELIGIBLE</span></td><td><button class="db-btn db-btn-primary" style="font-size:12px;padding:5px 10px;">FULFILL</button></td>
+      </tr>
+      <tr style="opacity:0.6;">
+        <td class="td-name">Fri aligner + bands</td><td style="font-weight:600;color:#555;">SteelGrin</td><td class="td-code">BB-2204-JE</td>
+        <td style="font-weight:600;">☕ $10 Starbucks Card</td><td class="td-mono" style="color:#B8860B;">30-DAY STREAK</td>
+        <td><div class="db-compliance-bar"><div class="db-compliance-fill green" style="width:100%"></div></div><span class="td-mono" style="color:#888;">30/30d</span></td>
+        <td><span class="db-badge db-badge-tier">FULFILLED</span></td><td><button class="db-btn db-btn-outline" style="font-size:12px;padding:5px 10px;color:#ccc;" disabled>DONE</button></td>
+      </tr>
+      <tr style="opacity:0.5;">
+        <td class="td-name">Thurs 4pm braces</td><td style="font-weight:600;color:#555;">NeonWires</td><td class="td-code">BB-0891-ER</td>
+        <td style="font-weight:600;">☕ $10 Starbucks Card</td><td class="td-mono" style="color:#888;">30-DAY STREAK</td>
+        <td><div class="db-compliance-bar"><div class="db-compliance-fill amber" style="width:73%"></div></div><span class="td-mono" style="color:#888;">22/30d</span></td>
+        <td><span class="db-badge" style="background:rgba(0,0,0,0.03);color:#999;">IN PROGRESS</span></td><td><button class="db-btn db-btn-outline" style="font-size:12px;padding:5px 10px;">VIEW</button></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="db-table-footer">
+    <span class="db-table-count">SHOWING 6 OF 24 PATIENTS</span>
+  </div>
+</div>
+
+{# ── Default Templates ── #}
+<div class="db-section-title" style="margin:28px 0 14px;">DEFAULT TEMPLATES</div>
+<div class="db-card" style="padding:0;overflow:hidden;">
+  <div style="padding:18px 22px;border-bottom:1px solid #F0F0EB;display:flex;justify-content:space-between;align-items:center;">
+    <div class="db-section-title" style="margin:0;">SUGGESTED TREAT IDEAS</div>
+    <span style="font-family:var(--font-mono);font-size:13px;color:#bbb;letter-spacing:1px;">TAP "USE" TO PRE-FILL</span>
+  </div>
+  {% set templates = [
+    {icon:"🍬", name:"Candy Bag or Sticker Pack", detail:"Small prize from the front desk", tag:"7-DAY", tagtype:"streak", cost:"$2–3"},
+    {icon:"🎨", name:"Extra Color Change", detail:"Let them pick a fun band color at next visit", tag:"14-DAY", tagtype:"streak", cost:"$0"},
+    {icon:"☕", name:"$5–10 Gift Card", detail:"Starbucks, Amazon, or local spot", tag:"30-DAY", tagtype:"streak", cost:"$5–10"},
+    {icon:"😎", name:"Skip the Brushing Lecture", detail:"90%+ compliance exempts lecture", tag:"90% COMPLIANCE", tagtype:"streak", cost:"$0"},
+    {icon:"🔌", name:"Phone Charging Cable", detail:"Branded or generic — useful + memorable", tag:"50 CLUTCHES", tagtype:"streak", cost:"$3–5"},
+    {icon:"💎", name:"Custom Retainer Case", detail:"Engraved or custom-colored case", tag:"90-DAY", tagtype:"streak", cost:"$8–15"}
+  ] %}
+  {% for t in templates %}
+  <div style="display:flex;align-items:center;gap:14px;padding:14px 22px;border-bottom:1px solid #FAFAF7;">
+    <span style="font-size:26px;">{{ t.icon }}</span>
+    <div style="flex:1;">
+      <div style="font-family:var(--font-body);font-size:15px;font-weight:700;color:#1A1A1A;">{{ t.name }}</div>
+      <div style="font-family:var(--font-body);font-size:13px;color:#888;margin-top:2px;">{{ t.detail }}</div>
+    </div>
+    <span class="ch-tag weight">{{ t.tag }}</span>
+    <span class="ch-tag patients">{{ t.cost }}</span>
+    <button class="ch-btn confirm">USE</button>
+  </div>
+  {% endfor %}
+</div>

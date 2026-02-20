@@ -1,0 +1,171 @@
+{# Check-in results content - included by dark.njk and light.njk wrappers #}
+{# Expects: isDark variable set by wrapper #}
+{# These are modal overlays - no tab bar #}
+
+<style>
+  .results-row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; padding: 0 8px; }
+  .result-col { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .result-label-tag { font-family: var(--font-mono); font-size: 9px; letter-spacing: 3px; color: #888; }
+
+  .challenge-badge {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin: 16px 20px 0; padding: 8px 16px; border-radius: 12px;
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 1px;
+  }
+  .result-icon {
+    display: flex; align-items: center; justify-content: center;
+    margin: 20px auto 0; width: 100px; height: 100px; border-radius: 50%; font-size: 48px;
+  }
+  .result-label { text-align: center; margin: 16px 0 4px; font-family: var(--font-display); font-size: 42px; font-weight: 700; letter-spacing: 4px; }
+  .result-sub { text-align: center; font-family: var(--font-mono); font-size: 11px; letter-spacing: 1px; color: #888; }
+
+  .countdown-mini { text-align: center; margin: 20px 16px 0; padding: 16px; border-radius: 16px; }
+  .cm-num { font-family: var(--font-display); font-size: 52px; font-weight: 700; line-height: 1; }
+  .cm-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 4px; color: #888; margin-top: 4px; }
+  .cm-trend { font-family: var(--font-mono); font-size: 10px; margin-top: 8px; display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 12px; }
+
+  .coach-bubble {
+    margin: 16px 16px 0; border-radius: 16px; padding: 14px 16px;
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .cb-avatar { width: 48px; height: 60px; object-fit: contain; flex-shrink: 0; }
+  .cb-name { font-family: var(--font-mono); font-size: 9px; letter-spacing: 2px; margin-bottom: 4px; }
+  .cb-line { font-family: var(--font-body); font-size: 14px; line-height: 1.5; }
+
+  .streak-bar {
+    margin: 14px 16px 0; padding: 12px 16px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .sb-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; color: #888; }
+  .sb-value { font-family: var(--font-display); font-size: 22px; font-weight: 700; }
+
+  .actions { display: flex; gap: 8px; margin: 16px 16px 0; }
+  .action-btn { flex: 1; padding: 14px; border-radius: 12px; text-align: center; font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: 1px; }
+  .done-btn { margin: 16px 16px 20px; padding: 16px; border-radius: 14px; text-align: center; font-family: var(--font-mono); font-size: 13px; font-weight: 600; letter-spacing: 2px; }
+
+  .redemption-card { margin: 14px 16px 0; padding: 14px 16px; border-radius: 14px; }
+  .rc-header { font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; margin-bottom: 10px; }
+  .rc-dots { display: flex; gap: 8px; align-items: center; }
+  .rc-dot { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 16px; font-weight: 700; }
+  .rc-line { flex: 1; height: 2px; }
+  .rc-sub { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1px; margin-top: 10px; color: #888; }
+
+  /* ── CLUTCH THEME ── */
+  .clutch .challenge-badge { background: {% if isDark %}rgba(191,255,0,0.06){% else %}rgba(74,133,0,0.04){% endif %}; border: 1px solid {% if isDark %}rgba(191,255,0,0.12){% else %}rgba(74,133,0,0.1){% endif %}; color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %}; }
+  .clutch .result-icon { background: {% if isDark %}rgba(191,255,0,0.08){% else %}rgba(74,133,0,0.06){% endif %}; border: 2px solid {% if isDark %}rgba(191,255,0,0.2){% else %}rgba(74,133,0,0.15){% endif %}; color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %}; font-size: 52px; }
+  .clutch .result-label { color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %}; }
+  .clutch .countdown-mini { background: {% if isDark %}rgba(191,255,0,0.04){% else %}rgba(74,133,0,0.03){% endif %}; border: 1px solid {% if isDark %}rgba(191,255,0,0.08){% else %}rgba(74,133,0,0.06){% endif %}; }
+  .clutch .cm-num { color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %}; }
+  .clutch .cm-trend { color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %}; background: {% if isDark %}rgba(191,255,0,0.06){% else %}rgba(74,133,0,0.04){% endif %}; }
+  .clutch .coach-bubble { background: {% if isDark %}rgba(191,255,0,0.03){% else %}rgba(74,133,0,0.02){% endif %}; border: 1px solid {% if isDark %}rgba(191,255,0,0.08){% else %}rgba(74,133,0,0.06){% endif %}; }
+  .clutch .cb-name { color: {% if isDark %}#FF6B9D{% else %}#D4507A{% endif %}; }
+  .clutch .cb-line { color: {% if isDark %}#ccc{% else %}#444{% endif %}; }
+  .clutch .streak-bar { background: {% if isDark %}#111{% else %}#fff{% endif %}; border: 1px solid {% if isDark %}#1A1A1A{% else %}#E5E5E0{% endif %}; }
+  .clutch .sb-value { color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %}; }
+  .clutch .action-btn.primary { background: {% if isDark %}rgba(191,255,0,0.08){% else %}rgba(74,133,0,0.06){% endif %}; border: 1px solid {% if isDark %}rgba(191,255,0,0.3){% else %}rgba(74,133,0,0.2){% endif %}; color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %}; }
+  .clutch .action-btn.secondary { background: {% if isDark %}#111{% else %}#fff{% endif %}; border: 1px solid {% if isDark %}#1A1A1A{% else %}#E5E5E0{% endif %}; color: #777; }
+  .clutch .done-btn { background: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %}; color: {% if isDark %}#0A0A0A{% else %}#fff{% endif %}; }
+
+  /* ── FUMBLE THEME ── */
+  .fumble .challenge-badge { background: {% if isDark %}rgba(255,23,68,0.06){% else %}rgba(220,30,60,0.04){% endif %}; border: 1px solid {% if isDark %}rgba(255,23,68,0.12){% else %}rgba(220,30,60,0.1){% endif %}; color: {% if isDark %}#FF3B3B{% else %}#DC1E3C{% endif %}; }
+  .fumble .result-icon { background: {% if isDark %}rgba(255,23,68,0.08){% else %}rgba(220,30,60,0.06){% endif %}; border: 2px solid {% if isDark %}rgba(255,23,68,0.2){% else %}rgba(220,30,60,0.15){% endif %}; color: {% if isDark %}#FF3B3B{% else %}#DC1E3C{% endif %}; font-size: 52px; }
+  .fumble .result-label { color: {% if isDark %}#FF3B3B{% else %}#DC1E3C{% endif %}; }
+  .fumble .countdown-mini { background: {% if isDark %}rgba(255,23,68,0.04){% else %}rgba(220,30,60,0.03){% endif %}; border: 1px solid {% if isDark %}rgba(255,23,68,0.08){% else %}rgba(220,30,60,0.06){% endif %}; }
+  .fumble .cm-num { color: {% if isDark %}#FF3B3B{% else %}#DC1E3C{% endif %}; }
+  .fumble .cm-trend { color: {% if isDark %}#FF3B3B{% else %}#DC1E3C{% endif %}; background: {% if isDark %}rgba(255,23,68,0.06){% else %}rgba(220,30,60,0.04){% endif %}; }
+  .fumble .coach-bubble { background: {% if isDark %}rgba(255,23,68,0.03){% else %}rgba(220,30,60,0.02){% endif %}; border: 1px solid {% if isDark %}rgba(255,23,68,0.08){% else %}rgba(220,30,60,0.06){% endif %}; }
+  .fumble .cb-name { color: {% if isDark %}#FF6B9D{% else %}#D4507A{% endif %}; }
+  .fumble .cb-line { color: {% if isDark %}#ccc{% else %}#444{% endif %}; }
+  .fumble .streak-bar { background: {% if isDark %}#111{% else %}#fff{% endif %}; border: 1px solid {% if isDark %}rgba(255,23,68,0.1){% else %}rgba(220,30,60,0.08){% endif %}; }
+  .fumble .sb-value { color: {% if isDark %}#FF3B3B{% else %}#DC1E3C{% endif %}; }
+  .fumble .action-btn.primary { background: {% if isDark %}rgba(255,23,68,0.06){% else %}rgba(220,30,60,0.04){% endif %}; border: 1px solid {% if isDark %}rgba(255,23,68,0.2){% else %}rgba(220,30,60,0.15){% endif %}; color: {% if isDark %}#FF3B3B{% else %}#DC1E3C{% endif %}; }
+  .fumble .action-btn.secondary { background: {% if isDark %}#111{% else %}#fff{% endif %}; border: 1px solid {% if isDark %}#1A1A1A{% else %}#E5E5E0{% endif %}; color: #777; }
+  .fumble .done-btn { background: {% if isDark %}#FF3B3B{% else %}#DC1E3C{% endif %}; color: #fff; }
+  .fumble .redemption-card { background: {% if isDark %}rgba(255,184,0,0.04){% else %}rgba(212,160,23,0.04){% endif %}; border: 1px solid {% if isDark %}rgba(255,184,0,0.1){% else %}rgba(212,160,23,0.08){% endif %}; }
+  .fumble .rc-header { color: {% if isDark %}#FFB800{% else %}#D4A017{% endif %}; }
+  .fumble .rc-dot.done { background: {% if isDark %}rgba(255,184,0,0.15){% else %}rgba(212,160,23,0.1){% endif %}; border: 1px solid {% if isDark %}rgba(255,184,0,0.3){% else %}rgba(212,160,23,0.2){% endif %}; color: {% if isDark %}#FFB800{% else %}#D4A017{% endif %}; }
+  .fumble .rc-dot.empty { background: {% if isDark %}#111{% else %}#F0F0EB{% endif %}; border: 1px solid {% if isDark %}#2A2A2A{% else %}#E5E5E0{% endif %}; color: {% if isDark %}#444{% else %}#ccc{% endif %}; }
+  .fumble .rc-line { background: {% if isDark %}#2A2A2A{% else %}#E5E5E0{% endif %}; }
+
+  /* ── MILESTONE ── */
+  .milestone .result-icon { background: {% if isDark %}rgba(255,215,0,0.1){% else %}rgba(184,134,11,0.08){% endif %}; border: 2px solid {% if isDark %}rgba(255,215,0,0.3){% else %}rgba(184,134,11,0.2){% endif %}; }
+  .milestone .result-label { color: {% if isDark %}#FFD700{% else %}#B8860B{% endif %}; }
+  .milestone .streak-bar { border: 1px solid {% if isDark %}rgba(255,215,0,0.15){% else %}rgba(184,134,11,0.1){% endif %}; }
+  .milestone .sb-value { color: {% if isDark %}#FFD700{% else %}#B8860B{% endif %}; }
+  .milestone .bonus-tag {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-family: var(--font-mono); font-size: 10px; color: {% if isDark %}#FFD700{% else %}#B8860B{% endif %};
+    background: {% if isDark %}rgba(255,215,0,0.08){% else %}rgba(184,134,11,0.06){% endif %};
+    padding: 4px 10px; border-radius: 10px; margin-top: 8px;
+  }
+</style>
+
+<div class="results-row">
+
+  {# ═══ CLUTCH ═══ #}
+  <div class="result-col">
+    <div class="result-label-tag">CLUTCH — NORMAL</div>
+    <div class="phone"><div class="inner clutch">
+      <div class="header">
+        <div class="logo"><span class="logo-bite">BITE</span><span class="logo-back">BACK</span></div>
+        <div style="font-family:var(--font-mono);font-size:10px;color:#777;letter-spacing:1px;">← DONE</div>
+      </div>
+      <div class="challenge-badge">😁 WEAR ALIGNERS</div>
+      <div class="result-icon">✓</div>
+      <div class="result-label">CLUTCH</div>
+      <div class="result-sub">Nice. Keep it moving.</div>
+      <div class="countdown-mini">
+        <div class="cm-num">247</div>
+        <div class="cm-label">DAYS TO GO</div>
+        <div class="cm-trend">▲ On track</div>
+      </div>
+      <div class="coach-bubble">
+        <img class="cb-avatar" src="/assets/img/avatars/bri-face.png" alt="Bri" onerror="this.style.display='none'">
+        <div><div class="cb-name">BRI</div><div class="cb-line">"aligners in? bestie that's the bare minimum but i'm still proud 💅"</div></div>
+      </div>
+      <div class="streak-bar"><div class="sb-label">🔥 STREAK</div><div class="sb-value">30 DAYS</div></div>
+      <div class="actions">
+        <div class="action-btn primary">📤 SHARE</div>
+        <div class="action-btn secondary">GOT IT</div>
+      </div>
+      <div class="done-btn">DONE</div>
+    </div></div>
+  </div>
+
+  {# ═══ FUMBLE ═══ #}
+  <div class="result-col">
+    <div class="result-label-tag">FUMBLE + REDEMPTION</div>
+    <div class="phone"><div class="inner fumble">
+      <div class="header">
+        <div class="logo"><span class="logo-bite">BITE</span><span class="logo-back">BACK</span></div>
+        <div style="font-family:var(--font-mono);font-size:10px;color:#777;letter-spacing:1px;">← DONE</div>
+      </div>
+      <div class="challenge-badge">😁 WEAR ALIGNERS</div>
+      <div class="result-icon">✗</div>
+      <div class="result-label">FUMBLE</div>
+      <div class="result-sub">+0.5 days added to your timeline</div>
+      <div class="countdown-mini">
+        <div class="cm-num">248</div>
+        <div class="cm-label">DAYS TO GO</div>
+        <div class="cm-trend">▼ +0.5 days</div>
+      </div>
+      <div class="coach-bubble">
+        <img class="cb-avatar" src="/assets/img/avatars/bri-face.png" alt="Bri" onerror="this.style.display='none'">
+        <div><div class="cb-name">BRI</div><div class="cb-line">"the audacity bestie. the absolute audacity. 💀"</div></div>
+      </div>
+      <div class="redemption-card">
+        <div class="rc-header">⚡ REDEMPTION QUEST</div>
+        <div class="rc-dots">
+          <div class="rc-dot empty">1</div>
+          <div class="rc-line"></div>
+          <div class="rc-dot empty">2</div>
+          <div class="rc-line"></div>
+          <div class="rc-dot empty">3</div>
+        </div>
+        <div class="rc-sub">3 days straight to earn back 50% of lost time</div>
+      </div>
+      <div class="done-btn">GOT IT</div>
+    </div></div>
+  </div>
+
+</div>

@@ -1,0 +1,105 @@
+---
+layout: onboarding.njk
+title: First Check-in
+screenTitle: "Step 10 — First Check-in"
+step: 10
+ctaText: ""
+---
+
+<style>
+  .day-badge {
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 16px;
+  }
+  .day-badge-text {
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 2px;
+    color: var(--clutch);
+    padding: 6px 16px; border-radius: 20px;
+    background: rgba(191,255,0,0.06); border: 1px solid rgba(191,255,0,0.15);
+  }
+  .checkin-coach-bubble {
+    display: flex; align-items: flex-start; gap: 10px;
+    background: rgba(255,107,157,0.04); border: 1px solid rgba(255,107,157,0.12);
+    border-radius: 4px 16px 16px 16px; padding: 14px 16px;
+    margin-bottom: 20px;
+  }
+  .checkin-coach-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    flex-shrink: 0; background: #FF6B9D;
+  }
+  .checkin-coach-name {
+    font-family: var(--font-mono); font-size: 8px; letter-spacing: 1px;
+    color: #FF6B9D; margin-bottom: 3px;
+  }
+  .checkin-coach-line {
+    font-family: var(--font-body); font-size: 14px; color: var(--text-secondary); line-height: 1.5;
+  }
+  .c-center {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+  }
+  .c-emoji { font-size: 48px; margin-bottom: 12px; }
+  .c-question {
+    font-family: var(--font-display); font-weight: 700; font-size: 24px;
+    letter-spacing: 2px; color: var(--text-primary); margin-bottom: 4px;
+  }
+  .c-challenge {
+    font-family: var(--font-body); font-size: 15px; color: var(--text-secondary); margin-bottom: 28px;
+  }
+  .c-buttons {
+    display: flex; gap: 12px; width: 100%;
+  }
+  .c-clutch {
+    flex: 1; padding: 20px; border-radius: 16px;
+    text-align: center; cursor: pointer;
+    background: rgba(191,255,0,0.07); border: 1.5px solid rgba(191,255,0,0.4);
+  }
+  .c-fumble {
+    flex: 1; padding: 20px; border-radius: 16px;
+    text-align: center; cursor: pointer;
+    background: rgba(255,23,68,0.07); border: 1.5px solid rgba(255,23,68,0.4);
+  }
+  .c-btn-emoji { font-size: 28px; margin-bottom: 6px; }
+  .c-clutch .c-btn-emoji { color: var(--clutch); }
+  .c-fumble .c-btn-emoji { color: var(--fumble); }
+  .c-btn-label {
+    font-family: var(--font-display); font-weight: 700; font-size: 16px;
+    letter-spacing: 2px;
+  }
+  .c-clutch .c-btn-label { color: var(--clutch); }
+  .c-fumble .c-btn-label { color: var(--fumble); }
+  .c-more {
+    font-family: var(--font-mono); font-size: 10px; color: var(--text-tertiary);
+    letter-spacing: 1px; margin-top: 20px;
+  }
+</style>
+
+<div style="flex: 1; display: flex; flex-direction: column; padding-top: 10px;">
+  <div class="day-badge"><div class="day-badge-text">🔥 DAY 1</div></div>
+
+  <div class="checkin-coach-bubble">
+    <div class="checkin-coach-avatar"></div>
+    <div>
+      <div class="checkin-coach-name">BRI</div>
+      <div class="checkin-coach-line">First day. No pressure. Jk there's pressure. 💅</div>
+    </div>
+  </div>
+
+  <div class="c-center">
+    <div class="c-emoji">😁</div>
+    <div class="c-question">DID YOU WEAR YOUR ALIGNERS?</div>
+    <div class="c-challenge">20+ hours today</div>
+    <div class="c-buttons">
+      <div class="c-clutch">
+        <div class="c-btn-emoji">✔</div>
+        <div class="c-btn-label">CLUTCH</div>
+      </div>
+      <div class="c-fumble">
+        <div class="c-btn-emoji">✗</div>
+        <div class="c-btn-label">FUMBLE</div>
+      </div>
+    </div>
+    <div class="c-more">+1 more after this</div>
+  </div>
+</div>

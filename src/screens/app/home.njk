@@ -1,0 +1,110 @@
+---
+layout: phone.njk
+title: Home
+screenTitle: "Home — Daily View"
+theme: dark
+coach: bri
+showCoachHeader: true
+showTabBar: true
+activeTab: home
+heatLevel: 3
+---
+
+<style>
+  .countdown-section {
+    text-align: center;
+    padding: 20px 20px 16px;
+  }
+  .countdown-number {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 80px;
+    line-height: 1;
+    color: var(--clutch);
+  }
+  .countdown-label {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+  }
+  .countdown-trend {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    margin-top: 8px;
+    padding: 4px 10px;
+    border-radius: 12px;
+  }
+  .countdown-trend.improving {
+    background: rgba(191, 255, 0, 0.1);
+    color: var(--clutch);
+  }
+  .progress-section {
+    padding: 0 20px 16px;
+  }
+  .progress-dates {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-tertiary);
+    margin-top: 6px;
+  }
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-tertiary);
+    padding: 8px 20px 8px;
+  }
+</style>
+
+<div class="countdown-section">
+  <div class="countdown-number">247</div>
+  <div class="countdown-label">Days To Go</div>
+  <div class="countdown-trend improving">↓ 2 days · improving</div>
+</div>
+
+<div class="progress-section">
+  <div class="progress-bar">
+    <div class="progress-fill" style="width: 38%;"></div>
+  </div>
+  <div class="progress-dates">
+    <span>Jan 15, 2026</span>
+    <span>Oct 20, 2027</span>
+  </div>
+</div>
+
+{% set bubbleCoach = "bri" %}
+{% set bubbleText = "12 days straight bestie you're literally unhinged rn keep going or I WILL judge you" %}
+{% include "partials/coach-bubble.njk" %}
+
+<div class="section-label">TODAY'S CHALLENGES</div>
+
+{% set challengeName = "Aligner Wear" %}
+{% set challengeDesc = "20+ hours today" %}
+{% set challengeStreak = 12 %}
+{% set challengeProgress = 0.6 %}
+{% set challengeState = "active" %}
+{% include "partials/challenge-card.njk" %}
+
+{% set challengeName = "Rubber Bands" %}
+{% set challengeDesc = "Wear as directed" %}
+{% set challengeStreak = 8 %}
+{% set challengeProgress = 0.4 %}
+{% set challengeState = "active" %}
+{% include "partials/challenge-card.njk" %}
+
+{% set challengeName = "Brushing" %}
+{% set challengeDesc = "After every meal" %}
+{% set challengeStreak = 0 %}
+{% set challengeProgress = 0.15 %}
+{% set challengeState = "fumbled" %}
+{% include "partials/challenge-card.njk" %}

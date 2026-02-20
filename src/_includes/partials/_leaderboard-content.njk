@@ -1,0 +1,197 @@
+{# Leaderboard content - included by dark.njk and light.njk wrappers #}
+{# Expects: isDark variable set by wrapper #}
+
+<style>
+  /* ── Tab Switcher ── */
+  .tab-switch {
+    display: flex; gap: 0; margin: 14px 16px 0;
+    background: {% if isDark %}#111{% else %}#fff{% endif %};
+    border-radius: 12px; padding: 3px;
+    border: 1px solid {% if isDark %}#1A1A1A{% else %}#E5E5E0{% endif %};
+  }
+  .tab-opt {
+    flex: 1; text-align: center; padding: 10px 0; border-radius: 10px;
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px;
+    color: {% if isDark %}#777{% else %}#999{% endif %}; cursor: pointer;
+  }
+  .tab-opt.active {
+    background: {% if isDark %}rgba(191,255,0,0.08){% else %}rgba(74,133,0,0.06){% endif %};
+    border: 1px solid {% if isDark %}rgba(191,255,0,0.12){% else %}rgba(74,133,0,0.12){% endif %};
+    color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %};
+  }
+
+  /* ── Your Rank Card ── */
+  .your-rank {
+    margin: 14px 16px 0; padding: 16px; border-radius: 16px;
+    background: {% if isDark %}linear-gradient(135deg, rgba(191,255,0,0.06) 0%, rgba(191,255,0,0.01) 100%){% else %}linear-gradient(135deg, rgba(74,133,0,0.04) 0%, rgba(74,133,0,0.01) 100%){% endif %};
+    border: 1px solid {% if isDark %}rgba(191,255,0,0.1){% else %}rgba(74,133,0,0.1){% endif %};
+    display: flex; align-items: center; gap: 14px;
+  }
+  .yr-pos { font-family: var(--font-display); font-size: 36px; font-weight: 700; color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %}; min-width: 44px; text-align: center; }
+  .yr-avatar {
+    width: 44px; height: 44px; border-radius: 50%; font-size: 24px;
+    display: flex; align-items: center; justify-content: center;
+    background: {% if isDark %}rgba(191,255,0,0.08){% else %}rgba(74,133,0,0.06){% endif %};
+    border: 1.5px solid {% if isDark %}rgba(191,255,0,0.2){% else %}rgba(74,133,0,0.15){% endif %};
+  }
+  .yr-name { font-family: var(--font-body); font-size: 15px; font-weight: 700; color: {% if isDark %}#fff{% else %}#1A1A1A{% endif %}; }
+  .yr-meta { font-family: var(--font-mono); font-size: 9px; color: #888; letter-spacing: 1px; margin-top: 2px; }
+  .yr-streak { margin-left: auto; text-align: right; }
+  .yr-streak-num { font-family: var(--font-display); font-size: 24px; font-weight: 700; color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %}; }
+  .yr-streak-label { font-family: var(--font-mono); font-size: 8px; color: #888; letter-spacing: 1px; }
+
+  /* ── Podium ── */
+  .podium { display: flex; align-items: flex-end; justify-content: center; gap: 8px; margin: 20px 16px 0; padding: 0 8px; }
+  .podium-spot { display: flex; flex-direction: column; align-items: center; flex: 1; }
+  .pod-avatar { border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 6px; }
+  .pod-name { font-family: var(--font-mono); font-size: 9px; color: {% if isDark %}#ccc{% else %}#666{% endif %}; letter-spacing: 1px; margin-bottom: 2px; }
+  .pod-streak { font-family: var(--font-display); font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .pod-bar { width: 100%; border-radius: 10px 10px 0 0; display: flex; align-items: flex-start; justify-content: center; padding-top: 10px; font-family: var(--font-display); font-size: 28px; font-weight: 700; }
+
+  .pod-1 .pod-avatar { width: 56px; height: 56px; font-size: 28px; background: rgba(255,215,0,0.12); border: 2px solid rgba(255,215,0,0.3); }
+  .pod-1 .pod-streak { color: {% if isDark %}#FFD700{% else %}#B8860B{% endif %}; }
+  .pod-1 .pod-bar { height: 100px; background: linear-gradient(180deg, rgba(255,215,0,0.15) 0%, rgba(255,215,0,0.04) 100%); border: 1px solid rgba(255,215,0,0.15); border-bottom: none; color: {% if isDark %}#FFD700{% else %}#B8860B{% endif %}; }
+
+  .pod-2 .pod-avatar { width: 48px; height: 48px; font-size: 24px; background: rgba(192,192,192,0.1); border: 2px solid rgba(192,192,192,0.25); }
+  .pod-2 .pod-streak { color: #C0C0C0; }
+  .pod-2 .pod-bar { height: 72px; background: linear-gradient(180deg, rgba(192,192,192,0.1) 0%, rgba(192,192,192,0.03) 100%); border: 1px solid rgba(192,192,192,0.1); border-bottom: none; color: #C0C0C0; }
+
+  .pod-3 .pod-avatar { width: 44px; height: 44px; font-size: 22px; background: rgba(205,127,50,0.1); border: 2px solid rgba(205,127,50,0.25); }
+  .pod-3 .pod-streak { color: #CD7F32; }
+  .pod-3 .pod-bar { height: 52px; background: linear-gradient(180deg, rgba(205,127,50,0.1) 0%, rgba(205,127,50,0.03) 100%); border: 1px solid rgba(205,127,50,0.1); border-bottom: none; color: #CD7F32; }
+
+  /* ── Leaderboard List ── */
+  .lb-list { margin: 0 16px; border-top: 1px solid {% if isDark %}#1A1A1A{% else %}#E5E5E0{% endif %}; }
+  .lb-row { display: flex; align-items: center; gap: 12px; padding: 12px 4px; border-bottom: 1px solid {% if isDark %}#111{% else %}#F0F0EB{% endif %}; }
+  .lb-row.you {
+    background: {% if isDark %}rgba(191,255,0,0.03){% else %}rgba(74,133,0,0.03){% endif %}; border-radius: 10px;
+    border: 1px solid {% if isDark %}rgba(191,255,0,0.06){% else %}rgba(74,133,0,0.06){% endif %}; margin: 2px -4px; padding: 12px 8px;
+  }
+  .lb-pos { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: {% if isDark %}#555{% else %}#bbb{% endif %}; min-width: 28px; text-align: center; }
+  .lb-row.you .lb-pos { color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %}; }
+  .lb-avatar {
+    width: 32px; height: 32px; border-radius: 50%; font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    background: {% if isDark %}#1A1A1A{% else %}#F0F0EB{% endif %}; border: 1px solid {% if isDark %}#2A2A2A{% else %}#E5E5E0{% endif %};
+  }
+  .lb-row.you .lb-avatar { background: {% if isDark %}rgba(191,255,0,0.06){% else %}rgba(74,133,0,0.04){% endif %}; border-color: {% if isDark %}rgba(191,255,0,0.15){% else %}rgba(74,133,0,0.12){% endif %}; }
+  .lb-name { font-family: var(--font-body); font-size: 14px; font-weight: 600; color: {% if isDark %}#ccc{% else %}#444{% endif %}; }
+  .lb-row.you .lb-name { color: {% if isDark %}#fff{% else %}#1A1A1A{% endif %}; }
+  .lb-tier { font-family: var(--font-mono); font-size: 8px; color: #777; letter-spacing: 1px; margin-top: 1px; }
+  .lb-streak { margin-left: auto; font-family: var(--font-mono); font-size: 11px; color: #888; letter-spacing: 1px; }
+  .lb-row.you .lb-streak { color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %}; }
+
+  /* ── Accountability Partner ── */
+  .partner-card {
+    margin: 14px 16px 0; padding: 14px 16px; border-radius: 14px;
+    background: {% if isDark %}#111{% else %}#fff{% endif %}; border: 1px solid {% if isDark %}#1A1A1A{% else %}#E5E5E0{% endif %};
+    display: flex; align-items: center; gap: 12px;
+  }
+  .partner-avatars { display: flex; position: relative; width: 50px; }
+  .pa-1, .pa-2 { width: 32px; height: 32px; border-radius: 50%; font-size: 16px; display: flex; align-items: center; justify-content: center; border: 2px solid {% if isDark %}#0A0A0A{% else %}#F5F5F0{% endif %}; }
+  .pa-1 { background: {% if isDark %}rgba(191,255,0,0.08){% else %}rgba(74,133,0,0.06){% endif %}; z-index: 2; }
+  .pa-2 { background: rgba(255,107,157,0.08); margin-left: -12px; z-index: 1; }
+  .partner-label { font-family: var(--font-mono); font-size: 9px; color: #888; letter-spacing: 1px; }
+  .partner-name { font-family: var(--font-body); font-size: 13px; font-weight: 600; color: {% if isDark %}#ccc{% else %}#444{% endif %}; margin-top: 2px; }
+  .partner-streak { margin-left: auto; font-family: var(--font-mono); font-size: 10px; color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %}; letter-spacing: 1px; }
+
+  /* ── Share Rank ── */
+  .share-rank {
+    margin: 14px 16px 0; padding: 14px; border-radius: 12px; text-align: center;
+    background: {% if isDark %}rgba(191,255,0,0.04){% else %}rgba(74,133,0,0.03){% endif %};
+    border: 1px solid {% if isDark %}rgba(191,255,0,0.08){% else %}rgba(74,133,0,0.08){% endif %};
+    font-family: var(--font-mono); font-size: 11px; color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %}; letter-spacing: 1px;
+  }
+</style>
+
+{# ── Tab Switcher ── #}
+<div class="tab-switch">
+  <div class="tab-opt active">🏥 MY PRACTICE</div>
+  <div class="tab-opt">🌍 GLOBAL</div>
+</div>
+
+{# ── Your Rank ── #}
+<div class="your-rank">
+  <div class="yr-pos">#4</div>
+  <div class="yr-avatar">😎</div>
+  <div>
+    <div class="yr-name">JAYLEN</div>
+    <div class="yr-meta">SMILE SOLDIER · 30d</div>
+  </div>
+  <div class="yr-streak">
+    <div class="yr-streak-num">30</div>
+    <div class="yr-streak-label">DAY STREAK</div>
+  </div>
+</div>
+
+{# ── Podium ── #}
+<div class="podium">
+  <div class="podium-spot pod-2">
+    <div class="pod-avatar">🦊</div>
+    <div class="pod-name">MIKA</div>
+    <div class="pod-streak">🔥 62</div>
+    <div class="pod-bar">2</div>
+  </div>
+  <div class="podium-spot pod-1">
+    <div class="pod-avatar">👑</div>
+    <div class="pod-name">ZARA</div>
+    <div class="pod-streak">🔥 89</div>
+    <div class="pod-bar">1</div>
+  </div>
+  <div class="podium-spot pod-3">
+    <div class="pod-avatar">🐻</div>
+    <div class="pod-name">TYLER</div>
+    <div class="pod-streak">🔥 45</div>
+    <div class="pod-bar">3</div>
+  </div>
+</div>
+
+{# ── List ── #}
+<div class="lb-list">
+  <div class="lb-row you">
+    <div class="lb-pos">4</div>
+    <div class="lb-avatar">😎</div>
+    <div><div class="lb-name">JAYLEN (YOU)</div><div class="lb-tier">SMILE SOLDIER</div></div>
+    <div class="lb-streak">🔥 30d</div>
+  </div>
+  <div class="lb-row">
+    <div class="lb-pos">5</div>
+    <div class="lb-avatar">🎮</div>
+    <div><div class="lb-name">NOVA</div><div class="lb-tier">RETAINER ROYALTY</div></div>
+    <div class="lb-streak">🔥 22d</div>
+  </div>
+  <div class="lb-row">
+    <div class="lb-pos">6</div>
+    <div class="lb-avatar">🌸</div>
+    <div><div class="lb-name">LUNA</div><div class="lb-tier">RETAINER ROYALTY</div></div>
+    <div class="lb-streak">🔥 18d</div>
+  </div>
+  <div class="lb-row">
+    <div class="lb-pos">7</div>
+    <div class="lb-avatar">⚡</div>
+    <div><div class="lb-name">KAI</div><div class="lb-tier">ELASTIC ELITE</div></div>
+    <div class="lb-streak">🔥 11d</div>
+  </div>
+  <div class="lb-row">
+    <div class="lb-pos">8</div>
+    <div class="lb-avatar">🎯</div>
+    <div><div class="lb-name">RILEY</div><div class="lb-tier">WIRE WARRIOR</div></div>
+    <div class="lb-streak">🔥 5d</div>
+  </div>
+</div>
+
+{# ── Partner ── #}
+<div class="partner-card">
+  <div class="partner-avatars">
+    <div class="pa-1">😎</div>
+    <div class="pa-2">🦊</div>
+  </div>
+  <div>
+    <div class="partner-label">ACCOUNTABILITY PARTNER</div>
+    <div class="partner-name">MIKA · paired 14d ago</div>
+  </div>
+  <div class="partner-streak">🔥 14d</div>
+</div>
+
+{# ── Share ── #}
+<div class="share-rank">📤 SHARE MY RANK</div>

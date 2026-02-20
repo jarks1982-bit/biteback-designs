@@ -1,0 +1,81 @@
+---
+layout: onboarding.njk
+title: Pick Your Avatar
+screenTitle: "Step 4 — Pick Your Avatar"
+step: 4
+ctaText: "NEXT"
+---
+
+<style>
+  .avatar-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .avatar-cell {
+    aspect-ratio: 1;
+    border-radius: 16px;
+    background: var(--card-bg);
+    border: 1.5px solid var(--card-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    position: relative;
+    cursor: pointer;
+  }
+  .avatar-cell.selected {
+    border-color: var(--clutch);
+    background: rgba(191,255,0,0.06);
+    box-shadow: 0 0 12px rgba(191,255,0,0.15);
+  }
+  .avatar-cell.selected::after {
+    content: '\2713';
+    position: absolute;
+    top: 4px; right: 6px;
+    font-size: 10px;
+    color: var(--clutch);
+    font-family: var(--font-mono);
+  }
+  .preview-bar {
+    display: flex; align-items: center; gap: 14px;
+    background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px;
+    padding: 14px 18px; margin-bottom: 20px;
+  }
+  .preview-avatar-circle {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: var(--card-border); border: 2px solid var(--clutch);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; flex-shrink: 0;
+    box-shadow: 0 0 12px rgba(191,255,0,0.15);
+  }
+</style>
+
+<div style="flex: 1; display: flex; flex-direction: column; padding-top: 20px;">
+  <div class="heading" style="text-align: center; margin-bottom: 6px;">PICK YOUR LOOK</div>
+  <div class="body-text" style="text-align: center; margin-bottom: 24px;">This is you on the leaderboard</div>
+
+  <div style="text-align: center; margin-bottom: 6px;">
+    <div style="width: 80px; height: 80px; border-radius: 50%; background: var(--card-bg); border: 2.5px solid var(--clutch); display: inline-flex; align-items: center; justify-content: center; font-size: 40px; box-shadow: 0 0 20px rgba(191,255,0,0.15);">😎</div>
+  </div>
+  <div style="font-family: var(--font-display); font-weight: 700; font-size: 22px; letter-spacing: 2px; color: var(--text-primary); text-align: center;">BraceGod</div>
+  <div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 1px; color: var(--text-tertiary); text-align: center; margin-bottom: 20px;">SNAGGLEFANG</div>
+
+  <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; color: var(--text-tertiary); margin-bottom: 12px;">CHOOSE ONE</div>
+
+  <div class="avatar-grid">
+    <div class="avatar-cell">😀</div>
+    <div class="avatar-cell">😤</div>
+    <div class="avatar-cell selected">😎</div>
+    <div class="avatar-cell">🤓</div>
+    <div class="avatar-cell">😈</div>
+    <div class="avatar-cell">🤠</div>
+    <div class="avatar-cell">👻</div>
+    <div class="avatar-cell">🦊</div>
+    <div class="avatar-cell">🐸</div>
+    <div class="avatar-cell">💀</div>
+    <div class="avatar-cell">👽</div>
+    <div class="avatar-cell">🤖</div>
+  </div>
+</div>

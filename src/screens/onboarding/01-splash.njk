@@ -1,0 +1,100 @@
+---
+layout: onboarding.njk
+title: Splash
+screenTitle: "Step 1 — Splash"
+step: 1
+ctaText: "LET'S GO"
+---
+
+{# 
+  Onboarding Step 1 — Splash
+  The first thing a teen sees. Dark, moody, personality-forward.
+#}
+
+<style>
+  .splash-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .splash-logo {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 52px;
+    letter-spacing: 3px;
+    animation: logoReveal 1s ease-out;
+  }
+  .splash-logo .bite { color: #FFFFFF; }
+  .splash-logo .back { color: var(--clutch); }
+  
+  .splash-tagline {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    margin-top: 20px;
+    animation: fadeIn 1s ease-out 0.4s both;
+  }
+  .splash-subtitle {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-secondary);
+    margin-top: 12px;
+    animation: fadeIn 1s ease-out 0.7s both;
+  }
+  .splash-footer {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--text-min);
+    margin-top: auto;
+    padding-bottom: 20px;
+    animation: fadeIn 1s ease-out 1s both;
+  }
+  .scanline {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--clutch), transparent);
+    opacity: 0.15;
+    animation: scanline 3s linear infinite;
+  }
+
+  @keyframes logoReveal {
+    from { letter-spacing: 20px; opacity: 0; }
+    to { letter-spacing: 3px; opacity: 1; }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes scanline {
+    from { top: 0; }
+    to { top: 100%; }
+  }
+</style>
+
+<div class="splash-container">
+  <div class="scanline"></div>
+  
+  <div class="splash-logo">
+    <span class="bite">BITE</span><span class="back">BACK</span>
+  </div>
+  
+  <div class="splash-tagline">YOUR SMILE · YOUR RULES · YOUR ROAST</div>
+  
+  <div class="splash-subtitle">Brace Yourself</div>
+  
+  <div class="splash-footer">POWERED BY ATTITUDE</div>
+</div>

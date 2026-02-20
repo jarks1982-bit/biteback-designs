@@ -1,0 +1,59 @@
+---
+layout: base.njk
+---
+
+{% set totalSteps = totalSteps or 10 %}
+{% set showBack = true if step > 1 else false %}
+
+<div style="display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 40px 20px; background: #1a1a1a;">
+  
+  {% if screenTitle %}
+  <div style="margin-bottom: 20px; text-align: center;">
+    <span class="label" style="color: #666;">ONBOARDING · STEP {{ step }} OF {{ totalSteps }}</span>
+  </div>
+  {% endif %}
+
+  <div class="phone-frame" data-theme="dark">
+    
+    {% include "partials/status-bar.njk" %}
+    <div class="phone-notch"></div>
+
+    <div class="phone-content" style="padding-top: 54px; padding-bottom: 20px; display: flex; flex-direction: column;">
+      
+      <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 20px 0;">
+        {% if showBack %}
+          <button style="background: none; border: none; color: var(--text-secondary); font-family: var(--font-mono); font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+            ← BACK
+          </button>
+        {% else %}
+          <div></div>
+        {% endif %}
+        
+        <div style="display: flex; gap: 6px;">
+          {% for i in range(1, totalSteps + 1) %}
+            <div style="
+              width: {% if i == step %}18px{% else %}6px{% endif %};
+              height: 6px;
+              border-radius: 3px;
+              background: {% if i == step %}var(--clutch){% elif i < step %}var(--text-tertiary){% else %}var(--card-border){% endif %};
+              transition: all 0.3s;
+            "></div>
+          {% endfor %}
+        </div>
+
+        <div style="width: 50px;"></div>
+      </div>
+
+      <div style="flex: 1; display: flex; flex-direction: column; padding: 0 20px;">
+        {{ content | safe }}
+      </div>
+
+      {% if ctaText %}
+        <div style="padding: 16px 20px;">
+          <button class="btn btn-clutch" style="width: 100%;">{{ ctaText }}</button>
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+</div>

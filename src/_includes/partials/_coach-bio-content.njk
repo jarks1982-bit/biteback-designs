@@ -1,0 +1,225 @@
+<style>
+  body {
+    background: {% if isDark %}#000{% else %}#E8E8E3{% endif %};
+    font-family: var(--font-body);
+    display: flex; flex-direction: column; align-items: center; padding: 20px;
+  }
+
+  .bio-card {
+    width: 375px;
+    background: {% if isDark %}#0A0A0A{% else %}#F5F5F0{% endif %};
+    border: 1px solid {% if isDark %}#222{% else %}#E5E5E0{% endif %};
+    border-radius: 28px;
+    padding-bottom: 20px; position: relative; overflow: hidden;
+  }
+  .bio-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 1;
+  }
+  .bio-inner { position: relative; z-index: 2; }
+
+  .bio-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 20px 6px;
+  }
+  .logo { font-family: var(--font-display); font-size: 22px; font-weight: 700; letter-spacing: 3px; }
+  .logo-bite { color: {% if isDark %}#fff{% else %}#1A1A1A{% endif %}; }
+  .logo-back { color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %}; }
+  .back-btn {
+    font-family: var(--font-mono); font-size: 10px;
+    color: {% if isDark %}#777{% else %}#888{% endif %};
+    letter-spacing: 1px; text-decoration: none;
+  }
+
+  .bio-body-wrap {
+    position: relative; text-align: center; padding: 10px 60px 0;
+  }
+  .bio-body-wrap img {
+    max-height: 240px; width: auto; display: block; margin: 0 auto;
+  }
+  .bio-body-placeholder {
+    width: 120px; height: 200px; border-radius: 20px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 80px;
+    background: {% if isDark %}{{ c.color_primary }}15{% else %}{{ c.color_light }}10{% endif %};
+    border: 2px solid {% if isDark %}{{ c.color_primary }}30{% else %}{{ c.color_light }}25{% endif %};
+  }
+  .bio-body-gradient {
+    position: absolute; inset: 0;
+    opacity: {% if isDark %}0.12{% else %}0.08{% endif %};
+    pointer-events: none;
+    background: linear-gradient(180deg, {% if isDark %}{{ c.color_primary }}{% else %}{{ c.color_light }}{% endif %} 0%, transparent 100%);
+  }
+
+  .bio-info { padding: 0 20px; }
+
+  .bi-top { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+  .bi-face { width: 56px; height: 56px; object-fit: contain; }
+  .bi-face-fallback {
+    width: 56px; height: 56px; border-radius: 50%; font-size: 28px;
+    display: flex; align-items: center; justify-content: center;
+    background: {% if isDark %}{{ c.color_primary }}15{% else %}{{ c.color_light }}10{% endif %};
+    border: 2px solid {% if isDark %}{{ c.color_primary }}30{% else %}{{ c.color_light }}25{% endif %};
+  }
+  .bi-name {
+    font-family: var(--font-display); font-size: 28px; font-weight: 700;
+    letter-spacing: 2px;
+    color: {% if isDark %}{{ c.color_primary }}{% else %}{{ c.color_light }}{% endif %};
+  }
+  .bi-archetype {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; margin-top: 2px;
+    color: {% if isDark %}{{ c.color_secondary | default(c.color_primary) }}{% else %}{{ c.color_light }}{% endif %};
+  }
+  .bi-access {
+    font-family: var(--font-mono); font-size: 8px; letter-spacing: 1px;
+    padding: 3px 8px; border-radius: 6px; margin-top: 4px; display: inline-block;
+  }
+  .bi-access.free {
+    background: {% if isDark %}rgba(191,255,0,0.08){% else %}rgba(74,133,0,0.08){% endif %};
+    color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %};
+    border: 1px solid {% if isDark %}rgba(191,255,0,0.15){% else %}rgba(74,133,0,0.15){% endif %};
+  }
+  .bi-access.premium {
+    background: {% if isDark %}rgba(255,215,0,0.08){% else %}rgba(184,134,11,0.08){% endif %};
+    color: {% if isDark %}#FFD700{% else %}#B8860B{% endif %};
+    border: 1px solid {% if isDark %}rgba(255,215,0,0.15){% else %}rgba(184,134,11,0.15){% endif %};
+  }
+
+  .bi-desc {
+    font-family: var(--font-body); font-size: 13px;
+    color: {% if isDark %}#999{% else %}#666{% endif %};
+    line-height: 1.6; margin-bottom: 16px;
+  }
+
+  .roast-label {
+    font-family: var(--font-mono); font-size: 9px; letter-spacing: 2px;
+    color: {% if isDark %}#555{% else %}#999{% endif %}; margin-bottom: 10px;
+  }
+  .roast-card {
+    padding: 12px 14px; border-radius: 12px; margin-bottom: 8px;
+    background: {% if isDark %}rgba(255,255,255,0.02){% else %}rgba(0,0,0,0.02){% endif %};
+    border: 1px solid {% if isDark %}#1A1A1A{% else %}#E5E5E0{% endif %};
+  }
+  .roast-type {
+    font-family: var(--font-mono); font-size: 8px; letter-spacing: 1px;
+    color: {% if isDark %}#555{% else %}#999{% endif %}; margin-bottom: 4px;
+  }
+  .roast-line {
+    font-family: var(--font-body); font-size: 13px;
+    color: {% if isDark %}#ccc{% else %}#444{% endif %};
+    line-height: 1.5; font-style: italic;
+  }
+
+  .select-btn {
+    margin: 16px 20px 0; padding: 16px; border-radius: 14px;
+    text-align: center; font-family: var(--font-mono); font-size: 13px;
+    font-weight: 600; letter-spacing: 2px; color: #fff; cursor: pointer;
+    background: {% if isDark %}{{ c.color_primary }}{% else %}{{ c.color_light }}{% endif %};
+  }
+
+  .nav-coaches {
+    display: flex; gap: 8px; justify-content: center; margin-top: 16px;
+  }
+  .nav-coaches a {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px;
+    padding: 6px 12px; border-radius: 8px; text-decoration: none;
+    background: {% if isDark %}#111{% else %}#fff{% endif %};
+    border: 1px solid {% if isDark %}#1A1A1A{% else %}#E5E5E0{% endif %};
+    color: {% if isDark %}#777{% else %}#888{% endif %};
+  }
+  .nav-coaches a.current {
+    background: {% if isDark %}{{ c.color_primary }}15{% else %}{{ c.color_light }}10{% endif %};
+    border-color: {% if isDark %}{{ c.color_primary }}30{% else %}{{ c.color_light }}25{% endif %};
+    color: {% if isDark %}{{ c.color_primary }}{% else %}{{ c.color_light }}{% endif %};
+  }
+
+  .bio-mode-toggle {
+    display: flex; gap: 6px; justify-content: center; margin-top: 10px;
+  }
+  .bio-mode-toggle a {
+    font-family: var(--font-mono); font-size: 9px; letter-spacing: 1px;
+    padding: 4px 10px; border-radius: 6px; text-decoration: none;
+  }
+  .bio-mode-toggle .active {
+    background: {% if isDark %}rgba(191,255,0,0.08){% else %}rgba(74,133,0,0.08){% endif %};
+    color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %};
+    border: 1px solid {% if isDark %}rgba(191,255,0,0.15){% else %}rgba(74,133,0,0.15){% endif %};
+  }
+  .bio-mode-toggle .inactive {
+    background: {% if isDark %}#111{% else %}#fff{% endif %};
+    color: {% if isDark %}#555{% else %}#999{% endif %};
+    border: 1px solid {% if isDark %}#1A1A1A{% else %}#E5E5E0{% endif %};
+  }
+
+  .gallery-back {
+    display: block; text-align: center; margin-top: 12px;
+    font-family: var(--font-mono); font-size: 10px;
+    color: {% if isDark %}#555{% else %}#999{% endif %};
+    text-decoration: none; letter-spacing: 1px;
+  }
+</style>
+
+<div class="bio-card">
+  <div class="bio-inner">
+
+    <div class="bio-header">
+      <div class="logo"><span class="logo-bite">BITE</span><span class="logo-back">BACK</span></div>
+      <a class="back-btn" href="/screens/app/coaches/{% if isDark %}dark{% else %}light{% endif %}/">← BACK</a>
+    </div>
+
+    <div class="bio-body-wrap">
+      <div class="bio-body-gradient"></div>
+      <img src="/assets/img/avatars/{{ c.id }}-body.png" alt="{{ c.name }}"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div class="bio-body-placeholder" style="display:none;">{{ c.emoji | default("🎤") }}</div>
+    </div>
+
+    <div class="bio-info">
+      <div class="bi-top">
+        <img class="bi-face" src="/assets/img/avatars/{{ c.id }}-face.png" alt="{{ c.name }}"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="bi-face-fallback" style="display:none;">{{ c.emoji | default("🎤") }}</div>
+        <div>
+          <div class="bi-name">{{ c.name }}</div>
+          <div class="bi-archetype">{{ c.archetype | upper }}</div>
+          {% if c.tier == "free" %}
+            <div class="bi-access free">FREE</div>
+          {% else %}
+            <div class="bi-access premium">PRO</div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="bi-desc">{{ c.bio }}</div>
+
+      <div class="roast-label">SAMPLE ROASTS</div>
+      {% for roast in c.sample_roasts %}
+        <div class="roast-card">
+          <div class="roast-type">{{ roast.label | upper }}</div>
+          <div class="roast-line">"{{ roast.line }}"</div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="select-btn">SELECT {{ c.name }}</div>
+
+  </div>
+</div>
+
+<div class="nav-coaches">
+  {% for nav in coaches %}
+    <a href="/screens/app/coaches/{{ nav.id }}/{% if isDark %}dark{% else %}light{% endif %}/"
+       {% if nav.id == c.id %}class="current"{% endif %}
+       style="{% if nav.id == c.id %}background: {% if isDark %}{{ nav.color_primary }}15{% else %}{{ nav.color_light }}10{% endif %}; border-color: {% if isDark %}{{ nav.color_primary }}30{% else %}{{ nav.color_light }}25{% endif %}; color: {% if isDark %}{{ nav.color_primary }}{% else %}{{ nav.color_light }}{% endif %};{% endif %}">
+      {{ nav.name }}
+    </a>
+  {% endfor %}
+</div>
+
+<div class="bio-mode-toggle">
+  <a class="{% if isDark %}active{% else %}inactive{% endif %}" href="/screens/app/coaches/{{ c.id }}/dark/">DARK</a>
+  <a class="{% if not isDark %}active{% else %}inactive{% endif %}" href="/screens/app/coaches/{{ c.id }}/light/">LIGHT</a>
+</div>
+
+<a class="gallery-back" href="/">← DESIGN GALLERY</a>

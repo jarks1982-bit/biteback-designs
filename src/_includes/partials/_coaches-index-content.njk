@@ -1,0 +1,118 @@
+<style>
+  body {
+    background: {% if isDark %}#000{% else %}#E8E8E3{% endif %};
+    font-family: var(--font-body);
+    display: flex; flex-direction: column; align-items: center; padding: 40px 20px;
+  }
+
+  .coaches-header { text-align: center; margin-bottom: 32px; }
+  .coaches-header h1 {
+    font-family: var(--font-display); font-size: 32px; font-weight: 700;
+    letter-spacing: 3px;
+    color: {% if isDark %}#fff{% else %}#1A1A1A{% endif %};
+    margin-bottom: 4px;
+  }
+  .coaches-header .sub {
+    font-family: var(--font-mono); font-size: 10px;
+    color: {% if isDark %}#777{% else %}#888{% endif %};
+    letter-spacing: 2px;
+  }
+
+  .coaches-grid {
+    display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+    max-width: 1200px;
+  }
+
+  .coach-preview {
+    width: 200px; border-radius: 20px; padding: 24px 16px;
+    text-align: center; text-decoration: none; transition: all 0.15s;
+    background: {% if isDark %}#111{% else %}#fff{% endif %};
+    border: 1px solid {% if isDark %}#1A1A1A{% else %}#E5E5E0{% endif %};
+  }
+  .coach-preview:hover {
+    border-color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %};
+    transform: translateY(-2px);
+  }
+
+  .cp-avatar {
+    width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 12px;
+    display: flex; align-items: center; justify-content: center; font-size: 40px;
+  }
+  .cp-avatar img { width: 80px; height: 80px; object-fit: contain; }
+  .cp-name {
+    font-family: var(--font-display); font-size: 22px; font-weight: 700;
+    letter-spacing: 2px; margin-bottom: 4px;
+  }
+  .cp-archetype {
+    font-family: var(--font-mono); font-size: 9px; letter-spacing: 1px; margin-bottom: 8px;
+  }
+  .cp-tier {
+    font-family: var(--font-mono); font-size: 8px; letter-spacing: 1px;
+    padding: 3px 10px; border-radius: 6px; display: inline-block;
+  }
+  .cp-tier.free {
+    background: {% if isDark %}rgba(191,255,0,0.08){% else %}rgba(74,133,0,0.08){% endif %};
+    color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %};
+    border: 1px solid {% if isDark %}rgba(191,255,0,0.15){% else %}rgba(74,133,0,0.15){% endif %};
+  }
+  .cp-tier.premium {
+    background: {% if isDark %}rgba(255,215,0,0.08){% else %}rgba(184,134,11,0.08){% endif %};
+    color: {% if isDark %}#FFD700{% else %}#B8860B{% endif %};
+    border: 1px solid {% if isDark %}rgba(255,215,0,0.15){% else %}rgba(184,134,11,0.15){% endif %};
+  }
+
+  .index-mode-toggle {
+    display: flex; gap: 6px; justify-content: center; margin-top: 24px;
+  }
+  .index-mode-toggle a {
+    font-family: var(--font-mono); font-size: 9px; letter-spacing: 1px;
+    padding: 4px 10px; border-radius: 6px; text-decoration: none;
+  }
+  .index-mode-toggle .active {
+    background: {% if isDark %}rgba(191,255,0,0.08){% else %}rgba(74,133,0,0.08){% endif %};
+    color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %};
+    border: 1px solid {% if isDark %}rgba(191,255,0,0.15){% else %}rgba(74,133,0,0.15){% endif %};
+  }
+  .index-mode-toggle .inactive {
+    background: {% if isDark %}#111{% else %}#fff{% endif %};
+    color: {% if isDark %}#555{% else %}#999{% endif %};
+    border: 1px solid {% if isDark %}#1A1A1A{% else %}#E5E5E0{% endif %};
+  }
+
+  .gallery-back {
+    display: block; text-align: center; margin-top: 16px;
+    font-family: var(--font-mono); font-size: 10px;
+    color: {% if isDark %}#555{% else %}#999{% endif %};
+    text-decoration: none; letter-spacing: 1px;
+  }
+</style>
+
+<div class="coaches-header">
+  <h1>MEET YOUR COACHES</h1>
+  <div class="sub">PICK YOUR ROAST STYLE · 5 COACHES</div>
+</div>
+
+<div class="coaches-grid">
+  {% for c in coaches %}
+    <a class="coach-preview" href="/screens/app/coaches/{{ c.id }}/{% if isDark %}dark{% else %}light{% endif %}/">
+      <div class="cp-avatar" style="background: {% if isDark %}{{ c.color_primary }}15{% else %}{{ c.color_light }}10{% endif %}; border: 2px solid {% if isDark %}{{ c.color_primary }}30{% else %}{{ c.color_light }}25{% endif %};">
+        <img src="/assets/img/avatars/{{ c.id }}-face.png" alt="{{ c.name }}"
+             onerror="this.outerHTML='{{ c.emoji | default('🎤') }}'">
+      </div>
+      <div class="cp-name" style="color: {% if isDark %}{{ c.color_primary }}{% else %}{{ c.color_light }}{% endif %};">{{ c.name }}</div>
+      <div class="cp-archetype" style="color: {% if isDark %}{{ c.color_secondary | default(c.color_primary) }}{% else %}{{ c.color_light }}{% endif %};">{{ c.archetype | upper }}</div>
+      {% if c.tier == "free" %}
+        <div class="cp-tier free">FREE</div>
+      {% else %}
+        <div class="cp-tier premium">PRO</div>
+      {% endif %}
+    </a>
+  {% endfor %}
+</div>
+
+<div class="index-mode-toggle">
+  <a class="{% if isDark %}active{% else %}inactive{% endif %}" href="/screens/app/coaches/dark/">DARK</a>
+  <a class="{% if not isDark %}active{% else %}inactive{% endif %}" href="/screens/app/coaches/light/">LIGHT</a>
+</div>
+
+<a class="gallery-back" href="/">← DESIGN GALLERY</a>

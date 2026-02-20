@@ -1,0 +1,27 @@
+---
+layout: base.njk
+---
+<link rel="stylesheet" href="/assets/css/founder.css">
+
+<div class="fo-topbar">
+  <div class="fo-topbar-left">
+    <div class="fo-logo"><span class="bite">BITE</span><span class="back">BACK</span></div>
+    <span class="fo-badge">FOUNDER</span>
+    <div class="fo-divider"></div>
+    <nav class="fo-nav">
+      <a class="fo-nav-item{% if activePage == 'overview' %} active{% endif %}" href="/screens/founder/overview/">OVERVIEW</a>
+      <a class="fo-nav-item{% if activePage == 'practices' %} active{% endif %}" href="/screens/founder/practices/">PRACTICES</a>
+      <a class="fo-nav-item{% if activePage == 'patients' %} active{% endif %}" href="/screens/founder/patients/">PATIENTS</a>
+      <a class="fo-nav-item{% if activePage == 'engagement' %} active{% endif %}" href="/screens/founder/engagement/">ENGAGEMENT</a>
+      <a class="fo-nav-item{% if activePage == 'revenue' %} active{% endif %}" href="/screens/founder/revenue/">REVENUE</a>
+    </nav>
+  </div>
+  <div class="fo-topbar-right">
+    <div class="fo-live"><div class="fo-live-dot"></div> LIVE</div>
+    <div class="fo-time">FEB 19, 2026 · 11:22 AM</div>
+  </div>
+</div>
+
+<div class="fo-main">
+  {{ content | safe }}
+</div>

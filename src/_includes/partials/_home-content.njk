@@ -1,0 +1,185 @@
+{# Home screen content - included by dark.njk and light.njk wrappers #}
+{# Expects: isDark variable set by wrapper #}
+
+<style>
+  /* ── Countdown ── */
+  .countdown {
+    text-align: center; padding: 28px 20px 24px; margin: 0 16px 10px; border-radius: 20px;
+    {% if isDark %}
+    background: linear-gradient(135deg, rgba(191,255,0,0.06) 0%, rgba(191,255,0,0.01) 100%);
+    border: 1px solid rgba(191,255,0,0.08);
+    {% else %}
+    background: #fff; border: 1px solid #E5E5E0; box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    {% endif %}
+  }
+  .count-num {
+    font-family: var(--font-display); font-size: 82px; font-weight: 700; letter-spacing: 2px; line-height: 1;
+    color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %};
+    {% if isDark %}text-shadow: 0 0 40px rgba(191,255,0,0.15);{% endif %}
+  }
+  .count-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 6px; color: #888; margin-top: 6px; }
+  .count-trend {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-mono); font-size: 10px;
+    color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %};
+    background: {% if isDark %}rgba(191,255,0,0.06){% else %}rgba(74,133,0,0.08){% endif %};
+    margin-top: 12px; padding: 4px 12px; border-radius: 20px;
+  }
+
+  /* ── Coach Bubble ── */
+  .coach-bubble {
+    margin: 0 16px 14px; border-radius: 16px; padding: 14px 16px;
+    display: flex; gap: 12px; align-items: flex-start;
+    {% if isDark %}
+    background: rgba(191,255,0,0.03); border: 1px solid rgba(191,255,0,0.08);
+    {% else %}
+    background: #fff; border: 1px solid #E5E5E0; box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    {% endif %}
+  }
+  .cb-avatar { width: 48px; height: 60px; object-fit: contain; flex-shrink: 0; }
+  .cb-name { font-family: var(--font-mono); font-size: 9px; letter-spacing: 2px; margin-bottom: 4px; color: {% if isDark %}#FF6B9D{% else %}#D4507A{% endif %}; }
+  .cb-line { font-family: var(--font-body); font-size: 13px; line-height: 1.5; color: {% if isDark %}#ccc{% else %}#333{% endif %}; }
+
+  /* ── Section Row ── */
+  .section-row { display: flex; justify-content: space-between; align-items: center; padding: 0 20px; margin-bottom: 10px; }
+  .section-title { font-family: var(--font-mono); font-size: 9px; letter-spacing: 3px; color: #888; }
+  .section-edit {
+    font-family: var(--font-mono); font-size: 8px; letter-spacing: 1px; padding: 4px 10px; border-radius: 8px;
+    color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %};
+    background: {% if isDark %}rgba(191,255,0,0.06){% else %}rgba(74,133,0,0.06){% endif %};
+    border: 1px solid {% if isDark %}rgba(191,255,0,0.08){% else %}rgba(74,133,0,0.12){% endif %};
+  }
+
+  /* ── Challenge Cards ── */
+  .challenge, .challenge-done {
+    margin: 0 16px 10px; border-radius: 16px; padding: 16px;
+  }
+  .challenge {
+    {% if isDark %}background: #111; border: 1px solid #1A1A1A;
+    {% else %}background: #fff; border: 1px solid #E5E5E0; box-shadow: 0 1px 3px rgba(0,0,0,0.04);{% endif %}
+  }
+  .challenge-done {
+    {% if isDark %}background: #111; border: 1px solid rgba(191,255,0,0.12);
+    {% else %}background: #fff; border: 1px solid rgba(74,133,0,0.2); box-shadow: 0 1px 3px rgba(0,0,0,0.04);{% endif %}
+  }
+  .ch-top { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .ch-info { flex: 1; }
+  .ch-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center; font-size: 20px;
+    background: {% if isDark %}#1A1A1A{% else %}#F0F0EB{% endif %};
+  }
+  .ch-label { font-family: var(--font-body); font-size: 15px; font-weight: 600; color: {% if isDark %}#eee{% else %}#1A1A1A{% endif %}; }
+  .ch-streak { font-family: var(--font-mono); font-size: 10px; color: {% if isDark %}#888{% else %}#666{% endif %}; margin-top: 2px; }
+  .ch-streak-fire { color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %}; }
+
+  .treats-ring { width: 42px; height: 42px; position: relative; flex-shrink: 0; margin-left: auto; }
+  .treats-ring svg { width: 42px; height: 42px; transform: rotate(-90deg); }
+  .treats-ring .ring-bg { fill: none; stroke-width: 3; stroke: {% if isDark %}#1A1A1A{% else %}#E5E5E0{% endif %}; }
+  .treats-ring .ring-fill { fill: none; stroke-width: 3; stroke-linecap: round; }
+
+  .btns { display: flex; gap: 8px; }
+  .btn-clutch {
+    flex: 1; padding: 13px; border-radius: 12px; text-align: center;
+    font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: 1px;
+    background: {% if isDark %}rgba(191,255,0,0.06){% else %}rgba(74,133,0,0.06){% endif %};
+    border: 1px solid {% if isDark %}rgba(191,255,0,0.3){% else %}rgba(74,133,0,0.3){% endif %};
+    color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %};
+  }
+  .btn-fumble {
+    flex: 1; padding: 13px; border-radius: 12px; text-align: center;
+    font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: 1px;
+    background: {% if isDark %}rgba(255,59,59,0.06){% else %}rgba(220,30,60,0.05){% endif %};
+    border: 1px solid {% if isDark %}rgba(255,59,59,0.3){% else %}rgba(220,30,60,0.3){% endif %};
+    color: {% if isDark %}#FF3B3B{% else %}#DC1E3C{% endif %};
+  }
+
+  .done-check { font-family: var(--font-mono); font-size: 10px; color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %}; margin-top: 2px; }
+
+  /* ── Stats Row ── */
+  .stats-row { display: flex; gap: 8px; padding: 8px 16px 0; }
+  .stat-box {
+    flex: 1; border-radius: 12px; padding: 12px 8px; text-align: center;
+    {% if isDark %}background: #111; border: 1px solid #1A1A1A;
+    {% else %}background: #fff; border: 1px solid #E5E5E0; box-shadow: 0 1px 3px rgba(0,0,0,0.04);{% endif %}
+  }
+  .stat-val { font-family: var(--font-display); font-size: 26px; font-weight: 700; letter-spacing: 1px; color: {% if isDark %}#fff{% else %}#1A1A1A{% endif %}; }
+  .stat-label { font-family: var(--font-mono); font-size: 7px; letter-spacing: 1px; color: #888; margin-top: 2px; }
+</style>
+
+{# ── Countdown ── #}
+<div class="countdown">
+  <div class="count-num">247</div>
+  <div class="count-label">DAYS TO GO</div>
+  <div class="count-trend">▼ 2 days improved this week</div>
+</div>
+
+{# ── Coach Bubble ── #}
+<div class="coach-bubble">
+  <img class="cb-avatar" src="/assets/img/avatars/bri-face.png" alt="Bri" onerror="this.style.display='none'">
+  <div>
+    <div class="cb-name">BRI</div>
+    <div class="cb-line">"30 days bestie?? you're literally eating this up 💅"</div>
+  </div>
+</div>
+
+{# ── Challenges ── #}
+<div class="section-row">
+  <div class="section-title">TODAY'S CHALLENGES</div>
+  <div class="section-edit">EDIT</div>
+</div>
+
+<div class="challenge">
+  <div class="ch-top">
+    <div class="ch-icon">😁</div>
+    <div class="ch-info">
+      <div class="ch-label">Wear Aligners</div>
+      <div class="ch-streak"><span class="ch-streak-fire">🔥 30</span> · 20+ hours today</div>
+    </div>
+    <div class="treats-ring">
+      <svg viewBox="0 0 42 42">
+        <circle class="ring-bg" cx="21" cy="21" r="18"/>
+        <circle class="ring-fill" cx="21" cy="21" r="18" stroke="{% if isDark %}#BFFF00{% else %}#4A8500{% endif %}" stroke-dasharray="113" stroke-dashoffset="34"/>
+      </svg>
+      <div class="ring-icon" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:18px;">🍬</div>
+    </div>
+  </div>
+  <div class="btns">
+    <div class="btn-clutch">✓ CLUTCH</div>
+    <div class="btn-fumble">✗ FUMBLE</div>
+  </div>
+</div>
+
+<div class="challenge-done">
+  <div class="ch-top">
+    <div class="ch-icon">🪥</div>
+    <div class="ch-info">
+      <div class="ch-label">Brushing</div>
+      <div class="ch-streak"><span class="ch-streak-fire">🔥 28</span> · After every meal</div>
+    </div>
+    <div class="treats-ring">
+      <svg viewBox="0 0 42 42">
+        <circle class="ring-bg" cx="21" cy="21" r="18"/>
+        <circle class="ring-fill" cx="21" cy="21" r="18" stroke="{% if isDark %}#BFFF00{% else %}#4A8500{% endif %}" stroke-dasharray="113" stroke-dashoffset="56"/>
+      </svg>
+      <div class="ring-icon" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:18px;">☕</div>
+    </div>
+  </div>
+  <div class="done-check">✓ CLUTCHED TODAY</div>
+</div>
+
+{# ── Stats ── #}
+<div class="stats-row">
+  <div class="stat-box">
+    <div class="stat-val">30</div>
+    <div class="stat-label">STREAK</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-val">94%</div>
+    <div class="stat-label">COMPLIANCE</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-val">#4</div>
+    <div class="stat-label">RANK</div>
+  </div>
+</div>

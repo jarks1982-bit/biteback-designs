@@ -1,0 +1,168 @@
+---
+layout: phone.njk
+title: Check-in Results
+theme: dark
+coach: bri
+activeTab: none
+showCoachHeader: false
+showTabBar: false
+heatLevel: 3
+---
+
+{# ══════════════════════════════════════════════════════
+   CHECK-IN RESULTS — 4 STATES
+   These are modal overlays shown after a check-in.
+   No tab bar. Back/Done button to dismiss.
+   ══════════════════════════════════════════════════════ #}
+
+
+{# ═══════════════ STATE 1: CLUTCH — NORMAL ═══════════════ #}
+<div class="result-state clutch" id="state-clutch">
+
+  <div class="challenge-badge">😁 WEAR ALIGNERS</div>
+
+  <div class="result-icon">✓</div>
+  <div class="result-label">CLUTCH</div>
+  <div class="result-sub">Nice. Keep it moving.</div>
+
+  <div class="countdown-mini">
+    <div class="cm-num">247</div>
+    <div class="cm-label">DAYS TO GO</div>
+    <div class="cm-trend">▲ On track</div>
+  </div>
+
+  {% include "partials/coach-bubble.njk" %}
+
+  <div class="streak-bar">
+    <div class="sb-label">🔥 CURRENT STREAK</div>
+    <div class="sb-value">14 DAYS</div>
+  </div>
+
+  <div class="actions">
+    <div class="action-btn primary">📤 SHARE</div>
+    <div class="action-btn secondary">NEXT →</div>
+  </div>
+
+  <div class="done-btn">GOT IT ✓</div>
+</div>
+
+
+{# ═══════════════ STATE 2: CLUTCH — MILESTONE ═══════════════ #}
+<div class="result-state clutch milestone" id="state-milestone">
+
+  <div class="challenge-badge">😁 WEAR ALIGNERS</div>
+
+  <div class="result-icon">🏆</div>
+  <div class="result-label" style="color: var(--tier-gold);">MILESTONE</div>
+  <div class="result-sub">14-day streak! Retainer Royalty unlocked.</div>
+
+  <div class="countdown-mini">
+    <div class="cm-num">244</div>
+    <div class="cm-label">DAYS TO GO</div>
+    <div class="cm-trend">▲ On track</div>
+  </div>
+
+  <div class="coach-bubble">
+    <img class="cb-avatar" src="/assets/img/avatars/bri-face.png" alt="Bri" onerror="this.style.display='none'">
+    <div>
+      <div class="cb-name" style="color: #FF6B9D;">BRI</div>
+      <div class="cb-line">bestie 14 days??? you're literally giving main character energy rn 💅✨</div>
+    </div>
+  </div>
+
+  <div class="streak-bar" style="border-color: rgba(255,215,0,0.15);">
+    <div class="sb-label">🔥 CURRENT STREAK</div>
+    <div class="sb-value" style="color: var(--tier-gold);">14 DAYS</div>
+  </div>
+
+  <div class="bonus-tag">⭐ NEW TIER: RETAINER ROYALTY</div>
+
+  <div class="actions">
+    <div class="action-btn primary">📤 SHARE MILESTONE</div>
+    <div class="action-btn secondary">NEXT →</div>
+  </div>
+
+  <div class="done-btn">GOT IT ✓</div>
+</div>
+
+
+{# ═══════════════ STATE 3: FUMBLE ═══════════════ #}
+<div class="result-state fumble" id="state-fumble">
+
+  <div class="challenge-badge">😁 WEAR ALIGNERS</div>
+
+  <div class="result-icon">✗</div>
+  <div class="result-label">FUMBLE</div>
+  <div class="result-sub">Streak lost. +0.5 days added.</div>
+
+  <div class="countdown-mini">
+    <div class="cm-num">248</div>
+    <div class="cm-label">DAYS TO GO</div>
+    <div class="cm-trend">▼ +0.5d delayed</div>
+  </div>
+
+  <div class="coach-bubble" style="background: rgba(255,23,68,0.03); border-color: rgba(255,23,68,0.08);">
+    <img class="cb-avatar" src="/assets/img/avatars/bri-face.png" alt="Bri" onerror="this.style.display='none'">
+    <div>
+      <div class="cb-name" style="color: #FF6B9D;">BRI</div>
+      <div class="cb-line">bestie... the AUDACITY to fumble on a tuesday 💀 your aligners are literally right there</div>
+    </div>
+  </div>
+
+  <div class="streak-bar" style="border-color: rgba(255,23,68,0.1);">
+    <div class="sb-label">🔥 STREAK LOST</div>
+    <div class="sb-value" style="color: var(--fumble);">0 DAYS</div>
+  </div>
+
+  <div class="actions">
+    <div class="action-btn primary" style="background: rgba(255,23,68,0.06); border-color: rgba(255,23,68,0.2); color: var(--fumble);">📤 SHARE THE L</div>
+    <div class="action-btn secondary">DISMISS</div>
+  </div>
+
+  <div class="done-btn" style="background: var(--fumble); color: #fff;">GOT IT</div>
+</div>
+
+
+{# ═══════════════ STATE 4: FUMBLE + REDEMPTION QUEST ═══════════════ #}
+<div class="result-state fumble" id="state-redemption">
+
+  <div class="challenge-badge">😁 WEAR ALIGNERS</div>
+
+  <div class="result-icon">✗</div>
+  <div class="result-label">FUMBLE</div>
+  <div class="result-sub">Streak lost. But there's a way back.</div>
+
+  <div class="countdown-mini">
+    <div class="cm-num">249</div>
+    <div class="cm-label">DAYS TO GO</div>
+    <div class="cm-trend">▼ +1d delayed</div>
+  </div>
+
+  <div class="coach-bubble" style="background: rgba(255,23,68,0.03); border-color: rgba(255,23,68,0.08);">
+    <img class="cb-avatar" src="/assets/img/avatars/bri-face.png" alt="Bri" onerror="this.style.display='none'">
+    <div>
+      <div class="cb-name" style="color: #FF6B9D;">BRI</div>
+      <div class="cb-line">ok this is getting embarrassing BUT i believe in a redemption arc... do you? 💅</div>
+    </div>
+  </div>
+
+  {# ── Redemption Quest Card ── #}
+  <div class="redemption-card">
+    <div class="rc-header">⚡ REDEMPTION QUEST — EARN BACK 50%</div>
+    <div class="rc-dots">
+      <div class="rc-dot empty">1</div>
+      <div class="rc-line"></div>
+      <div class="rc-dot empty">2</div>
+      <div class="rc-line"></div>
+      <div class="rc-dot empty">3</div>
+    </div>
+    <div class="rc-sub">Clutch 3 days straight to recover 0.5 days</div>
+  </div>
+
+  <div class="actions">
+    <div class="action-btn primary" style="background: rgba(255,184,0,0.08); border-color: rgba(255,184,0,0.2); color: var(--redemption);">⚡ START QUEST</div>
+    <div class="action-btn secondary">SKIP</div>
+  </div>
+
+  <div class="done-btn" style="background: var(--fumble); color: #fff;">GOT IT</div>
+</div>

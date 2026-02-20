@@ -1,0 +1,298 @@
+---
+layout: base.njk
+title: Design Gallery
+---
+
+<style>
+  body { background: #111; color: #fff; }
+  .gallery-page {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 48px 24px;
+  }
+  .gallery-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .gallery-header h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 42px;
+    letter-spacing: 3px;
+  }
+  .gallery-header h1 .bite { color: #fff; }
+  .gallery-header h1 .back { color: #BFFF00; }
+  .gallery-header p {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: #777;
+    margin-top: 8px;
+  }
+  .gallery-section {
+    margin-bottom: 40px;
+  }
+  .gallery-section h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #BFFF00;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #222;
+  }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+  }
+  .gallery-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: #1A1A1A;
+    border: 1px solid #222;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #fff;
+    transition: all 0.15s;
+  }
+  .gallery-link:hover {
+    border-color: #BFFF00;
+    background: #1f1f1f;
+  }
+  .gallery-link-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .gallery-link-info {
+    flex: 1;
+  }
+  .gallery-link-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+  }
+  .gallery-link-desc {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: #777;
+    margin-top: 2px;
+  }
+  .badge {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    background: rgba(191, 255, 0, 0.12);
+    color: #BFFF00;
+  }
+  .badge.wip {
+    background: rgba(255, 184, 0, 0.12);
+    color: #FFB800;
+  }
+</style>
+
+<div class="gallery-page">
+  <div class="gallery-header">
+    <h1><span class="bite">BITE</span><span class="back">BACK</span></h1>
+    <p>DESIGN SYSTEM · {{ site.version }} · ALL SCREENS</p>
+  </div>
+
+  <div class="gallery-section">
+    <h2>Onboarding (10 Steps)</h2>
+    <div class="gallery-grid">
+      <a class="gallery-link" href="/screens/onboarding/01-splash/">
+        <span class="gallery-link-icon">✨</span>
+        <div class="gallery-link-info">
+          <div class="gallery-link-title">Step 1 — Splash</div>
+          <div class="gallery-link-desc">Logo reveal, tagline, attitude</div>
+        </div>
+        <span class="badge">BUILT</span>
+      </a>
+      <a class="gallery-link" href="/screens/onboarding/02-scan/">
+        <span class="gallery-link-icon">📷</span>
+        <div class="gallery-link-info">
+          <div class="gallery-link-title">Step 2 — Scan QR</div>
+          <div class="gallery-link-desc">QR viewfinder + manual code</div>
+        </div>
+        <span class="badge">BUILT</span>
+      </a>
+      <a class="gallery-link" href="/screens/onboarding/03-name/">
+        <span class="gallery-link-icon">✏️</span>
+        <div class="gallery-link-info">
+          <div class="gallery-link-title">Step 3 — Nickname</div>
+          <div class="gallery-link-desc">Profile card preview</div>
+        </div>
+        <span class="badge">BUILT</span>
+      </a>
+      <a class="gallery-link" href="/screens/onboarding/04-avatar/">
+        <span class="gallery-link-icon">😎</span>
+        <div class="gallery-link-info">
+          <div class="gallery-link-title">Step 4 — Avatar</div>
+          <div class="gallery-link-desc">Hero display + grid picker</div>
+        </div>
+        <span class="badge">BUILT</span>
+      </a>
+      <a class="gallery-link" href="/screens/onboarding/05-coach/">
+        <span class="gallery-link-icon">🎤</span>
+        <div class="gallery-link-info">
+          <div class="gallery-link-title">Step 5 — Coach</div>
+          <div class="gallery-link-desc">5 coaches, PRO locks, data-driven</div>
+        </div>
+        <span class="badge">BUILT</span>
+      </a>
+      <a class="gallery-link" href="/screens/onboarding/06-heat/">
+        <span class="gallery-link-icon">🔥</span>
+        <div class="gallery-link-info">
+          <div class="gallery-link-title">Step 6 — Heat Level</div>
+          <div class="gallery-link-desc">Roast intensity 1-5</div>
+        </div>
+        <span class="badge">BUILT</span>
+      </a>
+      <a class="gallery-link" href="/screens/onboarding/07-challenges/">
+        <span class="gallery-link-icon">🎯</span>
+        <div class="gallery-link-info">
+          <div class="gallery-link-title">Step 7 — Challenges</div>
+          <div class="gallery-link-desc">QR scanned path</div>
+        </div>
+        <span class="badge">BUILT</span>
+      </a>
+      <a class="gallery-link" href="/screens/onboarding/08-countdown/">
+        <span class="gallery-link-icon">💥</span>
+        <div class="gallery-link-info">
+          <div class="gallery-link-title">Step 8 — Countdown</div>
+          <div class="gallery-link-desc">Dramatic number slam</div>
+        </div>
+        <span class="badge">BUILT</span>
+      </a>
+      <a class="gallery-link" href="/screens/onboarding/09-reminder/">
+        <span class="gallery-link-icon">🔔</span>
+        <div class="gallery-link-info">
+          <div class="gallery-link-title">Step 9 — Reminder</div>
+          <div class="gallery-link-desc">Time picker + notification preview</div>
+        </div>
+        <span class="badge">BUILT</span>
+      </a>
+      <a class="gallery-link" href="/screens/onboarding/10-checkin/">
+        <span class="gallery-link-icon">✅</span>
+        <div class="gallery-link-info">
+          <div class="gallery-link-title">Step 10 — First Check-in</div>
+          <div class="gallery-link-desc">Clutch / Fumble buttons</div>
+        </div>
+        <span class="badge">BUILT</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="gallery-section">
+    <h2>Core App</h2>
+    <div class="gallery-grid">
+      <a class="gallery-link" href="/screens/app/home/">
+        <span class="gallery-link-icon">🏠</span>
+        <div class="gallery-link-info">
+          <div class="gallery-link-title">Home — Daily View</div>
+          <div class="gallery-link-desc">Countdown, coach bubble, challenges</div>
+        </div>
+        <span class="badge">BUILT</span>
+      </a>
+      <a class="gallery-link" href="#">
+        <span class="gallery-link-icon">🏆</span>
+        <div class="gallery-link-info">
+          <div class="gallery-link-title">Leaderboard</div>
+          <div class="gallery-link-desc">Practice + global rankings</div>
+        </div>
+        <span class="badge wip">TODO</span>
+      </a>
+      <a class="gallery-link" href="#">
+        <span class="gallery-link-icon">🎁</span>
+        <div class="gallery-link-info">
+          <div class="gallery-link-title">Treats</div>
+          <div class="gallery-link-desc">Locked / unlocked / claimed</div>
+        </div>
+        <span class="badge wip">TODO</span>
+      </a>
+      <a class="gallery-link" href="#">
+        <span class="gallery-link-icon">👤</span>
+        <div class="gallery-link-info">
+          <div class="gallery-link-title">Profile</div>
+          <div class="gallery-link-desc">Stats, tiers, settings</div>
+        </div>
+        <span class="badge wip">TODO</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="gallery-section">
+    <h2>Practice Dashboard (9 Pages)</h2>
+    <div class="gallery-grid">
+      <a class="gallery-link" href="#">
+        <span class="gallery-link-icon">📊</span>
+        <div class="gallery-link-info">
+          <div class="gallery-link-title">Overview</div>
+          <div class="gallery-link-desc">Stats, forecast, risk flags</div>
+        </div>
+        <span class="badge wip">TODO</span>
+      </a>
+      <a class="gallery-link" href="#">
+        <span class="gallery-link-icon">👥</span>
+        <div class="gallery-link-info">
+          <div class="gallery-link-title">Patients</div>
+          <div class="gallery-link-desc">Full roster, 11 columns</div>
+        </div>
+        <span class="badge wip">TODO</span>
+      </a>
+      <a class="gallery-link" href="#">
+        <span class="gallery-link-icon">🎯</span>
+        <div class="gallery-link-info">
+          <div class="gallery-link-title">Challenges</div>
+          <div class="gallery-link-desc">Tracks, penalties, assignments</div>
+        </div>
+        <span class="badge wip">TODO</span>
+      </a>
+      <a class="gallery-link" href="#">
+        <span class="gallery-link-icon">🎁</span>
+        <div class="gallery-link-info">
+          <div class="gallery-link-title">Treats</div>
+          <div class="gallery-link-desc">Grid, templates, fulfillment</div>
+        </div>
+        <span class="badge wip">TODO</span>
+      </a>
+      <a class="gallery-link" href="#">
+        <span class="gallery-link-icon">📱</span>
+        <div class="gallery-link-info">
+          <div class="gallery-link-title">QR Codes</div>
+          <div class="gallery-link-desc">Generator, preview, print</div>
+        </div>
+        <span class="badge wip">TODO</span>
+      </a>
+      <a class="gallery-link" href="#">
+        <span class="gallery-link-icon">🎨</span>
+        <div class="gallery-link-info">
+          <div class="gallery-link-title">Branding</div>
+          <div class="gallery-link-desc">Logo, share card previews</div>
+        </div>
+        <span class="badge wip">TODO</span>
+      </a>
+      <a class="gallery-link" href="#">
+        <span class="gallery-link-icon">👤</span>
+        <div class="gallery-link-info">
+          <div class="gallery-link-title">Staff</div>
+          <div class="gallery-link-desc">Roles, permissions, activity</div>
+        </div>
+        <span class="badge wip">TODO</span>
+      </a>
+      <a class="gallery-link" href="#">
+        <span class="gallery-link-icon">💳</span>
+        <div class="gallery-link-info">
+          <div class="gallery-link-title">Billing</div>
+          <div class="gallery-link-desc">Plans, usage, invoices</div>
+        </div>
+        <span class="badge wip">TODO</span>
+      </a>
+    </div>
+  </div>
+
+</div>

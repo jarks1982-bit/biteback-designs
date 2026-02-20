@@ -1,0 +1,68 @@
+---
+layout: onboarding.njk
+title: Set Reminder
+screenTitle: "Step 9 — Set Reminder"
+step: 9
+ctaText: "NEXT"
+---
+
+<style>
+  .simple-time-box {
+    background: var(--card-bg); border: 1.5px solid var(--clutch);
+    border-radius: 16px; padding: 20px; text-align: center;
+    margin-bottom: 16px;
+  }
+  .simple-time {
+    font-family: var(--font-display); font-weight: 700; font-size: 48px;
+    color: var(--clutch); letter-spacing: 3px;
+  }
+  .simple-period {
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: 2px;
+    color: var(--text-secondary); margin-top: 2px;
+  }
+  .simple-tap {
+    font-family: var(--font-mono); font-size: 9px; color: var(--text-tertiary);
+    letter-spacing: 1px; margin-top: 8px;
+  }
+  .notif-preview {
+    background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px;
+    padding: 12px 16px; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .notif-icon { font-size: 20px; flex-shrink: 0; }
+  .notif-text {
+    font-family: var(--font-body); font-size: 12px; color: var(--text-secondary); line-height: 1.4;
+  }
+  .notif-label {
+    font-family: var(--font-mono); font-size: 8px; letter-spacing: 1px;
+    color: #FF6B9D; margin-bottom: 2px;
+  }
+  .reminder-note {
+    font-family: var(--font-mono); font-size: 10px; color: var(--text-tertiary);
+    text-align: center; letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+</style>
+
+<div style="flex: 1; display: flex; flex-direction: column; padding-top: 20px;">
+  <div class="heading" style="text-align: center; margin-bottom: 6px;">WHEN SHOULD BRI<br/>BUG YOU?</div>
+  <div class="body-text" style="text-align: center; margin-bottom: 32px;">You'll get a daily nudge</div>
+
+  <div class="simple-time-box">
+    <div class="simple-time">9:00 PM</div>
+    <div class="simple-period">EVERY DAY</div>
+    <div class="simple-tap">Tap to change</div>
+  </div>
+
+  <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; color: var(--text-tertiary); margin-bottom: 10px;">PREVIEW</div>
+
+  <div class="notif-preview">
+    <div class="notif-icon">📱</div>
+    <div>
+      <div class="notif-label">BITEBACK · 9:00 PM</div>
+      <div class="notif-text">bestie it's check-in time. don't make me ask twice. 💅</div>
+    </div>
+  </div>
+
+  <div class="reminder-note">You can change this anytime</div>
+</div>

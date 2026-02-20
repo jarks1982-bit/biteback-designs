@@ -1,0 +1,253 @@
+---
+layout: base.njk
+title: BiteBack Design Gallery
+---
+
+<style>
+  body { background: #0A0A0A; color: #fff; }
+  .gallery { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+  .gallery-header { text-align: center; margin-bottom: 40px; }
+  .gallery-logo { font-family: var(--font-display); font-size: 36px; font-weight: 700; letter-spacing: 4px; }
+  .gallery-logo .bite { color: #fff; }
+  .gallery-logo .back { color: #BFFF00; }
+  .gallery-sub { font-family: var(--font-mono); font-size: 11px; color: #777; letter-spacing: 2px; margin-top: 8px; }
+
+  .section { margin-bottom: 36px; }
+  .section-title {
+    font-family: var(--font-display); font-size: 18px; font-weight: 700; color: #BFFF00;
+    letter-spacing: 2px; margin-bottom: 12px; padding-bottom: 8px;
+    border-bottom: 1px solid #1A1A1A;
+  }
+  .section-title .count { font-family: var(--font-mono); font-size: 11px; color: #555; font-weight: 400; margin-left: 8px; }
+
+  .screen-row {
+    display: flex; align-items: center; padding: 10px 0;
+    border-bottom: 1px solid #111;
+  }
+  .screen-row:last-child { border-bottom: none; }
+  .screen-name {
+    font-family: var(--font-body); font-size: 14px; color: #ccc; flex: 1;
+  }
+  .screen-links { display: flex; gap: 6px; }
+  .link-pill {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px;
+    padding: 5px 12px; border-radius: 8px; text-decoration: none;
+    transition: opacity 0.15s;
+  }
+  .link-pill:hover { opacity: 0.8; }
+  .link-dark {
+    background: rgba(191,255,0,0.06); border: 1px solid rgba(191,255,0,0.12); color: #BFFF00;
+  }
+  .link-light {
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #ccc;
+  }
+  .link-only {
+    background: rgba(191,255,0,0.06); border: 1px solid rgba(191,255,0,0.12); color: #BFFF00;
+  }
+  .link-todo {
+    background: #111; border: 1px solid #1A1A1A; color: #444; cursor: default;
+  }
+
+  .status { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1px; margin-left: 8px; }
+  .status.built { color: #BFFF00; }
+  .status.todo { color: #555; }
+</style>
+
+<div class="gallery">
+  <div class="gallery-header">
+    <div class="gallery-logo"><span class="bite">BITE</span><span class="back">BACK</span></div>
+    <div class="gallery-sub">DESIGN GALLERY · ELEVENTY BUILD</div>
+  </div>
+
+  {# ═══ ONBOARDING ═══ #}
+  <div class="section">
+    <div class="section-title">ONBOARDING <span class="count">10 screens · dark only</span></div>
+    <div class="screen-row">
+      <div class="screen-name">01 — Splash</div>
+      <div class="screen-links"><a class="link-pill link-only" href="/screens/onboarding/01-splash/">DARK</a></div>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">02 — Scan QR</div>
+      <div class="screen-links"><a class="link-pill link-only" href="/screens/onboarding/02-scan/">DARK</a></div>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">03 — Nickname</div>
+      <div class="screen-links"><a class="link-pill link-only" href="/screens/onboarding/03-name/">DARK</a></div>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">04 — Avatar</div>
+      <div class="screen-links"><a class="link-pill link-only" href="/screens/onboarding/04-avatar/">DARK</a></div>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">05 — Coach Select</div>
+      <div class="screen-links"><a class="link-pill link-only" href="/screens/onboarding/05-coach/">DARK</a></div>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">06 — Heat Level</div>
+      <div class="screen-links"><a class="link-pill link-only" href="/screens/onboarding/06-heat/">DARK</a></div>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">07 — Challenges</div>
+      <div class="screen-links"><a class="link-pill link-only" href="/screens/onboarding/07-challenges/">DARK</a></div>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">08 — Countdown</div>
+      <div class="screen-links"><a class="link-pill link-only" href="/screens/onboarding/08-countdown/">DARK</a></div>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">09 — Reminder</div>
+      <div class="screen-links"><a class="link-pill link-only" href="/screens/onboarding/09-reminder/">DARK</a></div>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">10 — First Check-in</div>
+      <div class="screen-links"><a class="link-pill link-only" href="/screens/onboarding/10-checkin/">DARK</a></div>
+    </div>
+  </div>
+
+  {# ═══ CORE APP ═══ #}
+  <div class="section">
+    <div class="section-title">CORE APP <span class="count">5 screens · dark + light</span></div>
+    <div class="screen-row">
+      <div class="screen-name">Home</div>
+      <div class="screen-links">
+        <a class="link-pill link-dark" href="/screens/app/home/dark/">DARK</a>
+        <a class="link-pill link-light" href="/screens/app/home/light/">LIGHT</a>
+      </div>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">Leaderboard</div>
+      <div class="screen-links">
+        <a class="link-pill link-dark" href="/screens/app/leaderboard/dark/">DARK</a>
+        <a class="link-pill link-light" href="/screens/app/leaderboard/light/">LIGHT</a>
+      </div>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">Treats</div>
+      <div class="screen-links">
+        <a class="link-pill link-dark" href="/screens/app/treats/dark/">DARK</a>
+        <a class="link-pill link-light" href="/screens/app/treats/light/">LIGHT</a>
+      </div>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">Profile</div>
+      <div class="screen-links">
+        <a class="link-pill link-dark" href="/screens/app/profile/dark/">DARK</a>
+        <a class="link-pill link-light" href="/screens/app/profile/light/">LIGHT</a>
+      </div>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">Check-in Results</div>
+      <div class="screen-links">
+        <a class="link-pill link-dark" href="/screens/app/checkin-results/dark/">DARK</a>
+        <a class="link-pill link-light" href="/screens/app/checkin-results/light/">LIGHT</a>
+      </div>
+    </div>
+  </div>
+
+  {# ═══ SHARE CARDS ═══ #}
+  <div class="section">
+    <div class="section-title">SHARE CARDS <span class="count">6 types · dark + light</span></div>
+    <div class="screen-row">
+      <div class="screen-name">Share Cards (6 types)</div>
+      <div class="screen-links">
+        <a class="link-pill link-dark" href="/screens/share-cards/dark/">DARK</a>
+        <a class="link-pill link-light" href="/screens/share-cards/light/">LIGHT</a>
+      </div>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">Photo Modes (3 types)</div>
+      <div class="screen-links">
+        <a class="link-pill link-dark" href="/screens/photo-modes/dark/">DARK</a>
+        <a class="link-pill link-light" href="/screens/photo-modes/light/">LIGHT</a>
+      </div>
+    </div>
+  </div>
+
+  {# ═══ COACH BIOS ═══ #}
+  <div class="section">
+    <div class="section-title">COACH BIOS <span class="count">5 coaches · dark + light</span></div>
+    <div class="screen-row">
+      <div class="screen-name">All Coaches (index)</div>
+      <div class="screen-links">
+        <a class="link-pill link-dark" href="/screens/app/coaches/dark/">DARK</a>
+        <a class="link-pill link-light" href="/screens/app/coaches/light/">LIGHT</a>
+      </div>
+    </div>
+    {% for c in coaches %}
+    <div class="screen-row">
+      <div class="screen-name">{{ c.name }} — {{ c.archetype }}</div>
+      <div class="screen-links">
+        <a class="link-pill link-dark" href="/screens/app/coaches/{{ c.id }}/dark/">DARK</a>
+        <a class="link-pill link-light" href="/screens/app/coaches/{{ c.id }}/light/">LIGHT</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  {# ═══ PRACTICE DASHBOARD ═══ #}
+  <div class="section">
+    <div class="section-title">PRACTICE DASHBOARD <span class="count">9 pages · light only</span></div>
+    <div class="screen-row">
+      <div class="screen-name">Overview</div>
+      <div class="screen-links"><a class="link-pill link-light" href="/screens/dashboard/overview/">LIGHT</a></div>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">Patients List</div>
+      <div class="screen-links"><a class="link-pill link-light" href="/screens/dashboard/patients/">LIGHT</a></div>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">Individual Patient</div>
+      <div class="screen-links"><a class="link-pill link-light" href="/screens/dashboard/patient/">LIGHT</a></div>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">Challenges</div>
+      <div class="screen-links"><a class="link-pill link-light" href="/screens/dashboard/challenges/">LIGHT</a></div>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">Treats</div>
+      <div class="screen-links"><a class="link-pill link-light" href="/screens/dashboard/treats/">LIGHT</a></div>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">QR Codes</div>
+      <div class="screen-links"><a class="link-pill link-light" href="/screens/dashboard/qrcodes/">LIGHT</a></div>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">Branding</div>
+      <div class="screen-links"><a class="link-pill link-light" href="/screens/dashboard/branding/">LIGHT</a></div>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">Staff</div>
+      <div class="screen-links"><a class="link-pill link-light" href="/screens/dashboard/staff/">LIGHT</a></div>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">Billing</div>
+      <div class="screen-links"><a class="link-pill link-light" href="/screens/dashboard/billing/">LIGHT</a></div>
+    </div>
+  </div>
+
+  {# ═══ FOUNDER DASHBOARD ═══ #}
+  <div class="section">
+    <div class="section-title">FOUNDER DASHBOARD <span class="count">5 pages · dark bar + light body</span></div>
+    <div class="screen-row">
+      <div class="screen-name">Overview</div>
+      <div class="screen-links"><a class="link-pill link-dark" href="/screens/founder/overview/">VIEW</a></div>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">Practices</div>
+      <div class="screen-links"><a class="link-pill link-dark" href="/screens/founder/practices/">VIEW</a></div>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">Patients</div>
+      <div class="screen-links"><a class="link-pill link-dark" href="/screens/founder/patients/">VIEW</a></div>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">Engagement</div>
+      <div class="screen-links"><a class="link-pill link-dark" href="/screens/founder/engagement/">VIEW</a></div>
+    </div>
+    <div class="screen-row">
+      <div class="screen-name">Revenue</div>
+      <div class="screen-links"><a class="link-pill link-dark" href="/screens/founder/revenue/">VIEW</a></div>
+    </div>
+  </div>
+
+</div>

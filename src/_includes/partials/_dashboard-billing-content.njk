@@ -1,0 +1,131 @@
+
+<div class="db-page-header">
+  <div>
+    <div class="db-page-title">BILLING</div>
+    <div class="db-page-subtitle">MANAGE YOUR SUBSCRIPTION · POWERED BY STRIPE · 14-DAY FREE TRIAL ON ALL PLANS</div>
+  </div>
+</div>
+
+{# ── Plan Comparison ── #}
+<div class="plans-grid">
+  {# STARTER #}
+  <div class="plan-card current">
+    <div class="plan-badge active">YOUR PLAN</div>
+    <div class="plan-name">STARTER</div>
+    <div class="plan-price"><span class="plan-amount green">$49</span><span class="plan-period">/month</span></div>
+    <div class="plan-per-patient">~$1.96/patient at 25 patients</div>
+    <div style="font-family:var(--font-body);font-size:14px;color:#888;line-height:1.5;margin-bottom:18px;">Everything you need to track compliance and manage patients. Great for solo practices.</div>
+    <div class="plan-limit starter">UP TO 25 ACTIVE PATIENTS</div>
+    <div class="plan-features">
+      {% set starter_yes = ["Patient compliance tracking","Challenge management (add/remove per patient)","QR code generation (individual + bulk)","Basic treats (default templates)","Office-side fumble logging + compliance verification","1 staff seat","Basic risk flags (inactive patients)"] %}
+      {% set starter_no = ["Treatment forecasting + confidence bands","Timeline adjustments (push back / pull forward / reset)","Practice branding on share cards","Custom treats","Unlimited staff + roles","Exportable reports"] %}
+      {% for f in starter_yes %}<div class="plan-feature"><span class="plan-check">✓</span> {{ f }}</div>{% endfor %}
+      {% for f in starter_no %}<div class="plan-feature disabled"><span class="plan-x">✕</span> {{ f }}</div>{% endfor %}
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button class="db-btn db-btn-outline">MANAGE ON STRIPE</button>
+      <button class="db-btn db-btn-danger">CANCEL PLAN</button>
+    </div>
+  </div>
+
+  {# PRO #}
+  <div class="plan-card upgrade">
+    <div class="plan-badge recommended">RECOMMENDED</div>
+    <div class="plan-name">PRO</div>
+    <div class="plan-price"><span class="plan-amount gold">$99</span><span class="plan-period">/month</span></div>
+    <div class="plan-per-patient">~$0.99/patient at 100 patients</div>
+    <div style="font-family:var(--font-body);font-size:14px;color:#888;line-height:1.5;margin-bottom:18px;">Full practice dashboard with forecasting, branding, timeline control, and unlimited everything.</div>
+    <div class="plan-limit pro">UNLIMITED PATIENTS</div>
+    <div class="plan-features">
+      {% set pro_features = ["Everything in Starter, plus:","Unlimited active patients","Treatment forecasting + risk flags + confidence bands","Timeline adjustments (push back / pull forward / reset)","Practice branding on all patient share cards","Custom treats (create your own milestones + rewards)","Unlimited staff seats with Owner/Admin/Viewer roles","Exportable reports","Fumble sensitivity controls per patient","Priority support"] %}
+      {% for f in pro_features %}<div class="plan-feature"><span class="plan-check">✓</span>{% if loop.first %} <strong>{{ f }}</strong>{% else %} {{ f }}{% endif %}</div>{% endfor %}
+    </div>
+    <button class="db-btn db-btn-upgrade" style="width:100%;text-align:center;">UPGRADE TO PRO →</button>
+  </div>
+</div>
+
+{# ── Upgrade CTA Banner ── #}
+<div class="upgrade-cta">
+  <span style="font-size:36px;flex-shrink:0;">🚀</span>
+  <div style="flex:1;">
+    <div style="font-family:var(--font-display);font-size:20px;font-weight:700;letter-spacing:2px;color:#B8860B;margin-bottom:4px;">YOU'RE AT 24 OF 25 PATIENTS</div>
+    <div style="font-family:var(--font-body);font-size:14px;color:#888;line-height:1.4;">You're one patient away from your Starter limit. Upgrade to Pro for unlimited patients, treatment forecasting, practice branding on share cards, and timeline control.</div>
+  </div>
+  <button class="db-btn db-btn-upgrade">UPGRADE NOW</button>
+</div>
+
+{# ── Usage Bar ── #}
+<div class="db-card" style="margin-top:28px;">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+    <div class="db-stat-label">PATIENT USAGE</div>
+    <div style="font-family:var(--font-display);font-size:24px;font-weight:700;color:#1A1A1A;">24 <span style="color:#999;font-size:18px;">/25</span></div>
+  </div>
+  <div class="db-progress-bar" style="height:12px;margin-bottom:8px;"><div class="db-progress-fill" style="width:96%;background:linear-gradient(90deg,#D4A017,#F0C040);"></div></div>
+  <div style="font-family:var(--font-mono);font-size:12px;color:#bbb;"><strong style="color:#D4A017;">96% of limit reached.</strong> Upgrade to Pro for unlimited patients.</div>
+  <div class="db-stats-row db-stats-4" style="margin-top:18px;margin-bottom:0;">
+    <div class="db-stat-card-inner"><div class="db-stat-value dark" style="font-size:32px;">31</div><div class="db-stat-label" style="font-size:11px;">QR CODES GENERATED</div></div>
+    <div class="db-stat-card-inner"><div class="db-stat-value green" style="font-size:32px;">847</div><div class="db-stat-label" style="font-size:11px;">CHECK-INS THIS MONTH</div></div>
+    <div class="db-stat-card-inner"><div class="db-stat-value dark" style="font-size:32px;">1</div><div class="db-stat-label" style="font-size:11px;">STAFF SEAT</div></div>
+    <div class="db-stat-card-inner"><div class="db-stat-value amber" style="font-size:32px;">43</div><div class="db-stat-label" style="font-size:11px;">SHARE CARDS POSTED</div></div>
+  </div>
+</div>
+
+{# ── Payment Details + ROI ── #}
+<div class="db-grid-2" style="margin-top:20px;">
+  <div class="db-card">
+    <div class="db-card-title">PAYMENT DETAILS</div>
+    {% set billing = [
+      {label:"STATUS", value:"ACTIVE", green:true},
+      {label:"PLAN", value:"Starter"},
+      {label:"BILLING CYCLE", value:"Monthly"},
+      {label:"NEXT PAYMENT", value:"March 1, 2026"},
+      {label:"AMOUNT", value:"$49.00"},
+      {label:"STARTED", value:"Nov 1, 2025"},
+      {label:"TOTAL PAID", value:"$196.00 (4 months)"}
+    ] %}
+    {% for b in billing %}
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;{% if not loop.last %}border-bottom:1px solid #F5F5F0;{% endif %}">
+      <span style="font-family:var(--font-mono);font-size:13px;color:#888;letter-spacing:1px;">{{ b.label }}</span>
+      <span style="font-family:var(--font-body);font-size:15px;font-weight:600;color:{% if b.green %}#4A8500{% else %}#1A1A1A{% endif %};">{{ b.value }}</span>
+    </div>
+    {% endfor %}
+    <div style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:10px;background:#FAFAF7;border:1px solid #EEEEE8;margin-top:14px;">
+      <span style="font-size:28px;">💳</span>
+      <div style="flex:1;">
+        <div style="font-family:var(--font-mono);font-size:15px;font-weight:600;color:#1A1A1A;letter-spacing:1px;">•••• •••• •••• 4242</div>
+        <div style="font-family:var(--font-mono);font-size:12px;color:#999;">VISA · EXPIRES 08/2028</div>
+      </div>
+      <span style="font-family:var(--font-mono);font-size:12px;color:#4A8500;font-weight:600;letter-spacing:1px;cursor:pointer;">UPDATE →</span>
+    </div>
+  </div>
+
+  <div class="db-card" style="background:linear-gradient(135deg,rgba(74,133,0,0.04),rgba(74,133,0,0.01));border-color:rgba(74,133,0,0.12);">
+    <div style="font-family:var(--font-display);font-size:20px;font-weight:700;letter-spacing:2px;color:#4A8500;margin-bottom:12px;">YOUR BITEBACK ROI</div>
+    <div class="db-stats-row db-stats-4" style="margin-bottom:14px;">
+      <div class="db-stat-card-inner" style="background:#fff;border-color:rgba(74,133,0,0.08);"><div class="db-stat-value green" style="font-size:32px;">87%</div><div class="db-stat-label" style="font-size:11px;">AVG COMPLIANCE</div></div>
+      <div class="db-stat-card-inner" style="background:#fff;border-color:rgba(74,133,0,0.08);"><div class="db-stat-value green" style="font-size:32px;">43</div><div class="db-stat-label" style="font-size:11px;">SHARE CARDS POSTED</div></div>
+      <div class="db-stat-card-inner" style="background:#fff;border-color:rgba(74,133,0,0.08);"><div class="db-stat-value green" style="font-size:32px;">~$2.04</div><div class="db-stat-label" style="font-size:11px;">COST/PATIENT/MO</div></div>
+      <div class="db-stat-card-inner" style="background:#fff;border-color:rgba(74,133,0,0.08);"><div class="db-stat-value green" style="font-size:32px;">1</div><div class="db-stat-label" style="font-size:11px;">REFERRAL TO BREAK EVEN</div></div>
+    </div>
+    <div style="font-family:var(--font-body);font-size:13px;color:#888;line-height:1.5;">One new patient referral from a share card covers a full year of BiteBack Starter. Upgrade to Pro and your logo goes on every share card — 43 branded mini-ads this month alone.</div>
+  </div>
+</div>
+
+{# ── Invoice History ── #}
+<div class="db-section-title" style="margin:28px 0 14px;">INVOICE HISTORY</div>
+<div class="db-table-wrap">
+  <div class="db-table-toolbar">
+    <div class="db-section-title" style="margin:0;">INVOICES</div>
+    <button class="db-btn db-btn-outline" style="font-size:13px;padding:8px 14px;">DOWNLOAD ALL</button>
+  </div>
+  <table class="db-table">
+    <thead><tr><th>INVOICE</th><th>DATE</th><th>PLAN</th><th>AMOUNT</th><th>STATUS</th><th>RECEIPT</th></tr></thead>
+    <tbody>
+      <tr><td class="td-mono" style="color:#999;">INV-2026-03</td><td>Mar 1, 2026</td><td class="td-mono">STARTER</td><td style="font-family:var(--font-display);font-size:20px;font-weight:700;">$49</td><td><span class="db-badge db-badge-at-risk">UPCOMING</span></td><td>—</td></tr>
+      <tr><td class="td-mono" style="color:#999;">INV-2026-02</td><td>Feb 1, 2026</td><td class="td-mono">STARTER</td><td style="font-family:var(--font-display);font-size:20px;font-weight:700;">$49</td><td><span class="db-badge db-badge-on-track">PAID</span></td><td><span style="font-family:var(--font-mono);font-size:12px;color:#4A8500;font-weight:600;cursor:pointer;">VIEW →</span></td></tr>
+      <tr><td class="td-mono" style="color:#999;">INV-2026-01</td><td>Jan 1, 2026</td><td class="td-mono">STARTER</td><td style="font-family:var(--font-display);font-size:20px;font-weight:700;">$49</td><td><span class="db-badge db-badge-on-track">PAID</span></td><td><span style="font-family:var(--font-mono);font-size:12px;color:#4A8500;font-weight:600;cursor:pointer;">VIEW →</span></td></tr>
+      <tr><td class="td-mono" style="color:#999;">INV-2025-12</td><td>Dec 1, 2025</td><td class="td-mono">STARTER</td><td style="font-family:var(--font-display);font-size:20px;font-weight:700;">$49</td><td><span class="db-badge db-badge-on-track">PAID</span></td><td><span style="font-family:var(--font-mono);font-size:12px;color:#4A8500;font-weight:600;cursor:pointer;">VIEW →</span></td></tr>
+      <tr><td class="td-mono" style="color:#999;">INV-2025-11</td><td>Nov 1, 2025</td><td class="td-mono">STARTER</td><td style="font-family:var(--font-display);font-size:20px;font-weight:700;">$0</td><td><span class="db-badge db-badge-on-track">TRIAL</span></td><td><span style="font-family:var(--font-mono);font-size:12px;color:#4A8500;font-weight:600;cursor:pointer;">VIEW →</span></td></tr>
+    </tbody>
+  </table>
+</div>

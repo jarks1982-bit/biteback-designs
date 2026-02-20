@@ -1,0 +1,319 @@
+---
+layout: base.njk
+---
+{# Photo Mode Share Card Layout — 9:16 aspect ratio, no phone frame #}
+{# Uses theme variable: 'dark' or 'light' #}
+
+{% set isDark = theme == 'dark' %}
+
+<style>
+  body {
+    background: {% if isDark %}#000{% else %}#E8E8E3{% endif %};
+    display: flex; flex-direction: column; align-items: center;
+    padding: 20px; gap: 24px;
+  }
+  .top-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 3px; color: #888; }
+  .row { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+  .col { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .mode-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 3px; color: #888; }
+
+  .card {
+    width: 270px; height: 480px;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ── Logo ── */
+  .card-logo {
+    position: absolute; top: 16px; left: 16px; z-index: 20;
+    font-family: var(--font-display); font-size: 18px; font-weight: 700; letter-spacing: 2px;
+  }
+
+  /* ── Footer ── */
+  .card-footer {
+    position: absolute; bottom: 0; left: 0; right: 0; z-index: 25;
+    padding: 14px 16px; text-align: center;
+  }
+  .cf-line { font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; }
+
+  .cq-face { width: 30px; height: 30px; object-fit: contain; flex-shrink: 0; border-radius: 50%; }
+
+  /* ── Selfie placeholder ── */
+  .selfie-bg { position: absolute; inset: 0; z-index: 1; }
+  .selfie-face {
+    position: absolute; z-index: 2; width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .selfie-circle {
+    width: 120px; height: 120px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 40px; opacity: 0.5;
+  }
+  .selfie-hint {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, 60px); z-index: 3;
+    font-family: var(--font-mono); font-size: 8px; letter-spacing: 2px;
+  }
+
+  /* ══════════════════════════════════
+     1. CLUTCH — HUD OVERLAY
+     ══════════════════════════════════ */
+  .clutch-card .selfie-bg {
+    background: {% if isDark %}linear-gradient(180deg, #3a2a1a 0%, #5a3d2a 30%, #7a5540 60%, #4a3020 100%){% else %}linear-gradient(180deg, #e8d8c8 0%, #d4c0a8 30%, #c8b090 60%, #b8a080 100%){% endif %};
+  }
+  .clutch-card .selfie-circle { background: linear-gradient(135deg, #d4a574, {% if isDark %}#b07d50{% else %}#c49060{% endif %}); }
+  .clutch-card .selfie-hint { color: {% if isDark %}rgba(255,255,255,0.25){% else %}rgba(0,0,0,0.2){% endif %}; }
+  .clutch-card .card-logo .bite { color: {% if isDark %}#fff{% else %}#1A1A1A{% endif %}; }
+  .clutch-card .card-logo .back { color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %}; }
+  .clutch-card .card-footer {
+    background: {% if isDark %}linear-gradient(0deg, rgba(0,0,0,0.7) 0%, transparent 100%){% else %}linear-gradient(0deg, rgba(255,255,255,0.8) 0%, transparent 100%){% endif %};
+  }
+  .clutch-card .cf-line { color: {% if isDark %}rgba(255,255,255,0.7){% else %}rgba(0,0,0,0.5){% endif %}; }
+
+  .hud-darken {
+    position: absolute; inset: 0; z-index: 5;
+    {% if isDark %}
+    background: linear-gradient(180deg,
+      rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.1) 30%,
+      rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.5) 70%,
+      rgba(0,0,0,0.7) 100%);
+    {% else %}
+    background: linear-gradient(180deg,
+      rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.1) 30%,
+      rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.5) 70%,
+      rgba(255,255,255,0.7) 100%);
+    {% endif %}
+  }
+
+  .hud-overlay {
+    position: absolute; inset: 0; z-index: 10;
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding: 48px 16px 52px;
+  }
+  .hud-top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .hud-streak {
+    {% if isDark %}
+    background: rgba(0,0,0,0.6); border: 1px solid rgba(191,255,0,0.25);
+    {% else %}
+    background: rgba(255,255,255,0.8); border: 1px solid rgba(74,133,0,0.2);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    {% endif %}
+    border-radius: 12px; padding: 10px 14px;
+  }
+  .hud-streak-num {
+    font-family: var(--font-display); font-size: 32px; font-weight: 700;
+    color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %}; line-height: 1;
+  }
+  .hud-streak-label {
+    font-family: var(--font-mono); font-size: 8px; letter-spacing: 2px;
+    color: {% if isDark %}rgba(255,255,255,0.7){% else %}#888{% endif %};
+  }
+  .hud-tier {
+    {% if isDark %}
+    background: rgba(0,0,0,0.6); border: 1px solid rgba(255,215,0,0.25);
+    color: #FFD700;
+    {% else %}
+    background: rgba(255,255,255,0.8); border: 1px solid rgba(184,134,11,0.2);
+    color: #B8860B; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    {% endif %}
+    border-radius: 10px; padding: 8px 12px;
+    font-family: var(--font-mono); font-size: 8px; letter-spacing: 1px;
+  }
+
+  .hud-bottom { display: flex; flex-direction: column; gap: 8px; }
+  .hud-result {
+    {% if isDark %}
+    background: rgba(0,0,0,0.6); border: 1px solid rgba(191,255,0,0.25);
+    {% else %}
+    background: rgba(255,255,255,0.85); border: 1px solid rgba(74,133,0,0.2);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    {% endif %}
+    border-radius: 14px; padding: 12px 14px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .hud-check {
+    width: 40px; height: 40px; border-radius: 50%;
+    {% if isDark %}
+    background: rgba(191,255,0,0.2); border: 2px solid rgba(191,255,0,0.4);
+    color: #BFFF00;
+    {% else %}
+    background: rgba(74,133,0,0.1); border: 2px solid rgba(74,133,0,0.25);
+    color: #4A8500;
+    {% endif %}
+    display: flex; align-items: center; justify-content: center; font-size: 22px;
+  }
+  .hud-clutch-label {
+    font-family: var(--font-display); font-size: 24px; font-weight: 700;
+    color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %}; letter-spacing: 3px;
+  }
+  .hud-clutch-sub {
+    font-family: var(--font-mono); font-size: 9px;
+    color: {% if isDark %}rgba(255,255,255,0.7){% else %}#888{% endif %}; letter-spacing: 1px;
+  }
+  .hud-coach {
+    {% if isDark %}
+    background: rgba(0,0,0,0.6); border: 1px solid rgba(255,107,157,0.2);
+    {% else %}
+    background: rgba(255,255,255,0.85); border: 1px solid rgba(212,80,122,0.15);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    {% endif %}
+    border-radius: 12px; padding: 10px 12px;
+    display: flex; gap: 10px; align-items: center;
+  }
+  .hud-coach-text {
+    font-family: var(--font-body); font-size: 12px;
+    color: {% if isDark %}#FF6B9D{% else %}#D4507A{% endif %};
+    line-height: 1.4; font-style: italic;
+  }
+  .hud-nick {
+    font-family: var(--font-mono); font-size: 9px;
+    color: {% if isDark %}rgba(255,255,255,0.5){% else %}rgba(0,0,0,0.4){% endif %};
+    letter-spacing: 1px; text-align: center;
+  }
+
+  /* ══════════════════════════════════
+     2. FUMBLE — CINEMA BARS
+     ══════════════════════════════════ */
+  .fumble-card .selfie-bg {
+    background: {% if isDark %}linear-gradient(180deg, #2a1a1a 0%, #4a2020 30%, #5a3030 60%, #3a1515 100%){% else %}linear-gradient(180deg, #e8d0d0 0%, #d4b0a0 30%, #c8a090 60%, #b88878 100%){% endif %};
+  }
+  .fumble-card .selfie-circle { background: linear-gradient(135deg, #c49060, #a07050); }
+  .fumble-card .selfie-hint { color: {% if isDark %}rgba(255,255,255,0.25){% else %}rgba(0,0,0,0.2){% endif %}; }
+  .fumble-card .card-logo .bite { color: {% if isDark %}#fff{% else %}#1A1A1A{% endif %}; }
+  .fumble-card .card-logo .back { color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %}; }
+
+  .fumble-tint { position: absolute; inset: 0; z-index: 3; background: {% if isDark %}rgba(255,20,20,0.1){% else %}rgba(220,30,60,0.06){% endif %}; }
+  .fumble-vignette {
+    position: absolute; inset: 0; z-index: 4;
+    background: {% if isDark %}radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.7) 100%){% else %}radial-gradient(ellipse at center, transparent 30%, rgba(255,255,255,0.5) 100%){% endif %};
+  }
+
+  .cinema-top {
+    position: absolute; top: 0; left: 0; right: 0; height: 70px; z-index: 10;
+    background: {% if isDark %}#000{% else %}#F5F5F0{% endif %};
+  }
+  .cinema-bottom {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 130px; z-index: 10;
+    background: {% if isDark %}#000{% else %}#F5F5F0{% endif %};
+  }
+
+  .fumble-center-stamp {
+    position: absolute; top: 50%; left: 50%; z-index: 15;
+    transform: translate(-50%, -50%) rotate(-12deg);
+    font-family: var(--font-display); font-size: 48px; font-weight: 700;
+    color: {% if isDark %}rgba(255,59,59,0.3){% else %}rgba(220,30,60,0.25){% endif %};
+    letter-spacing: 6px;
+    border: 3px solid {% if isDark %}rgba(255,59,59,0.2){% else %}rgba(220,30,60,0.18){% endif %};
+    padding: 2px 20px; border-radius: 8px;
+    {% if isDark %}text-shadow: 0 0 40px rgba(255,59,59,0.2);{% endif %}
+  }
+
+  .cinema-top-content {
+    position: absolute; top: 0; left: 0; right: 0; height: 70px; z-index: 15;
+    display: flex; align-items: flex-end; justify-content: space-between;
+    padding: 0 16px 10px;
+  }
+  .cinema-days-tag {
+    font-family: var(--font-mono); font-size: 10px;
+    color: {% if isDark %}#FF3B3B{% else %}#DC1E3C{% endif %}; letter-spacing: 1px;
+  }
+  .cinema-countdown {
+    font-family: var(--font-mono); font-size: 10px;
+    color: {% if isDark %}rgba(255,255,255,0.5){% else %}#888{% endif %}; letter-spacing: 1px;
+  }
+
+  .cinema-bottom-content {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 130px; z-index: 15;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    padding: 0 20px; gap: 8px;
+  }
+  .cinema-coach { display: flex; gap: 10px; align-items: center; }
+  .cinema-coach-text {
+    font-family: var(--font-body); font-size: 13px;
+    color: {% if isDark %}#FF6B9D{% else %}#D4507A{% endif %};
+    line-height: 1.4; font-style: italic;
+  }
+  .cinema-nick {
+    font-family: var(--font-mono); font-size: 11px;
+    color: {% if isDark %}rgba(255,255,255,0.7){% else %}#888{% endif %}; letter-spacing: 1px;
+  }
+
+  .fumble-card .card-footer {
+    {% if isDark %}
+    background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, transparent 100%);
+    {% else %}
+    background: none; z-index: 20;
+    {% endif %}
+  }
+  .fumble-card .cf-line { color: {% if isDark %}rgba(255,255,255,0.7){% else %}rgba(0,0,0,0.45){% endif %}; }
+
+  /* ══════════════════════════════════
+     3. NOIR POSTER — No Photo
+     ══════════════════════════════════ */
+  .noir-card {
+    {% if isDark %}
+    background: linear-gradient(160deg, #0A0A0A 0%, #111 50%, rgba(191,255,0,0.06) 100%);
+    border: 1px solid rgba(191,255,0,0.12);
+    {% else %}
+    background: linear-gradient(160deg, #F5F5F0 0%, #fff 50%, rgba(74,133,0,0.04) 100%);
+    border: 1px solid rgba(74,133,0,0.12);
+    {% endif %}
+    display: flex; flex-direction: column;
+  }
+  .noir-card .card-logo .bite { color: {% if isDark %}#fff{% else %}#1A1A1A{% endif %}; }
+  .noir-card .card-logo .back { color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %}; }
+  .noir-card .card-footer {
+    {% if isDark %}
+    background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, transparent 100%);
+    {% else %}
+    background: linear-gradient(0deg, rgba(255,255,255,0.8) 0%, transparent 100%);
+    {% endif %}
+  }
+  .noir-card .cf-line { color: {% if isDark %}rgba(255,255,255,0.7){% else %}rgba(0,0,0,0.45){% endif %}; }
+
+  .noir-content {
+    flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;
+    padding: 60px 24px 60px; text-align: center;
+  }
+  .noir-badge {
+    font-family: var(--font-mono); font-size: 9px; letter-spacing: 2px;
+    color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %};
+    background: {% if isDark %}rgba(191,255,0,0.08){% else %}rgba(74,133,0,0.08){% endif %};
+    border: 1px solid {% if isDark %}rgba(191,255,0,0.15){% else %}rgba(74,133,0,0.15){% endif %};
+    padding: 5px 14px; border-radius: 20px; margin-bottom: 16px;
+  }
+  .noir-num {
+    font-family: var(--font-display); font-size: 100px; font-weight: 700;
+    color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %};
+    line-height: 1;
+    {% if isDark %}text-shadow: 0 0 40px rgba(191,255,0,0.3);{% endif %}
+  }
+  .noir-label {
+    font-family: var(--font-mono); font-size: 13px; letter-spacing: 5px;
+    color: {% if isDark %}#888{% else %}#999{% endif %}; margin-top: 4px;
+  }
+  .noir-tier {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px;
+    color: {% if isDark %}#FFD700{% else %}#B8860B{% endif %};
+    background: {% if isDark %}rgba(255,215,0,0.08){% else %}rgba(184,134,11,0.08){% endif %};
+    padding: 5px 14px; border-radius: 10px;
+    border: 1px solid {% if isDark %}rgba(255,215,0,0.12){% else %}rgba(184,134,11,0.12){% endif %};
+    margin-top: 20px;
+  }
+  .noir-quote {
+    margin-top: 24px; padding: 0 10px;
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  .noir-quote-text {
+    font-family: var(--font-body); font-size: 13px;
+    color: {% if isDark %}#FF6B9D{% else %}#D4507A{% endif %};
+    line-height: 1.5; font-style: italic;
+  }
+  .noir-nick {
+    font-family: var(--font-mono); font-size: 9px;
+    color: {% if isDark %}rgba(255,255,255,0.4){% else %}rgba(0,0,0,0.35){% endif %};
+    letter-spacing: 1px; margin-top: 16px;
+  }
+</style>
+
+{{ content | safe }}

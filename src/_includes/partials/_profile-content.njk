@@ -1,0 +1,138 @@
+{# Profile content - included by dark.njk and light.njk wrappers #}
+{# Expects: isDark variable set by wrapper #}
+
+<style>
+  .profile-hero { text-align: center; padding: 20px 16px 0; }
+  .ph-avatar {
+    width: 72px; height: 72px; border-radius: 50%; font-size: 40px;
+    display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;
+    background: {% if isDark %}rgba(191,255,0,0.06){% else %}rgba(74,133,0,0.04){% endif %};
+    border: 2px solid {% if isDark %}rgba(191,255,0,0.15){% else %}rgba(74,133,0,0.12){% endif %};
+  }
+  .ph-name { font-family: var(--font-display); font-size: 28px; font-weight: 700; color: {% if isDark %}#fff{% else %}#1A1A1A{% endif %}; letter-spacing: 2px; }
+  .ph-practice { font-family: var(--font-mono); font-size: 9px; color: #777; letter-spacing: 1px; margin-top: 4px; }
+
+  /* ── Tier Card ── */
+  .tier-card {
+    margin: 16px 16px 0; padding: 16px; border-radius: 16px;
+    background: {% if isDark %}linear-gradient(135deg, rgba(255,215,0,0.06) 0%, rgba(255,215,0,0.01) 100%){% else %}linear-gradient(135deg, rgba(184,134,11,0.06) 0%, rgba(184,134,11,0.01) 100%){% endif %};
+    border: 1px solid {% if isDark %}rgba(255,215,0,0.12){% else %}rgba(184,134,11,0.1){% endif %};
+  }
+  .tier-row { display: flex; align-items: center; justify-content: space-between; }
+  .tier-name { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: {% if isDark %}#FFD700{% else %}#B8860B{% endif %}; letter-spacing: 2px; }
+  .tier-badge { font-family: var(--font-mono); font-size: 9px; color: #888; letter-spacing: 1px; }
+  .tier-progress { margin-top: 12px; height: 4px; background: {% if isDark %}#1A1A1A{% else %}#E5E5E0{% endif %}; border-radius: 2px; overflow: hidden; }
+  .tier-fill { height: 4px; border-radius: 2px; background: {% if isDark %}linear-gradient(90deg, #FFD700, #FFB800){% else %}linear-gradient(90deg, #B8860B, #D4A017){% endif %}; }
+  .tier-next { font-family: var(--font-mono); font-size: 9px; color: #888; letter-spacing: 1px; margin-top: 8px; text-align: right; }
+
+  /* ── Stats Grid ── */
+  .section-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 3px; color: #888; padding: 16px 20px 8px; }
+  .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0 16px; }
+  .stat-card { background: {% if isDark %}#111{% else %}#fff{% endif %}; border: 1px solid {% if isDark %}#1A1A1A{% else %}#E5E5E0{% endif %}; border-radius: 14px; padding: 14px; }
+  .stat-value { font-family: var(--font-display); font-size: 28px; font-weight: 700; color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %}; line-height: 1; }
+  .stat-label { font-family: var(--font-mono); font-size: 8px; color: #888; letter-spacing: 1px; margin-top: 4px; }
+  .stat-card.warn .stat-value { color: {% if isDark %}#FF3B3B{% else %}#DC1E3C{% endif %}; }
+
+  /* ── Coach Card ── */
+  .coach-card {
+    margin: 0 16px; padding: 14px 16px; border-radius: 14px;
+    background: {% if isDark %}#111{% else %}#fff{% endif %}; border: 1px solid {% if isDark %}#1A1A1A{% else %}#E5E5E0{% endif %};
+    display: flex; align-items: center; gap: 14px;
+  }
+  .cc-avatar { width: 44px; height: 55px; object-fit: contain; flex-shrink: 0; }
+  .cc-name { font-family: var(--font-body); font-size: 15px; font-weight: 700; color: {% if isDark %}#FF6B9D{% else %}#D4507A{% endif %}; }
+  .cc-desc { font-family: var(--font-mono); font-size: 9px; color: #888; letter-spacing: 1px; margin-top: 2px; }
+  .cc-switch {
+    margin-left: auto; font-family: var(--font-mono); font-size: 9px; letter-spacing: 1px;
+    color: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %};
+    background: {% if isDark %}rgba(191,255,0,0.06){% else %}rgba(74,133,0,0.04){% endif %};
+    padding: 6px 12px; border-radius: 10px;
+    border: 1px solid {% if isDark %}rgba(191,255,0,0.1){% else %}rgba(74,133,0,0.08){% endif %};
+  }
+
+  /* ── Settings ── */
+  .settings-list { margin: 0 16px; }
+  .setting-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 4px; border-bottom: 1px solid {% if isDark %}#111{% else %}#F0F0EB{% endif %};
+  }
+  .setting-row:last-child { border-bottom: none; }
+  .sr-left { display: flex; align-items: center; gap: 10px; }
+  .sr-icon { font-size: 16px; opacity: 0.7; }
+  .sr-label { font-family: var(--font-body); font-size: 14px; color: {% if isDark %}#ccc{% else %}#444{% endif %}; }
+  .sr-value { font-family: var(--font-mono); font-size: 11px; color: #777; }
+  .toggle { width: 40px; height: 22px; border-radius: 11px; position: relative; }
+  .toggle.on { background: {% if isDark %}rgba(191,255,0,0.3){% else %}rgba(74,133,0,0.25){% endif %}; }
+  .toggle.off { background: {% if isDark %}#2A2A2A{% else %}#ddd{% endif %}; }
+  .toggle-dot { position: absolute; top: 2px; width: 18px; height: 18px; border-radius: 9px; }
+  .toggle.on .toggle-dot { right: 2px; background: {% if isDark %}#BFFF00{% else %}#4A8500{% endif %}; }
+  .toggle.off .toggle-dot { left: 2px; background: {% if isDark %}#555{% else %}#aaa{% endif %}; }
+
+  .bottom-links { margin: 0 16px; padding: 8px 0; }
+  .bl-row { padding: 12px 4px; border-bottom: 1px solid {% if isDark %}#111{% else %}#F0F0EB{% endif %}; font-family: var(--font-body); font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
+  .bl-row:last-child { border-bottom: none; }
+  .bl-row.normal { color: #888; }
+  .bl-row.danger { color: {% if isDark %}#FF3B3B{% else %}#DC1E3C{% endif %}; }
+  .bl-arrow { font-size: 11px; color: {% if isDark %}#444{% else %}#ccc{% endif %}; }
+</style>
+
+<div class="profile-hero">
+  <div class="ph-avatar">😎</div>
+  <div class="ph-name">JAYLEN</div>
+  <div class="ph-practice">BRIGHT SMILES ORTHODONTICS</div>
+</div>
+
+<div class="tier-card">
+  <div class="tier-row">
+    <div class="tier-name">SMILE SOLDIER</div>
+    <div class="tier-badge">30 DAYS</div>
+  </div>
+  <div class="tier-progress"><div class="tier-fill" style="width:50%"></div></div>
+  <div class="tier-next">30 days to ARCH NEMESIS →</div>
+</div>
+
+<div class="section-label">📊 STATS</div>
+<div class="stats-grid">
+  <div class="stat-card"><div class="stat-value">30</div><div class="stat-label">CURRENT STREAK</div></div>
+  <div class="stat-card"><div class="stat-value">30</div><div class="stat-label">LONGEST STREAK</div></div>
+  <div class="stat-card"><div class="stat-value">94%</div><div class="stat-label">COMPLIANCE</div></div>
+  <div class="stat-card warn"><div class="stat-value">+3d</div><div class="stat-label">DELAY ADDED</div></div>
+  <div class="stat-card"><div class="stat-value">−2d</div><div class="stat-label">RECOVERED</div></div>
+  <div class="stat-card"><div class="stat-value">#4</div><div class="stat-label">PRACTICE RANK</div></div>
+</div>
+
+<div class="section-label">🎤 YOUR COACH</div>
+<div class="coach-card">
+  <img class="cc-avatar" src="/assets/img/avatars/bri-face.png" alt="Bri" onerror="this.style.display='none'">
+  <div>
+    <div class="cc-name">BRI</div>
+    <div class="cc-desc">TOXIC BESTIE · HEAT 3</div>
+  </div>
+  <div class="cc-switch">SWITCH</div>
+</div>
+
+<div class="section-label">⚙️ SETTINGS</div>
+<div class="settings-list">
+  <div class="setting-row">
+    <div class="sr-left"><span class="sr-icon">🔔</span><span class="sr-label">Notifications</span></div>
+    <div class="toggle on"><div class="toggle-dot"></div></div>
+  </div>
+  <div class="setting-row">
+    <div class="sr-left"><span class="sr-icon">⏰</span><span class="sr-label">Reminder Time</span></div>
+    <div class="sr-value">9:00 PM</div>
+  </div>
+  <div class="setting-row">
+    <div class="sr-left"><span class="sr-icon">🌙</span><span class="sr-label">Dark Mode</span></div>
+    <div class="toggle {% if isDark %}on{% else %}off{% endif %}"><div class="toggle-dot"></div></div>
+  </div>
+  <div class="setting-row">
+    <div class="sr-left"><span class="sr-icon">📸</span><span class="sr-label">Selfie Check-in</span></div>
+    <div class="toggle off"><div class="toggle-dot"></div></div>
+  </div>
+</div>
+
+<div class="bottom-links">
+  <div class="bl-row normal"><span>Send Feedback</span><span class="bl-arrow">›</span></div>
+  <div class="bl-row normal"><span>Privacy Policy</span><span class="bl-arrow">›</span></div>
+  <div class="bl-row danger"><span>Delete My Data</span><span class="bl-arrow">›</span></div>
+</div>

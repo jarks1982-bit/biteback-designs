@@ -1,0 +1,235 @@
+
+<div class="db-page-header">
+  <div>
+    <div class="db-page-title">CHALLENGES</div>
+    <div class="db-page-subtitle">MANAGE TREATMENT TRACKS, CHALLENGES & FUMBLE PENALTIES</div>
+  </div>
+  <button class="db-btn db-btn-primary">+ CREATE CUSTOM CHALLENGE</button>
+</div>
+
+{# ── Track Overview ── #}
+<div class="db-grid-2">
+
+  {# ALIGNERS TRACK #}
+  <div class="db-card">
+    <div class="track-header">
+      <div class="track-name">😁 ALIGNERS TRACK</div>
+      <div class="track-count">16 patients</div>
+    </div>
+    <div class="ch-list">
+      <div class="ch-row">
+        <div class="ch-icon-lg">😁</div>
+        <div class="ch-info">
+          <div class="ch-name">Wear Aligners</div>
+          <div class="ch-question">Did you wear your aligners today? (22+ hrs)</div>
+          <div class="ch-meta">
+            <span class="ch-tag weight">PFDE 0.5</span>
+            <span class="ch-tag penalty">+1 DAY</span>
+            <span class="ch-tag patients">16 active</span>
+          </div>
+        </div>
+        <div class="ch-right-col">
+          <span class="ch-active-badge on">ACTIVE</span>
+          <span class="ch-edit-link">EDIT →</span>
+        </div>
+      </div>
+      <div class="ch-row">
+        <div class="ch-icon-lg">🔧</div>
+        <div class="ch-info">
+          <div class="ch-name">Use Chewies</div>
+          <div class="ch-question">Did you use your chewies today?</div>
+          <div class="ch-meta">
+            <span class="ch-tag weight">PFDE 0.2</span>
+            <span class="ch-tag penalty">+0.5 DAY</span>
+            <span class="ch-tag patients">14 active</span>
+          </div>
+        </div>
+        <div class="ch-right-col">
+          <span class="ch-active-badge on">ACTIVE</span>
+          <span class="ch-edit-link">EDIT →</span>
+        </div>
+      </div>
+      <div class="ch-row">
+        <div class="ch-icon-lg">🦷</div>
+        <div class="ch-info">
+          <div class="ch-name">Wear Rubber Bands</div>
+          <div class="ch-question">Did you wear your rubber bands today?</div>
+          <div class="ch-meta">
+            <span class="ch-tag weight">PFDE 0.3</span>
+            <span class="ch-tag penalty">+1 DAY</span>
+            <span class="ch-tag patients">9 active</span>
+          </div>
+        </div>
+        <div class="ch-right-col">
+          <span class="ch-active-badge on">ACTIVE</span>
+          <span class="ch-edit-link">EDIT →</span>
+        </div>
+      </div>
+    </div>
+    <button class="db-dashed-add">＋ ADD CHALLENGE TO ALIGNERS</button>
+  </div>
+
+  {# BRACES TRACK #}
+  <div class="db-card">
+    <div class="track-header">
+      <div class="track-name">🦷 BRACES TRACK</div>
+      <div class="track-count">8 patients</div>
+    </div>
+    <div class="ch-list">
+      <div class="ch-row">
+        <div class="ch-icon-lg">🪥</div>
+        <div class="ch-info">
+          <div class="ch-name">Brush & Floss</div>
+          <div class="ch-question">Did you brush and floss after meals today?</div>
+          <div class="ch-meta">
+            <span class="ch-tag weight">PFDE 0.3</span>
+            <span class="ch-tag penalty">+0.5 DAY</span>
+            <span class="ch-tag patients">8 active</span>
+          </div>
+        </div>
+        <div class="ch-right-col">
+          <span class="ch-active-badge on">ACTIVE</span>
+          <span class="ch-edit-link">EDIT →</span>
+        </div>
+      </div>
+      <div class="ch-row">
+        <div class="ch-icon-lg">⚠️</div>
+        <div class="ch-info">
+          <div class="ch-name">No Broken Brackets</div>
+          <div class="ch-question">All brackets intact today?</div>
+          <div class="ch-meta">
+            <span class="ch-tag weight">PFDE 0.5</span>
+            <span class="ch-tag penalty">+3 DAYS</span>
+            <span class="ch-tag patients">8 active</span>
+          </div>
+        </div>
+        <div class="ch-right-col">
+          <span class="ch-active-badge on">ACTIVE</span>
+          <span class="ch-edit-link">EDIT →</span>
+        </div>
+      </div>
+      <div class="ch-row">
+        <div class="ch-icon-lg">🦷</div>
+        <div class="ch-info">
+          <div class="ch-name">Wear Rubber Bands</div>
+          <div class="ch-question">Did you wear your rubber bands today?</div>
+          <div class="ch-meta">
+            <span class="ch-tag weight">PFDE 0.2</span>
+            <span class="ch-tag penalty">+1 DAY</span>
+            <span class="ch-tag patients">5 active</span>
+          </div>
+        </div>
+        <div class="ch-right-col">
+          <span class="ch-active-badge on">ACTIVE</span>
+          <span class="ch-edit-link">EDIT →</span>
+        </div>
+      </div>
+    </div>
+    <button class="db-dashed-add">＋ ADD CHALLENGE TO BRACES</button>
+  </div>
+</div>
+
+{# ── Fumble Penalty Configuration ── #}
+<div class="db-card" style="margin-bottom:20px;padding:0;overflow:hidden;">
+  <div style="padding:18px 20px;border-bottom:1px solid #F0F0EB;display:flex;justify-content:space-between;align-items:center;">
+    <div class="db-section-title">FUMBLE PENALTY CONFIGURATION</div>
+    <button class="db-btn db-btn-outline" style="font-size:13px;padding:8px 14px;">RESET TO DEFAULTS</button>
+  </div>
+  <table class="db-table">
+    <thead>
+      <tr>
+        <th>CHALLENGE</th>
+        <th>DEFAULT PENALTY</th>
+        <th>YOUR PENALTY</th>
+        <th>RANGE</th>
+        <th>PFDE WEIGHT</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>😁 Wear Aligners (22+ hrs)</td>
+        <td class="td-mono">+1 day</td>
+        <td><input class="db-form-input" value="+1 day" style="width:80px;text-align:center;padding:6px 10px;"></td>
+        <td style="font-family:var(--font-mono);font-size:13px;color:#bbb;">0–3 days</td>
+        <td class="td-mono" style="color:#4A8500;">0.5</td>
+      </tr>
+      <tr>
+        <td>🔧 Use Chewies</td>
+        <td class="td-mono">+0.5 day</td>
+        <td><input class="db-form-input" value="+0.5 day" style="width:80px;text-align:center;padding:6px 10px;"></td>
+        <td style="font-family:var(--font-mono);font-size:13px;color:#bbb;">0–1 day</td>
+        <td class="td-mono" style="color:#4A8500;">0.2</td>
+      </tr>
+      <tr>
+        <td>🦷 Wear Rubber Bands</td>
+        <td class="td-mono">+1 day</td>
+        <td><input class="db-form-input" value="+1 day" style="width:80px;text-align:center;padding:6px 10px;"></td>
+        <td style="font-family:var(--font-mono);font-size:13px;color:#bbb;">0–3 days</td>
+        <td class="td-mono" style="color:#4A8500;">0.3</td>
+      </tr>
+      <tr>
+        <td>🪥 Brush & Floss</td>
+        <td class="td-mono">+0.5 day</td>
+        <td><input class="db-form-input" value="+0.5 day" style="width:80px;text-align:center;padding:6px 10px;"></td>
+        <td style="font-family:var(--font-mono);font-size:13px;color:#bbb;">0–2 days</td>
+        <td class="td-mono" style="color:#4A8500;">0.3</td>
+      </tr>
+      <tr>
+        <td>⚠️ No Broken Brackets</td>
+        <td class="td-mono">+3 days</td>
+        <td><input class="db-form-input" value="+3 days" style="width:80px;text-align:center;padding:6px 10px;"></td>
+        <td style="font-family:var(--font-mono);font-size:13px;color:#bbb;">1–7 days</td>
+        <td class="td-mono" style="color:#4A8500;">0.5</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+{# ── Patient Assignments + Recent Changes ── #}
+<div class="db-grid-2">
+  <div class="db-card">
+    <div class="db-section-title" style="margin-bottom:4px;">PATIENT ASSIGNMENTS</div>
+    <div style="font-family:var(--font-mono);font-size:13px;color:#999;font-weight:500;margin-bottom:14px;">HOW PATIENTS ARE DISTRIBUTED ACROSS TRACKS</div>
+    <div class="db-grid-3" style="margin-bottom:14px;">
+      <div class="db-stat-card-inner"><div class="db-stat-value green" style="font-size:36px;">16</div><div class="db-stat-label">ALIGNERS</div></div>
+      <div class="db-stat-card-inner"><div class="db-stat-value amber" style="font-size:36px;">8</div><div class="db-stat-label">BRACES</div></div>
+      <div class="db-stat-card-inner"><div class="db-stat-value dark" style="font-size:36px;">24</div><div class="db-stat-label">TOTAL</div></div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <div style="flex:2;height:10px;background:#4A8500;border-radius:4px 0 0 4px;"></div>
+      <div style="flex:1;height:10px;background:#D4A017;border-radius:0 4px 4px 0;"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:4px;">
+      <span style="font-family:var(--font-mono);font-size:13px;color:#4A8500;font-weight:600;">67% ALIGNERS</span>
+      <span style="font-family:var(--font-mono);font-size:13px;color:#D4A017;font-weight:600;">33% BRACES</span>
+    </div>
+  </div>
+
+  <div class="db-card">
+    <div class="db-section-title" style="margin-bottom:14px;">RECENT CHALLENGE CHANGES</div>
+    <div class="db-log-item">
+      <div class="db-log-date">Feb 18</div>
+      <div class="db-log-action">Added <strong>Rubber Bands</strong> to</div>
+      <div class="db-log-patient">SmileQueen · BB-5512-TL</div>
+      <div class="db-log-staff">Dr. Smith</div>
+    </div>
+    <div class="db-log-item">
+      <div class="db-log-date">Feb 15</div>
+      <div class="db-log-action">Removed <strong>Chewies</strong> from</div>
+      <div class="db-log-patient">RetainerKing · BB-6679-PL</div>
+      <div class="db-log-staff">Sarah K.</div>
+    </div>
+    <div class="db-log-item">
+      <div class="db-log-date">Feb 10</div>
+      <div class="db-log-action">Added <strong>Wear Aligners</strong> to</div>
+      <div class="db-log-patient">OrthoPrincess · BB-3321-WD</div>
+      <div class="db-log-staff">Dr. Smith</div>
+    </div>
+    <div class="db-log-item">
+      <div class="db-log-date">Feb 2</div>
+      <div class="db-log-action">Penalty adjusted: Rubber Bands <strong>+1d → +2d</strong> for</div>
+      <div class="db-log-patient">BraceGod · BB-2847-XK</div>
+      <div class="db-log-staff">Dr. Smith</div>
+    </div>
+  </div>
+</div>

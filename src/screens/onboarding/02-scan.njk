@@ -1,0 +1,73 @@
+---
+layout: onboarding.njk
+title: Scan QR
+screenTitle: "Step 2 — Scan or Skip"
+step: 2
+ctaText: ""
+---
+
+<style>
+  .qr-frame {
+    width: 180px; height: 180px;
+    position: relative;
+    margin-bottom: 32px;
+  }
+  .qr-frame::before, .qr-frame::after,
+  .qr-inner::before, .qr-inner::after {
+    content: ''; position: absolute; width: 28px; height: 28px;
+  }
+  .qr-frame::before { top: 0; left: 0; border-top: 3px solid var(--clutch); border-left: 3px solid var(--clutch); border-radius: 4px 0 0 0; }
+  .qr-frame::after { top: 0; right: 0; border-top: 3px solid var(--clutch); border-right: 3px solid var(--clutch); border-radius: 0 4px 0 0; }
+  .qr-inner { position: absolute; inset: 0; }
+  .qr-inner::before { bottom: 0; left: 0; border-bottom: 3px solid var(--clutch); border-left: 3px solid var(--clutch); border-radius: 0 0 0 4px; }
+  .qr-inner::after { bottom: 0; right: 0; border-bottom: 3px solid var(--clutch); border-right: 3px solid var(--clutch); border-radius: 0 0 4px 0; }
+  .scan-line {
+    position: absolute; left: 10px; right: 10px; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--clutch), transparent);
+    animation: scan 2s ease-in-out infinite;
+    box-shadow: 0 0 8px rgba(191,255,0,0.4);
+  }
+  @keyframes scan {
+    0%, 100% { top: 10px; opacity: 0.6; }
+    50% { top: calc(100% - 12px); opacity: 1; }
+  }
+  .qr-icon {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    font-size: 40px; opacity: 0.15;
+  }
+  .scan-btn {
+    width: 100%; padding: 16px; border-radius: 14px;
+    background: var(--clutch); text-align: center;
+    font-family: var(--font-display); font-weight: 700; font-size: 16px;
+    letter-spacing: 2px; color: #0A0A0A;
+    margin-bottom: 12px; cursor: pointer;
+  }
+  .code-btn {
+    width: 100%; padding: 14px; border-radius: 14px;
+    background: transparent; text-align: center;
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 1px; color: #888;
+    border: 1px solid #2A2A2A;
+    margin-bottom: 16px; cursor: pointer;
+  }
+  .skip-link {
+    font-family: var(--font-mono); font-size: 10px;
+    letter-spacing: 1px; color: var(--text-min);
+    cursor: pointer;
+  }
+</style>
+
+<div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 12px;">
+  <div class="heading" style="margin-bottom: 6px;">GOT A CODE?</div>
+  <div class="body-text" style="text-align: center; margin-bottom: 32px;">Your orthodontist gave you one.<br/>If not, no worries — skip for now.</div>
+
+  <div class="qr-frame">
+    <div class="qr-inner"></div>
+    <div class="scan-line"></div>
+    <div class="qr-icon">📷</div>
+  </div>
+
+  <div class="scan-btn">SCAN QR CODE</div>
+  <div class="code-btn">TYPE CODE MANUALLY</div>
+  <div class="skip-link">skip for now</div>
+</div>

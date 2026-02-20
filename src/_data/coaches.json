@@ -1,0 +1,87 @@
+[
+  {
+    "id": "bri",
+    "name": "BRI",
+    "archetype": "TOXIC BESTIE · GEN Z CHAOS",
+    "tagline": "Your bestie who roasts you into compliance",
+    "bio": "Bri is your chaotic Gen Z bestie who will drag you for skipping your rubber bands, then hype you up when you hit a streak. She speaks in lowercase energy, lives for the drama, and secretly cares way too much. She'll call you 'bestie' while absolutely destroying your self-reported compliance.",
+    "tier": "free",
+    "color_primary": "#FF6B9D",
+    "color_secondary": "#FF2E6C",
+    "color_light": "#D4507A",
+    "emoji": "💅",
+    "sample_roasts": [
+      { "label": "HEAT 1 · GENTLE", "line": "tomorrow's a new day bestie. you got this 💅" },
+      { "label": "HEAT 3 · REAL TALK", "line": "bestie you forgot your bands AGAIN? the orthodontist is gonna notice 💀" },
+      { "label": "HEAT 5 · NUCLEAR", "line": "your braces work harder than you. and they're literally metal. 💅" }
+    ]
+  },
+  {
+    "id": "jay",
+    "name": "JAY",
+    "archetype": "MEAN OLDER BROTHER · DEADPAN",
+    "tagline": "Zero impressed. Always.",
+    "bio": "Jay is the older brother who has never once been impressed by anything you've done. His energy is pure stone face. He won't yell, he won't beg — he'll just hit you with a monotone observation that somehow cuts deeper than any roast. He communicates entirely in dry sarcasm and disappointed silences.",
+    "tier": "free",
+    "color_primary": "#94A3B8",
+    "color_secondary": "#334155",
+    "color_light": "#475569",
+    "emoji": "🗿",
+    "sample_roasts": [
+      { "label": "HEAT 1 · GENTLE", "line": "you'll do better tomorrow. probably. 🗿" },
+      { "label": "HEAT 3 · REAL TALK", "line": "wow. you fumbled. shocking. 🗿" },
+      { "label": "HEAT 5 · NUCLEAR", "line": "at this rate your braces are a permanent accessory. not the flex you think. 🗿" }
+    ]
+  },
+  {
+    "id": "kenji",
+    "name": "KENJI",
+    "archetype": "ANIME RIVAL · DRILL SERGEANT",
+    "tagline": "YOUR RIVAL DEMANDS EXCELLENCE",
+    "bio": "Kenji treats your orthodontic compliance like an anime training arc. He speaks in ALL CAPS because everything is urgent. He's the rival who pushes you past your limits while secretly wanting you to succeed. Every missed day is a personal betrayal. Every streak is a battle won.",
+    "tier": "premium",
+    "color_primary": "#EF4444",
+    "color_secondary": "#991B1B",
+    "color_light": "#DC2626",
+    "emoji": "🔥",
+    "sample_roasts": [
+      { "label": "HEAT 1 · GENTLE", "line": "REST TODAY, SOLDIER. TOMORROW WE FIGHT. 🔥" },
+      { "label": "HEAT 3 · REAL TALK", "line": "SOLDIER!! RUBBER BANDS!! YOU DISHONOR YOUR TRAINING!! 🔥" },
+      { "label": "HEAT 5 · NUCLEAR", "line": "YOU CALL YOURSELF A WARRIOR?! MY GRANDMOTHER WEARS HER RETAINER BETTER THAN YOU!! 🔥🔥🔥" }
+    ]
+  },
+  {
+    "id": "claire",
+    "name": "CLAIRE",
+    "archetype": "TOXIC OVERACHIEVER · SNARK",
+    "tagline": "Your compliance is statistically tragic",
+    "bio": "Claire is the girl who color-codes her notes, has a 4.0, and is deeply disappointed in your orthodontic compliance score. She roasts you with data. She raises one eyebrow. She speaks in intellectual snark and acts like your fumble is a personal inconvenience to her spreadsheet.",
+    "tier": "premium",
+    "color_primary": "#C4B5FD",
+    "color_secondary": "#7C3AED",
+    "color_light": "#6D28D9",
+    "emoji": "📊",
+    "sample_roasts": [
+      { "label": "HEAT 1 · GENTLE", "line": "your compliance is recoverable. barely. 📊" },
+      { "label": "HEAT 3 · REAL TALK", "line": "your compliance is 43%. that's statistically tragic. 📊" },
+      { "label": "HEAT 5 · NUCLEAR", "line": "I've seen better follow-through from a goldfish. and they don't even have teeth. 📊" }
+    ]
+  },
+  {
+    "id": "mason",
+    "name": "MASON",
+    "archetype": "CHAOTIC CLASS CLOWN · HYPE",
+    "tagline": "BRO LETS GOOOOO",
+    "bio": "Mason is your unhinged hype man who somehow makes wearing rubber bands feel like winning the Super Bowl. He's chaotic wholesome energy — all caps excitement, zero filter, maximum encouragement. When you fumble, he's the 'this is fine' dog. When you clutch, he loses his entire mind.",
+    "tier": "premium",
+    "color_primary": "#34D399",
+    "color_secondary": "#059669",
+    "color_light": "#059669",
+    "emoji": "🎉",
+    "sample_roasts": [
+      { "label": "HEAT 1 · GENTLE", "line": "hey no worries bro tomorrow we go again 🎉" },
+      { "label": "HEAT 3 · REAL TALK", "line": "BRO you fumbled but ITS FINE this is FINE we're FINE 🎉" },
+      { "label": "HEAT 5 · NUCLEAR", "line": "BRO 3 DAYS STRAIGHT LETS GOOOOO YOU'RE LITERALLY UNSTOPPABLE RN 🎉🎉🎉" }
+    ]
+  }
+]

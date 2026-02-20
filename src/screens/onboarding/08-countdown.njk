@@ -1,0 +1,84 @@
+---
+layout: onboarding.njk
+title: Countdown Reveal
+screenTitle: "Step 8 — Countdown Reveal"
+step: 8
+ctaText: "NEXT"
+---
+
+<style>
+  .countdown-reveal {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    position: relative; text-align: center;
+  }
+  .glow {
+    position: absolute; width: 300px; height: 300px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(191,255,0,0.1) 0%, transparent 70%);
+    top: 50%; left: 50%; transform: translate(-50%, -55%);
+    animation: glow-pulse 2s ease-in-out infinite;
+  }
+  @keyframes glow-pulse {
+    0%, 100% { opacity: 0.5; transform: translate(-50%, -55%) scale(1); }
+    50% { opacity: 1; transform: translate(-50%, -55%) scale(1.1); }
+  }
+  @keyframes fade-in {
+    0% { opacity: 0; transform: translateY(8px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slam {
+    0% { opacity: 0; transform: scale(2); filter: blur(10px); }
+    100% { opacity: 1; transform: scale(1); filter: blur(0); }
+  }
+  .pre-label {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 3px;
+    color: var(--text-tertiary);
+    opacity: 0; animation: fade-in 0.6s ease forwards 0.2s;
+    margin-bottom: 8px;
+  }
+  .reveal-number {
+    font-family: var(--font-display); font-weight: 700; font-size: 120px;
+    color: var(--clutch); letter-spacing: 4px; line-height: 1;
+    text-shadow: 0 0 40px rgba(191,255,0,0.3);
+    opacity: 0;
+    animation: slam 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.5s;
+  }
+  .days-label {
+    font-family: var(--font-mono); font-size: 14px; letter-spacing: 6px;
+    color: var(--text-primary); margin-top: 4px;
+    opacity: 0; animation: fade-in 0.6s ease forwards 1s;
+  }
+  .reveal-coach-bubble {
+    display: flex; align-items: flex-start; gap: 10px;
+    background: rgba(255,107,157,0.04); border: 1px solid rgba(255,107,157,0.12);
+    border-radius: 4px 16px 16px 16px; padding: 12px 16px;
+    margin-top: 32px; width: 100%;
+    opacity: 0; animation: fade-in 0.8s ease forwards 1.4s;
+  }
+  .reveal-coach-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    flex-shrink: 0; background: #FF6B9D;
+  }
+  .reveal-coach-name {
+    font-family: var(--font-mono); font-size: 8px; letter-spacing: 1px;
+    color: #FF6B9D; margin-bottom: 3px;
+  }
+  .reveal-coach-line {
+    font-family: var(--font-body); font-size: 13px; color: var(--text-secondary); line-height: 1.5;
+  }
+</style>
+
+<div class="countdown-reveal">
+  <div class="glow"></div>
+  <div class="pre-label">YOUR TREATMENT</div>
+  <div class="reveal-number">247</div>
+  <div class="days-label">DAYS TO GO</div>
+
+  <div class="reveal-coach-bubble">
+    <div class="reveal-coach-avatar"></div>
+    <div>
+      <div class="reveal-coach-name">BRI</div>
+      <div class="reveal-coach-line">247 days bestie. That's a LOT of chances to fumble. Let's not. 💅</div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,133 @@
+
+<div class="db-page-header">
+  <div>
+    <div class="db-page-title">STAFF</div>
+    <div class="db-page-subtitle">MANAGE TEAM ACCESS · 3 MEMBERS · 1 PENDING INVITE</div>
+  </div>
+  <button class="db-btn db-btn-primary">+ INVITE STAFF</button>
+</div>
+
+{# ── Staff Members Grid ── #}
+<div class="db-section-title" style="margin-bottom:14px;">TEAM MEMBERS <span style="font-size:13px;color:#4A8500;background:rgba(74,133,0,0.06);padding:4px 12px;border-radius:6px;margin-left:8px;">3 ACTIVE</span></div>
+<div class="staff-grid">
+
+  {# Owner #}
+  <div class="staff-card you">
+    <div class="staff-top"><div class="staff-avatar owner">DP</div><span class="staff-role-badge owner">OWNER</span></div>
+    <div class="staff-name">Dr. Patel <span style="font-family:var(--font-mono);font-size:11px;color:#4A8500;font-weight:600;letter-spacing:1px;">(YOU)</span></div>
+    <div class="staff-email">dr.patel@brightsmiles.com</div>
+    <div class="staff-meta-box">
+      <div class="staff-meta-row"><span class="staff-meta-label">LAST ACTIVE</span><span class="staff-meta-val green">NOW</span></div>
+      <div class="staff-meta-row"><span class="staff-meta-label">ACTIONS THIS WEEK</span><span class="staff-meta-val">14</span></div>
+      <div class="staff-meta-row"><span class="staff-meta-label">JOINED</span><span class="staff-meta-val">NOV 1, 2025</span></div>
+    </div>
+    <div style="display:flex;gap:6px;">
+      <button class="ch-btn disable" style="flex:1;opacity:0.4;cursor:default;">EDIT ROLE</button>
+      <button class="ch-btn disable" style="flex:1;opacity:0.4;cursor:default;">REMOVE</button>
+    </div>
+  </div>
+
+  {# Admin #}
+  <div class="staff-card">
+    <div class="staff-top"><div class="staff-avatar admin">SK</div><span class="staff-role-badge admin">ADMIN</span></div>
+    <div class="staff-name">Sarah Kim</div>
+    <div class="staff-email">sarah.k@brightsmiles.com</div>
+    <div class="staff-meta-box">
+      <div class="staff-meta-row"><span class="staff-meta-label">LAST ACTIVE</span><span class="staff-meta-val">2 HRS AGO</span></div>
+      <div class="staff-meta-row"><span class="staff-meta-label">ACTIONS THIS WEEK</span><span class="staff-meta-val">9</span></div>
+      <div class="staff-meta-row"><span class="staff-meta-label">JOINED</span><span class="staff-meta-val">NOV 15, 2025</span></div>
+    </div>
+    <div style="display:flex;gap:6px;">
+      <button class="ch-btn confirm" style="flex:1;">EDIT ROLE</button>
+      <button class="ch-btn fumble" style="flex:1;">REMOVE</button>
+    </div>
+  </div>
+
+  {# Viewer #}
+  <div class="staff-card">
+    <div class="staff-top"><div class="staff-avatar viewer">MR</div><span class="staff-role-badge viewer">VIEWER</span></div>
+    <div class="staff-name">Maria Reyes</div>
+    <div class="staff-email">maria.r@brightsmiles.com</div>
+    <div class="staff-meta-box">
+      <div class="staff-meta-row"><span class="staff-meta-label">LAST ACTIVE</span><span class="staff-meta-val">3 DAYS AGO</span></div>
+      <div class="staff-meta-row"><span class="staff-meta-label">ACTIONS THIS WEEK</span><span class="staff-meta-val">0</span></div>
+      <div class="staff-meta-row"><span class="staff-meta-label">JOINED</span><span class="staff-meta-val">JAN 10, 2026</span></div>
+    </div>
+    <div style="display:flex;gap:6px;">
+      <button class="ch-btn confirm" style="flex:1;">EDIT ROLE</button>
+      <button class="ch-btn fumble" style="flex:1;">REMOVE</button>
+    </div>
+  </div>
+
+  {# Pending #}
+  <div class="staff-card" style="opacity:0.7;">
+    <div class="staff-top"><div class="staff-avatar" style="background:linear-gradient(135deg,#D4A017,#F0C040);">JL</div><span class="staff-role-badge pending">PENDING</span></div>
+    <div class="staff-name">Dr. James Lee</div>
+    <div class="staff-email">james.lee@brightsmiles.com</div>
+    <div class="staff-meta-box">
+      <div class="staff-meta-row"><span class="staff-meta-label">INVITED</span><span class="staff-meta-val">FEB 17, 2026</span></div>
+      <div class="staff-meta-row"><span class="staff-meta-label">INVITED AS</span><span class="staff-meta-val">ADMIN</span></div>
+      <div class="staff-meta-row"><span class="staff-meta-label">MAGIC LINK</span><span class="staff-meta-val green">SENT</span></div>
+    </div>
+    <div style="display:flex;gap:6px;">
+      <button class="ch-btn confirm" style="flex:1;">RESEND INVITE</button>
+      <button class="ch-btn fumble" style="flex:1;">REVOKE</button>
+    </div>
+  </div>
+
+  {# Invite ghost card #}
+  <div class="db-dashed-add" style="min-height:280px;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+    <span style="font-size:36px;opacity:0.35;margin-bottom:8px;">➕</span>
+    <span style="font-family:var(--font-mono);font-size:14px;letter-spacing:2px;color:#bbb;font-weight:600;">INVITE STAFF</span>
+  </div>
+</div>
+
+{# ── Roles & Permissions ── #}
+<div class="db-section-title" style="margin:28px 0 14px;">ROLES & PERMISSIONS</div>
+<div class="db-card" style="padding:0;overflow:hidden;">
+  <div style="padding:18px 22px;border-bottom:1px solid #F0F0EB;">
+    <div class="db-section-title" style="margin:0;">ACCESS LEVELS</div>
+    <div style="font-family:var(--font-mono);font-size:12px;color:#bbb;letter-spacing:1px;margin-top:2px;">ALL ACTIONS ARE LOGGED WITH STAFF NAME AND TIMESTAMP</div>
+  </div>
+
+  {% set roles = [
+    {badge:"owner", name:"Practice Owner", desc:"Full access to everything. Manages billing, staff, and branding. Cannot be removed.", perms:["PATIENTS","CHALLENGES","TREATS","QR CODES","TIMELINE","BRANDING","STAFF","BILLING"], all:true},
+    {badge:"admin", name:"Office Admin / Orthodontist", desc:"Can manage patients, log fumbles, confirm compliance, adjust timelines, and manage treats.", perms:["PATIENTS","CHALLENGES","TREATS","QR CODES","TIMELINE","BRANDING"], denied:["STAFF","BILLING"]},
+    {badge:"viewer", name:"Front Desk / Assistant", desc:"Can view patient data and fulfill treats. Cannot modify challenges, timelines, or settings.", perms:["VIEW PATIENTS","FULFILL TREATS"], denied:["CHALLENGES","QR CODES","TIMELINE","BRANDING","STAFF","BILLING"]}
+  ] %}
+  {% for r in roles %}
+  <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 22px;{% if not loop.last %}border-bottom:1px solid #FAFAF7;{% endif %}">
+    <span class="staff-role-badge {{ r.badge }}" style="min-width:80px;text-align:center;padding:5px 12px;font-size:13px;">{{ r.badge | upper }}</span>
+    <div style="flex:1;">
+      <div style="font-family:var(--font-body);font-size:15px;font-weight:700;color:#1A1A1A;margin-bottom:2px;">{{ r.name }}</div>
+      <div style="font-family:var(--font-body);font-size:14px;color:#888;line-height:1.4;margin-bottom:8px;">{{ r.desc }}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;">
+        {% for p in r.perms %}<span class="ch-tag weight">{{ p }}</span>{% endfor %}
+        {% if r.denied %}{% for d in r.denied %}<span class="ch-tag patients" style="color:#ccc;text-decoration:line-through;">{{ d }}</span>{% endfor %}{% endif %}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{# ── Staff Activity Log ── #}
+<div class="db-section-title" style="margin:28px 0 14px;">RECENT STAFF ACTIVITY <span style="font-size:13px;color:#4A8500;background:rgba(74,133,0,0.06);padding:4px 12px;border-radius:6px;margin-left:8px;">LAST 7 DAYS</span></div>
+<div class="db-card">
+  {% set logs = [
+    {date:"FEB 19", action:"Confirmed compliance for <strong>SmileQueen</strong> (BB-5512-TL)", staff:"Dr. Patel", type:"COMPLIANCE"},
+    {date:"FEB 18", action:"Logged fumble — Rubber Bands for <strong>SmileQueen</strong> (BB-5512-TL)", staff:"Dr. Patel", type:"FUMBLE"},
+    {date:"FEB 18", action:"Fulfilled treat <strong>$10 Starbucks Card</strong> for SteelGrin (BB-2204-JE)", staff:"Sarah Kim", type:"TREAT"},
+    {date:"FEB 17", action:"Invited <strong>Dr. James Lee</strong> as Admin", staff:"Dr. Patel", type:"STAFF"},
+    {date:"FEB 16", action:"Generated QR code <strong>BB-7741-NK</strong> — Aligners, 18 mo", staff:"Sarah Kim", type:"QR CODE"},
+    {date:"FEB 15", action:"Pushed back timeline for <strong>BraceGod</strong> (BB-2847-XK) — +7 days", staff:"Dr. Patel", type:"TIMELINE"},
+    {date:"FEB 14", action:"Added challenge <strong>Rubber Bands</strong> to SmileQueen (BB-5512-TL)", staff:"Dr. Patel", type:"CHALLENGE"}
+  ] %}
+  {% for l in logs %}
+  <div class="db-log-item">
+    <div class="db-log-date">{{ l.date }}</div>
+    <div class="db-log-action">{{ l.action | safe }}</div>
+    <div class="db-log-patient">{{ l.staff }}</div>
+    <span style="font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:1px;padding:2px 6px;border-radius:3px;background:rgba(0,0,0,0.03);color:#999;">{{ l.type }}</span>
+  </div>
+  {% endfor %}
+</div>

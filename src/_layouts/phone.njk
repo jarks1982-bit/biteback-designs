@@ -1,0 +1,42 @@
+---
+layout: base.njk
+---
+{% set theme = theme or "dark" %}
+{% set coachId = coach or "bri" %}
+{% set c = null %}
+{% for item in coaches %}
+  {% if item.id == coachId %}
+    {% set c = item %}
+  {% endif %}
+{% endfor %}
+<div style="display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 40px 20px; background: #1a1a1a;">
+  {% if screenTitle %}
+  <div style="margin-bottom: 20px; text-align: center;">
+    <span class="label" style="color: #666;">{{ screenTitle }}</span>
+  </div>
+  {% endif %}
+  <div class="phone-frame" data-theme="{{ theme }}">
+    {% if showStatusBar !== false %}
+      {% include "partials/status-bar.njk" %}
+    {% endif %}
+    <div class="phone-notch"></div>
+    {% if showCoachHeader and c %}
+      <div class="coach-header" style="position: absolute; top: 54px; left: 0; right: 0; z-index: 40; padding: 8px 20px; background: var(--bg);">
+        <img class="coach-avatar" src="/assets/img/avatars/{{ c.id }}-face.png" alt="{{ c.name }}" onerror="this.style.background='{{ c.color_primary }}'; this.style.borderRadius='50%'; this.style.width='32px'; this.style.height='32px';">
+        <span class="coach-name" style="color: {{ c.color_primary }};">{{ c.name }}</span>
+        <span class="label" style="margin-left: 4px;">LVL {{ heatLevel or 3 }}</span>
+        <div class="heat-dots" style="margin-left: 6px;">
+          {% for i in range(1, 6) %}
+            <div class="heat-dot {% if i > (heatLevel or 3) %}inactive{% endif %}"></div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+    <div class="phone-content" {% if showCoachHeader %}style="padding-top: 100px;"{% endif %}>
+      {{ content | safe }}
+    </div>
+    {% if showTabBar !== false %}
+      {% include "partials/tab-bar.njk" %}
+    {% endif %}
+  </div>
+</div>

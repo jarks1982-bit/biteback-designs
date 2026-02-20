@@ -1,0 +1,218 @@
+---
+layout: dashboard.njk
+title: Dashboard — Overview
+activePage: overview
+---
+
+<div class="db-page-header">
+  <div>
+    <div class="db-page-title">DASHBOARD</div>
+    <div class="db-page-subtitle">BRIGHT SMILES ORTHODONTICS · FEB 19, 2026</div>
+  </div>
+  <div class="db-header-actions">
+    <button class="db-btn db-btn-outline">EXPORT</button>
+    <button class="db-btn db-btn-primary">+ NEW PATIENT</button>
+  </div>
+</div>
+
+{# ── Stat Cards ── #}
+<div class="db-stats-row db-stats-4">
+  <div class="db-stat-card">
+    <div class="db-stat-label">ACTIVE PATIENTS</div>
+    <div class="db-stat-value dark">24</div>
+    <div class="db-stat-delta up">▲ +3 this month</div>
+  </div>
+  <div class="db-stat-card">
+    <div class="db-stat-label">AVG COMPLIANCE</div>
+    <div class="db-stat-value green">87%</div>
+    <div class="db-stat-delta up">▲ +2.4% vs last month</div>
+  </div>
+  <div class="db-stat-card">
+    <div class="db-stat-label">AT RISK</div>
+    <div class="db-stat-value amber">3</div>
+    <div class="db-stat-delta down">▼ RCS < 70% for 14+ days</div>
+  </div>
+  <div class="db-stat-card">
+    <div class="db-stat-label">AVG DELAY</div>
+    <div class="db-stat-value red">+4.2d</div>
+    <div class="db-stat-delta down">▼ +0.8d vs last month</div>
+  </div>
+</div>
+
+{# ── Forecast Distribution ── #}
+<div class="db-section-header">
+  <div class="db-section-title">FORECAST DISTRIBUTION</div>
+  <div class="db-section-link">VIEW ALL →</div>
+</div>
+<div class="db-card" style="margin-bottom:24px;">
+  <div style="display:flex; align-items:flex-end; gap:6px; height:120px; padding:0 10px;">
+    <div style="display:flex; flex-direction:column; align-items:center; flex:1; height:100%; justify-content:flex-end;">
+      <div class="db-td-mono" style="color:#4A8500; font-weight:700; margin-bottom:4px;">3</div>
+      <div style="width:100%; height:25%; border-radius:4px 4px 0 0; background:linear-gradient(180deg,#7BC62D,#4A8500);"></div>
+      <div class="db-td-mono" style="color:#888; margin-top:8px; text-align:center; font-size:12px;">AHEAD</div>
+    </div>
+    <div style="display:flex; flex-direction:column; align-items:center; flex:1; height:100%; justify-content:flex-end;">
+      <div class="db-td-mono" style="color:#4A8500; font-weight:700; margin-bottom:4px;">12</div>
+      <div style="width:100%; height:100%; border-radius:4px 4px 0 0; background:linear-gradient(180deg,#9ADE4A,#4A8500);"></div>
+      <div class="db-td-mono" style="color:#888; margin-top:8px; text-align:center; font-size:12px;">ON TRACK</div>
+    </div>
+    <div style="display:flex; flex-direction:column; align-items:center; flex:1; height:100%; justify-content:flex-end;">
+      <div class="db-td-mono" style="color:#D4A017; font-weight:700; margin-bottom:4px;">5</div>
+      <div style="width:100%; height:42%; border-radius:4px 4px 0 0; background:linear-gradient(180deg,#F0C040,#D4A017);"></div>
+      <div class="db-td-mono" style="color:#888; margin-top:8px; text-align:center; font-size:12px;">1-2 WK<br>DELAY</div>
+    </div>
+    <div style="display:flex; flex-direction:column; align-items:center; flex:1; height:100%; justify-content:flex-end;">
+      <div class="db-td-mono" style="color:#E07000; font-weight:700; margin-bottom:4px;">2</div>
+      <div style="width:100%; height:17%; border-radius:4px 4px 0 0; background:linear-gradient(180deg,#FF9A3C,#E07000);"></div>
+      <div class="db-td-mono" style="color:#888; margin-top:8px; text-align:center; font-size:12px;">2-4 WK<br>DELAY</div>
+    </div>
+    <div style="display:flex; flex-direction:column; align-items:center; flex:1; height:100%; justify-content:flex-end;">
+      <div class="db-td-mono" style="color:#DC1E3C; font-weight:700; margin-bottom:4px;">2</div>
+      <div style="width:100%; height:17%; border-radius:4px 4px 0 0; background:linear-gradient(180deg,#FF5A6E,#DC1E3C);"></div>
+      <div class="db-td-mono" style="color:#888; margin-top:8px; text-align:center; font-size:12px;">HIGH<br>RISK</div>
+    </div>
+  </div>
+</div>
+
+{# ── Risk Flags ── #}
+<div class="db-section-header">
+  <div class="db-section-title">RISK FLAGS</div>
+  <div class="db-section-link">3 ACTIVE</div>
+</div>
+<div class="db-flags-row">
+  <div class="db-flag-card red">
+    <div class="db-flag-dot red"></div>
+    <div>
+      <div style="font-family:var(--font-body); font-size:17px; font-weight:700; color:#1A1A1A;">BraceGod</div>
+      <div class="db-td-code">BB-2847-XK</div>
+    </div>
+    <div class="db-td-mono" style="color:#555; font-weight:600; margin-left:auto;">INACTIVE 9 DAYS</div>
+    <div class="db-td-btn" style="flex-shrink:0;">REVIEW</div>
+  </div>
+  <div class="db-flag-card red">
+    <div class="db-flag-dot red"></div>
+    <div>
+      <div style="font-family:var(--font-body); font-size:17px; font-weight:700; color:#1A1A1A;">TeethChamp</div>
+      <div class="db-td-code">BB-1293-QM</div>
+    </div>
+    <div class="db-td-mono" style="color:#555; font-weight:600; margin-left:auto;">RCS 54% · 18 DAYS</div>
+    <div class="db-td-btn" style="flex-shrink:0;">REVIEW</div>
+  </div>
+  <div class="db-flag-card amber">
+    <div class="db-flag-dot amber"></div>
+    <div>
+      <div style="font-family:var(--font-body); font-size:17px; font-weight:700; color:#1A1A1A;">SmileQueen</div>
+      <div class="db-td-code">BB-5512-TL</div>
+    </div>
+    <div class="db-td-mono" style="color:#555; font-weight:600; margin-left:auto;">ON-TIME PROB 58%</div>
+    <div class="db-td-btn" style="flex-shrink:0;">REVIEW</div>
+  </div>
+</div>
+
+{# ── Patient Table ── #}
+<div class="db-section-header">
+  <div class="db-section-title">ALL PATIENTS</div>
+</div>
+<div class="db-table-wrap">
+  <div class="db-table-toolbar">
+    <div class="db-search-box">
+      <span style="color:#bbb; font-size:16px;">🔍</span>
+      <input type="text" placeholder="Search by label, nickname, or code...">
+    </div>
+    <div class="db-filter-chips">
+      <div class="db-chip active">ALL</div>
+      <div class="db-chip">ON TRACK</div>
+      <div class="db-chip">AT RISK</div>
+      <div class="db-chip">HIGH RISK</div>
+    </div>
+  </div>
+  <table class="db-table">
+    <thead>
+      <tr>
+        <th>LABEL</th><th>NICKNAME</th><th>CODE</th><th>STREAK</th>
+        <th>RCS</th><th>PROJECTED</th><th>DELAY</th><th>STATUS</th><th>ACTIONS</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="db-td-label">Mon 10am aligner</td>
+        <td style="font-size:15px; color:#666; font-weight:500;">😎 Jaylen</td>
+        <td class="db-td-code">BB-4421-RJ</td>
+        <td><div class="db-streak-cell"><span>🔥</span><span class="db-td-mono" style="color:#4A8500">30d</span></div></td>
+        <td>
+          <span class="db-td-mono" style="color:#4A8500">94%</span>
+          <div class="db-compliance-bar"><div class="db-compliance-fill" style="width:94%; background:#4A8500;"></div></div>
+        </td>
+        <td class="db-td-mono">Aug 16</td>
+        <td class="db-td-mono" style="color:#DC1E3C">+3d</td>
+        <td><span class="db-risk-badge on-track">ON TRACK</span></td>
+        <td><div class="db-td-btn">VIEW</div></td>
+      </tr>
+      <tr>
+        <td class="db-td-label">Tues 3pm aligner</td>
+        <td style="font-size:15px; color:#666; font-weight:500;">🦷 SmileQueen</td>
+        <td class="db-td-code">BB-5512-TL</td>
+        <td><div class="db-streak-cell"><span>🔥</span><span class="db-td-mono" style="color:#D4A017">12d</span></div></td>
+        <td>
+          <span class="db-td-mono" style="color:#D4A017">68%</span>
+          <div class="db-compliance-bar"><div class="db-compliance-fill" style="width:68%; background:#D4A017;"></div></div>
+        </td>
+        <td class="db-td-mono">Sep 3</td>
+        <td class="db-td-mono" style="color:#DC1E3C">+11d</td>
+        <td><span class="db-risk-badge at-risk">AT RISK</span></td>
+        <td style="display:flex; gap:4px;"><div class="db-td-btn">VIEW</div><div class="db-td-btn danger">FLAG</div></td>
+      </tr>
+      <tr>
+        <td class="db-td-label">Wed braces chair 4</td>
+        <td style="font-size:15px; color:#666; font-weight:500;">💪 BraceGod</td>
+        <td class="db-td-code">BB-2847-XK</td>
+        <td><div class="db-streak-cell"><span class="db-td-mono" style="color:#DC1E3C">0d</span></div></td>
+        <td>
+          <span class="db-td-mono" style="color:#DC1E3C">42%</span>
+          <div class="db-compliance-bar"><div class="db-compliance-fill" style="width:42%; background:#DC1E3C;"></div></div>
+        </td>
+        <td class="db-td-mono">Oct 28</td>
+        <td class="db-td-mono" style="color:#DC1E3C">+24d</td>
+        <td><span class="db-risk-badge high-risk">HIGH RISK</span></td>
+        <td style="display:flex; gap:4px;"><div class="db-td-btn">VIEW</div><div class="db-td-btn danger">FLAG</div></td>
+      </tr>
+      <tr>
+        <td class="db-td-label">Dr P - retainer kid</td>
+        <td style="font-size:15px; color:#666; font-weight:500;">✨ GlowUp</td>
+        <td class="db-td-code">BB-8834-MN</td>
+        <td><div class="db-streak-cell"><span>🔥</span><span class="db-td-mono" style="color:#4A8500">45d</span></div></td>
+        <td>
+          <span class="db-td-mono" style="color:#4A8500">97%</span>
+          <div class="db-compliance-bar"><div class="db-compliance-fill" style="width:97%; background:#4A8500;"></div></div>
+        </td>
+        <td class="db-td-mono">Jul 2</td>
+        <td class="db-td-mono" style="color:#4A8500">-2d</td>
+        <td><span class="db-risk-badge on-track">ON TRACK</span></td>
+        <td><div class="db-td-btn">VIEW</div></td>
+      </tr>
+      <tr>
+        <td class="db-td-label">Star patient - chair 2</td>
+        <td style="font-size:15px; color:#666; font-weight:500;">🌟 OrthoPrincess</td>
+        <td class="db-td-code">BB-3321-WD</td>
+        <td><div class="db-streak-cell"><span>🔥</span><span class="db-td-mono" style="color:#4A8500">61d</span></div></td>
+        <td>
+          <span class="db-td-mono" style="color:#4A8500">98%</span>
+          <div class="db-compliance-bar"><div class="db-compliance-fill" style="width:98%; background:#4A8500;"></div></div>
+        </td>
+        <td class="db-td-mono">Jun 18</td>
+        <td class="db-td-mono" style="color:#4A8500">-4d</td>
+        <td><span class="db-risk-badge on-track">ON TRACK</span></td>
+        <td><div class="db-td-btn">VIEW</div></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="db-table-footer">
+    <div class="db-table-count">SHOWING 5 OF 24 PATIENTS</div>
+    <div class="db-pagination">
+      <div class="db-page-btn active">1</div>
+      <div class="db-page-btn">2</div>
+      <div class="db-page-btn">3</div>
+      <div class="db-page-btn">4</div>
+    </div>
+  </div>
+</div>
