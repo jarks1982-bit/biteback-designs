@@ -311,3 +311,68 @@ This can be spread across multiple sessions. Batch 1 + 2 cover launch needs. Bat
 **P2 — Post-launch (seasonal):**
 - Holiday expressions (Santa hat, etc.)
 - Uses the existing seasonal content system (`available_from`/`available_until` on `coach_assets`)
+
+---
+
+## 10. ASSET TRACKING CHECKLIST
+
+Check off each asset as it's generated, background-removed, and exported. This is the complete list of 40 source images.
+
+### Batch 1 — Neutral (P0)
+
+| Coach | Face 1024 | Face 48 | Face 64 | Face 128 | Body 1024 | Body 256 | Body 512 |
+|---|---|---|---|---|---|---|---|
+| BRI neutral | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| JAY neutral | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| KENJI neutral | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| CLAIRE neutral | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| MASON neutral | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+
+### Batch 2 — Hype + Roast Faces (P0)
+
+| Coach | Hype 1024 | Hype 48 | Hype 64 | Hype 128 | Roast 1024 | Roast 48 | Roast 64 | Roast 128 |
+|---|---|---|---|---|---|---|---|---|
+| BRI | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| JAY | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| KENJI | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| CLAIRE | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| MASON | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+
+### Batch 3 — Disappointed + Impressed Faces (P1)
+
+| Coach | Disappointed 1024 | Dis. 48 | Dis. 64 | Dis. 128 | Impressed 1024 | Imp. 48 | Imp. 64 | Imp. 128 |
+|---|---|---|---|---|---|---|---|---|
+| BRI | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| JAY | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| KENJI | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| CLAIRE | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| MASON | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+
+### Batch 4 — Hype + Roast Bodies (P1)
+
+| Coach | Hype Body 1024 | Hype 256 | Hype 512 | Roast Body 1024 | Roast 256 | Roast 512 |
+|---|---|---|---|---|---|---|
+| BRI | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| JAY | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| KENJI | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| CLAIRE | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| MASON | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+
+### QA Checklist (run after each batch)
+
+- [ ] All 5 coaches style-consistent (lighting, finish, proportion)
+- [ ] Expression clearly distinct from neutral at 48px
+- [ ] Character silhouette recognizable at 48px
+- [ ] Background fully transparent (no halo)
+- [ ] Colors match coach palette across expressions
+- [ ] Uploaded to Supabase Storage `coach-assets/` bucket
+- [ ] `coach_assets` table rows inserted
+
+### Adding a New Coach's Avatars
+
+When coach #6 is added, copy any coach's section from each batch above and fill in:
+1. Generate neutral face + body first (match existing style)
+2. Generate hype + roast faces
+3. Generate disappointed + impressed faces
+4. Generate hype + roast bodies
+5. Export all sizes, upload, insert `coach_assets` rows
