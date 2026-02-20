@@ -151,12 +151,15 @@ CREATE TABLE coach_assets (
 );
 ```
 
-**Naming convention:** `coach-{id}-{type}-{size}.{format}`
-- `coach-bri-face-64.png` — 64px face for coach bar, bubbles
-- `coach-bri-face-128.png` — 128px face for selection UI
-- `coach-bri-body-256.png` — Full body for bio page
-- `coach-bri-body-512.png` — Full body for share cards
-- `coach-bri-notification-48.png` — Push notification icon
+**Naming convention:** `coach-{id}-{crop}-{expression}-{size}.{format}`
+- `coach-bri-face-neutral-64.png` — 64px neutral face for coach bar, bubbles
+- `coach-bri-face-hype-128.png` — 128px hype face for clutch moments
+- `coach-bri-face-roast-64.png` — 64px roast face for fumble moments
+- `coach-bri-body-neutral-256.png` — Full body for bio page
+- `coach-bri-body-hype-512.png` — Full body hype for streak share cards
+- `coach-bri-body-roast-512.png` — Full body roast for fumble share cards
+
+See `biteback-avatar-regeneration-plan.md` for the complete expression system, generation approach, and context-to-expression mapping.
 
 ---
 
@@ -395,9 +398,10 @@ When you're ready to add coach #6 (or #7, #8...), here's exactly what you do:
 
 ### Database (no code changes)
 - [ ] Insert row into `coaches` table (id, name, archetype, colors, tier, personality_prompt, vocabulary)
-- [ ] Insert rows into `coach_assets` (face-64, face-128, body-256, body-512, notification-48)
+- [ ] Insert rows into `coach_assets` — minimum: neutral + hype + roast faces at 48/64/128, neutral body at 256/512
 - [ ] Insert rows into `coach_lines` — minimum P0 contexts (~120 lines × 5 heats × 3 variants)
 - [ ] Upload avatar PNGs to Supabase Storage bucket `coach-assets/`
+- [ ] Expression mapping inherits from `coach_expression_map` defaults — no per-coach config needed
 
 ### App behavior (automatic)
 - [ ] Coach appears in selection UI (sorted by `sort_order`)
